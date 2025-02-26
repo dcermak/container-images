@@ -113,7 +113,9 @@ available namespaces:
 #+REVEAL: split
 
 #+begin_src shell
-$ unshare --user --pid --fork --map-root-user --mount-proc /bin/bash
+$ unshare --user --map-root-user \
+      --pid --fork --mount-proc \
+      /bin/bash
 # whoami
 root
 # ps -a
@@ -164,8 +166,25 @@ What's lacking?
 - distribution mechanism
 
 
-** Introducing: Docker
+* Introducing: Docker
 
+#+begin_notes
+- solve the redistribution & build process
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/Docker_(container_engine)_logo.svg"/>@@
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src Dockerfile
+FROM registry.opensuse.org/opensuse/tumbleweed
+
+RUN zypper -n in emacs
+
+ENV EMACS_VERSION=30.1
+USER emacs
+CMD ["/usr/bin/emacs", "-q"]
+#+end_src
 
 
 
