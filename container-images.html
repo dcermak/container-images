@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Container und Container Images</title>
+<meta name="author" content="Dan Čermák"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+
+<link rel="stylesheet" href="./custom-style.css"/>
+<link rel="stylesheet" href="./node_modules/reveal.js/plugin/highlight/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './node_modules/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">Container und Container Images</h2>
+<p class="subtitle" style="color: Gray;">Was verbirgt sich dahinter?</p>
+<p class="author">Dan Čermák</p>
+<div style="float:left"><a href="https://chemnitzer.linux-tage.de/2025/" target="_blank"><img src="./media/" height="50px"/></a></div>
+<div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
+</section>
+
+<section>
+<section id="slide-orgd86fa33">
+<h2 id="orgd86fa33"><code>who -u</code></h2>
+<p>
+Dan Čermák
+</p>
+
+<p>
+ <div style="float:center">
+ <table class="who-table">
+ <tr><td><i class="fab fa-suse"></i></td><td> Software Developer @SUSE</td></tr>
+ <tr><td><i class="fab fa-fedora"></i></td><td> i3 SIG, Package maintainer</td></tr>
+ <tr><td><i class="far fa-heart"></i></td><td> Developer Tools, Testing and Documentation, Home Automation</td></tr>
+ <tr></tr>
+ <tr></tr>
+ <tr><td><i class="fa-solid fa-globe"></i></td><td> <a href="https://dancermak.name/">https://dancermak.name</a></td></tr>
+ <tr><td><i class="fab fa-github"></i></td><td> <a href="https://github.com/dcermak/">dcermak</a> </td></tr>
+ <tr><td><i class="fab fa-mastodon"></i></td><td> <a href="https://mastodon.social/@Defolos">@Defolos@mastodon.social</a></td></tr>
+ </table>
+ </div>
+</p>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org24e7952">
+<h2 id="org24e7952"><span class="todo TODO">TODO</span> Agenda</h2>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org6a888d6">
+<h2 id="org6a888d6">Software Delivery</h2>
+<aside class="notes">
+<ul>
+<li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
+<li></li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">dependencies suck &rarr; bundle everything</li>
+<li class="fragment appear">Can't we just ship everything?</li>
+<li class="fragment appear">yes, but VMs suck as well 🫠</li>
+
+</ul>
+
+
+</section>
+<section id="slide-orgda293f9">
+<h3 id="orgda293f9">Let's build a container</h3>
+<aside class="notes">
+<ul>
+<li>build everything locally or in a pre-installed VM</li>
+<li>tar the whole thing</li>
+<li>clean up everything (logs, temporary build deps, etc)</li>
+
+</ul>
+
+</aside>
+
+<ol>
+<li class="fragment appear">build your app</li>
+<li class="fragment appear"><code>tar -czvf my-app.tar.gz /</code></li>
+<li class="fragment appear">clean the archive of everything unneeded</li>
+
+</ol>
+
+
+</section>
+<section id="slide-org3cc52c0">
+<h3 id="org3cc52c0">Let's run the container</h3>
+<ol>
+<li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
+<li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
+
+</ol>
+
+
+</section>
+<section id="slide-org8a9f928">
+<h3 id="org8a9f928">Is that it?</h3>
+<ul>
+<li class="fragment appear">inconvenient build process</li>
+<li class="fragment appear">no upgrade path</li>
+<li class="fragment appear">data sharing?</li>
+<li class="fragment appear">no security</li>
+
+</ul>
+
+
+</section>
+<section id="slide-org20fe642">
+<h3 id="org20fe642">Linux Namespaces</h3>
+<aside class="notes">
+<ul>
+<li>introduced in 2002 (kernel 2.4), more added in 2006</li>
+<li>container support finished in 2013: user namespace with kernel 3.8</li>
+<li>mnt: mount namespace, isolated mounts</li>
+<li>pid:</li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">kernel level resource isolation</li>
+
+</ul>
+
+<p class="fragment (appear)">
+available namespaces:
+</p>
+
+<ul>
+<li class="fragment appear">mnt</li>
+<li class="fragment appear">pid</li>
+<li class="fragment appear">net</li>
+<li class="fragment appear">ipc</li>
+<li class="fragment appear">uts</li>
+<li class="fragment appear">user</li>
+<li class="fragment appear">cgroup</li>
+<li class="fragment appear">time</li>
+
+</ul>
+
+</section>
+<section id="slide-org20fe642-split">
+
+<div class="org-src-container">
+
+<pre   ><code class="shell" >$ unshare --user --pid --fork --map-root-user --mount-proc /bin/bash
+# whoami
+root
+# ps -a
+    PID TTY          TIME CMD
+      1 pts/8    00:00:00 bash
+    104 pts/8    00:00:00 ps
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org89626a7">
+<h3 id="org89626a7">cgroups</h3>
+<aside class="notes">
+<ul>
+<li>started in 2006, merged in 2008 (2.6.24)</li>
+<li>redesigned to v2 in 2016 (4.5)</li>
+
+<li>resource limits like I/O, FS caches, CPU quota, open files</li>
+<li>process priorization</li>
+<li>measure whole group resource usage &amp; freeze/restart it</li>
+
+<li>nowadays used by userspace memory killers</li>
+<li>modern DEs put each process into a cgroup &rarr; for oom-killers</li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">apply resource limits to processes</li>
+<li class="fragment appear">measure resource usage</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="shell" ># cgcreate -g memory:memlimit
+# cgset -r memory.max=1K memlimit
+# cgexec -g memory:memlimit ls -al
+Killed
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-orgdd5d82c">
+<h3 id="orgdd5d82c">Are we there yet?</h3>
+<p class="fragment (appear)">
+What do we have?
+</p>
+<p class="fragment (appear)">
+great process isolation
+</p>
+
+<p class="fragment (appear)">
+What's lacking?
+</p>
+<ul>
+<li class="fragment appear">standardized build process</li>
+<li class="fragment appear">distribution mechanism</li>
+
+</ul>
+
+
+</section>
+<section id="slide-orgfbb9fd1">
+<h3 id="orgfbb9fd1">Introducing: Docker</h3>
+
+
+
+
+</section>
+</section>
+<section>
+<section id="slide-org9a67f0f">
+<h2 id="org9a67f0f">Questions?</h2>
+<p class="fragment (appear)">
+Answers!
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="./node_modules/reveal.js/dist/reveal.js"></script>
+<script src="./node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="./node_modules/reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealHighlight, RevealNotes, history],
+transition: 'none', hash: true
+});
+
+</script>
+</body>
+</html>
