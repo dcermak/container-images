@@ -1,0 +1,18 @@
+* Container und Container Images - Was verbirgt sich dahinter?
+
+This repository contains the slides for the presentation "Container und Container Images - Was verbirgt sich dahinter?" held at Chemnitzer Linux Tage 2025.
+
+You can find the rendered slides here: [[https://dcermak.github.io/containers-and-container-images/container-images.html][dcermak.github.io/containers-and-container-images]].
+
+
+** Building the slides
+
+You can create the html slides yourself from within Emacs by opening the
+[[./container-images.org]] file, launching =org-mode= and executing ~(require
+'ox-reveal)~ (you might have to install =ox-reveal= beforehand). Then export the
+org file to reveal.js (this is by default bound to the keychord =C-c C-e R R=).
+
+If you are not a Emacs user, then just install Emacs and execute:
+#+begin_src bash
+emacs container-images.org -Q --batch -l export-init.el -f org-reveal-export-to-html --kill
+#+end_src

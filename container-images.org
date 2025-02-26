@@ -1,0 +1,175 @@
+# -*- org-confirm-babel-evaluate: nil; -*-
+#+AUTHOR: Dan Čermák
+#+DATE: March 23, 2025
+#+EMAIL: dcermak@suse.com
+#+TITLE: Container und Container Images
+#+SUBTITLE: Was verbirgt sich dahinter?
+
+#+REVEAL_ROOT: ./node_modules/reveal.js/
+#+REVEAL_THEME: simple
+#+REVEAL_PLUGINS: (highlight notes history)
+#+OPTIONS: toc:nil
+#+REVEAL_DEFAULT_FRAG_STYLE: appear
+#+REVEAL_INIT_OPTIONS: transition: 'none', hash: true
+#+OPTIONS: num:nil toc:nil center:nil reveal_title_slide:nil
+#+REVEAL_EXTRA_CSS: ./node_modules/@fortawesome/fontawesome-free/css/all.min.css
+#+REVEAL_EXTRA_CSS: ./custom-style.css
+#+REVEAL_HIGHLIGHT_CSS: ./node_modules/reveal.js/plugin/highlight/zenburn.css
+
+#+REVEAL_TITLE_SLIDE: <h2 class="title">%t</h2>
+#+REVEAL_TITLE_SLIDE: <p class="subtitle" style="color: Gray;">%s</p>
+#+REVEAL_TITLE_SLIDE: <p class="author">%a</p>
+#+REVEAL_TITLE_SLIDE: <div style="float:left"><a href="https://chemnitzer.linux-tage.de/2025/" target="_blank"><img src="./media/" height="50px"/></a></div>
+#+REVEAL_TITLE_SLIDE: <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+#+REVEAL_TITLE_SLIDE: CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
+
+* ~who -u~
+
+Dan Čermák
+
+@@html: <div style="float:center">@@
+@@html: <table class="who-table">@@
+@@html: <tr><td><i class="fab fa-suse"></i></td><td> Software Developer @SUSE</td></tr>@@
+@@html: <tr><td><i class="fab fa-fedora"></i></td><td> i3 SIG, Package maintainer</td></tr>@@
+@@html: <tr><td><i class="far fa-heart"></i></td><td> Developer Tools, Testing and Documentation, Home Automation</td></tr>@@
+@@html: <tr></tr>@@
+@@html: <tr></tr>@@
+@@html: <tr><td><i class="fa-solid fa-globe"></i></td><td> <a href="https://dancermak.name/">https://dancermak.name</a></td></tr>@@
+@@html: <tr><td><i class="fab fa-github"></i></td><td> <a href="https://github.com/dcermak/">dcermak</a> </td></tr>@@
+@@html: <tr><td><i class="fab fa-mastodon"></i></td><td> <a href="https://mastodon.social/@Defolos">@Defolos@mastodon.social</a></td></tr>@@
+@@html: </table>@@
+@@html: </div>@@
+
+
+* TODO Agenda
+
+
+* Software Delivery
+#+begin_notes
+- dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions
+- 
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- dependencies suck \rightarrow bundle everything
+- Can't we just ship everything?
+- yes, but VMs suck as well 🫠
+
+
+** Let's build a container
+
+#+begin_notes
+- build everything locally or in a pre-installed VM
+- tar the whole thing
+- clean up everything (logs, temporary build deps, etc)
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+1. build your app
+2. ~tar -czvf my-app.tar.gz /~
+3. clean the archive of everything unneeded
+
+
+** Let's run the container
+
+#+ATTR_REVEAL: :frag (appear)
+1. ~tar -xzvf my-app.tar.gz -C /path/to/app~
+2. ~chroot /path/to/app /usr/local/bin/my-app~
+
+
+** Is that it?
+
+#+ATTR_REVEAL: :frag (appear)
+- inconvenient build process
+- no upgrade path
+- data sharing?
+- no security
+
+
+** Linux Namespaces
+#+begin_notes
+- introduced in 2002 (kernel 2.4), more added in 2006
+- container support finished in 2013: user namespace with kernel 3.8
+- mnt: mount namespace, isolated mounts
+- pid: 
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- kernel level resource isolation
+
+#+ATTR_REVEAL: :frag (appear)
+available namespaces:
+
+#+ATTR_REVEAL: :frag (appear)
+- mnt
+- pid
+- net
+- ipc
+- uts
+- user
+- cgroup
+- time
+
+#+REVEAL: split
+
+#+begin_src shell
+$ unshare --user --pid --fork --map-root-user --mount-proc /bin/bash
+# whoami
+root
+# ps -a
+    PID TTY          TIME CMD
+      1 pts/8    00:00:00 bash
+    104 pts/8    00:00:00 ps
+#+end_src
+
+
+** cgroups
+
+#+begin_notes
+- started in 2006, merged in 2008 (2.6.24)
+- redesigned to v2 in 2016 (4.5)
+
+- resource limits like I/O, FS caches, CPU quota, open files
+- process priorization
+- measure whole group resource usage & freeze/restart it
+
+- nowadays used by userspace memory killers
+- modern DEs put each process into a cgroup \rightarrow for oom-killers
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- apply resource limits to processes
+- measure resource usage
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src shell
+# cgcreate -g memory:memlimit
+# cgset -r memory.max=1K memlimit
+# cgexec -g memory:memlimit ls -al
+Killed
+#+end_src
+
+
+** Are we there yet?
+
+#+ATTR_REVEAL: :frag (appear)
+What do we have?
+#+ATTR_REVEAL: :frag (appear)
+great process isolation
+
+#+ATTR_REVEAL: :frag (appear)
+What's lacking?
+#+ATTR_REVEAL: :frag (appear)
+- standardized build process
+- distribution mechanism
+
+
+** Introducing: Docker
+
+
+
+
+* Questions?
+
+#+ATTR_REVEAL: :frag (appear)
+Answers!
