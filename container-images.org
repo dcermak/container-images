@@ -65,9 +65,10 @@ Dan Čermák
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-1. build your app
-2. ~tar -czvf my-app.tar.gz /~
-3. clean the archive of everything unneeded
+1. Create a chroot: ~rsync -avz --exclude=/sysroot/ / /sysroot/~
+2. build your app
+3. ~tar -czvf my-app.tar.gz /sysroot~
+4. clean the archive of everything unneeded
 
 
 ** Let's run the container
@@ -90,8 +91,18 @@ Dan Čermák
 #+begin_notes
 - introduced in 2002 (kernel 2.4), more added in 2006
 - container support finished in 2013: user namespace with kernel 3.8
+- user: separate user ids of namespace & host, map uids between host & namespace
+  \Rightarrow uid 0 in namespace is user who created namespace
+  (\rightarrow see also =/etc/subuid=)
 - mnt: mount namespace, isolated mounts
-- pid: 
+- pid: Process ID isolation, process that "created" the namespace gets PID 1 and
+  all other processes become its children (also of sub-namespaces)
+- net: each net inerface in one namespace
+- ipc: restrict SysV style IPC
+- uts - unix time sharing: set hostname & domainname
+- cgroup (added in 4.6): hide cgroup path, i.e. process only sees relative
+  cgroup path of the namespace and no others
+- time (added in 5.6): set different system time
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
@@ -101,17 +112,19 @@ Dan Čermák
 available namespaces:
 
 #+ATTR_REVEAL: :frag (appear)
+- user
 - mnt
 - pid
 - net
 - ipc
 - uts
-- user
 - cgroup
 - time
 
 #+REVEAL: split
 
+Try it:
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1-3|4-5|6-9'
 #+begin_src shell
 $ unshare --user --map-root-user \
       --pid --fork --mount-proc \
@@ -143,7 +156,7 @@ root
 - apply resource limits to processes
 - measure resource usage
 
-#+ATTR_REVEAL: :frag (appear)
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3-4'
 #+begin_src shell
 # cgcreate -g memory:memlimit
 # cgset -r memory.max=1K memlimit
@@ -176,6 +189,15 @@ What's lacking?
 @@html:<img src="./media/Docker_(container_engine)_logo.svg"/>@@
 
 #+ATTR_REVEAL: :frag (appear)
+1. Docker registry
+2. ~docker build~
+
+
+** Docker Registry
+
+
+
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|3|5|6|7'
 #+begin_src Dockerfile
 FROM registry.opensuse.org/opensuse/tumbleweed
 
@@ -185,6 +207,8 @@ ENV EMACS_VERSION=30.1
 USER emacs
 CMD ["/usr/bin/emacs", "-q"]
 #+end_src
+
+** Container Images
 
 
 
