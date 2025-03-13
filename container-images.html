@@ -34,14 +34,14 @@
 <section id="sec-title-slide"><h2 class="title">Container und Container Images</h2>
 <p class="subtitle" style="color: Gray;">Was verbirgt sich dahinter?</p>
 <p class="author">Dan Čermák</p>
-<div style="float:left"><a href="https://chemnitzer.linux-tage.de/2025/" target="_blank"><img src="./media/" height="50px"/></a></div>
+<div style="float:left"><a href="https://chemnitzer.linux-tage.de/2025/" target="_blank"><img src="./media/clt-logo_2025_en.svg" height="50px"/></a></div>
 <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
 
 <section>
-<section id="slide-orgd86fa33">
-<h2 id="orgd86fa33"><code>who -u</code></h2>
+<section id="slide-org840612b">
+<h2 id="org840612b"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org24e7952">
-<h2 id="org24e7952"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-org442a4a3">
+<h2 id="org442a4a3"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org6a888d6">
-<h2 id="org6a888d6">Software Delivery</h2>
+<section id="slide-orgd428a0e">
+<h2 id="orgd428a0e">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgda293f9">
-<h3 id="orgda293f9">Let's build a container</h3>
+<section id="slide-orgc45771d">
+<h3 id="orgc45771d">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -105,16 +105,17 @@ Dan Čermák
 </aside>
 
 <ol>
+<li class="fragment appear">Create a chroot: <code>rsync -avz --exclude=/sysroot/ / /sysroot/</code></li>
 <li class="fragment appear">build your app</li>
-<li class="fragment appear"><code>tar -czvf my-app.tar.gz /</code></li>
+<li class="fragment appear"><code>tar -czvf my-app.tar.gz /sysroot</code></li>
 <li class="fragment appear">clean the archive of everything unneeded</li>
 
 </ol>
 
 
 </section>
-<section id="slide-org3cc52c0">
-<h3 id="org3cc52c0">Let's run the container</h3>
+<section id="slide-org4a87b4a">
+<h3 id="org4a87b4a">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -123,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org8a9f928">
-<h3 id="org8a9f928">Is that it?</h3>
+<section id="slide-org21b25d8">
+<h3 id="org21b25d8">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -135,14 +136,24 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org20fe642">
-<h3 id="org20fe642">Linux Namespaces</h3>
+<section id="slide-orgcc38b82">
+<h3 id="orgcc38b82">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
 <li>container support finished in 2013: user namespace with kernel 3.8</li>
+<li>user: separate user ids of namespace &amp; host, map uids between host &amp; namespace
+&rArr; uid 0 in namespace is user who created namespace
+(&rarr; see also <code>/etc/subuid</code>)</li>
 <li>mnt: mount namespace, isolated mounts</li>
-<li>pid:</li>
+<li>pid: Process ID isolation, process that "created" the namespace gets PID 1 and
+all other processes become its children (also of sub-namespaces)</li>
+<li>net: each net inerface in one namespace</li>
+<li>ipc: restrict SysV style IPC</li>
+<li>uts - unix time sharing: set hostname &amp; domainname</li>
+<li>cgroup (added in 4.6): hide cgroup path, i.e. process only sees relative
+cgroup path of the namespace and no others</li>
+<li>time (added in 5.6): set different system time</li>
 
 </ul>
 
@@ -158,23 +169,28 @@ available namespaces:
 </p>
 
 <ul>
+<li class="fragment appear">user</li>
 <li class="fragment appear">mnt</li>
 <li class="fragment appear">pid</li>
 <li class="fragment appear">net</li>
 <li class="fragment appear">ipc</li>
 <li class="fragment appear">uts</li>
-<li class="fragment appear">user</li>
 <li class="fragment appear">cgroup</li>
 <li class="fragment appear">time</li>
 
 </ul>
 
 </section>
-<section id="slide-org20fe642-split">
+<section id="slide-orgcc38b82-split">
 
+<p>
+Try it:
+</p>
 <div class="org-src-container">
 
-<pre   ><code class="shell" >$ unshare --user --pid --fork --map-root-user --mount-proc /bin/bash
+<pre  class="fragment (appear)"  ><code class="shell" data-line-numbers='1-3|4-5|6-9'>$ unshare --user --map-root-user \
+      --pid --fork --mount-proc \
+      /bin/bash
 # whoami
 root
 # ps -a
@@ -186,8 +202,8 @@ root
 
 
 </section>
-<section id="slide-org89626a7">
-<h3 id="org89626a7">cgroups</h3>
+<section id="slide-org2b2292c">
+<h3 id="org2b2292c">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -212,7 +228,7 @@ root
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="shell" ># cgcreate -g memory:memlimit
+<pre  class="fragment (appear)"  ><code class="shell" data-line-numbers='1|2|3-4'># cgcreate -g memory:memlimit
 # cgset -r memory.max=1K memlimit
 # cgexec -g memory:memlimit ls -al
 Killed
@@ -221,8 +237,8 @@ Killed
 
 
 </section>
-<section id="slide-orgdd5d82c">
-<h3 id="orgdd5d82c">Are we there yet?</h3>
+<section id="slide-orgcc10279">
+<h3 id="orgcc10279">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -241,17 +257,55 @@ What's lacking?
 
 
 </section>
-<section id="slide-orgfbb9fd1">
-<h3 id="orgfbb9fd1">Introducing: Docker</h3>
+</section>
+<section>
+<section id="slide-org5f17212">
+<h2 id="org5f17212">Introducing: Docker</h2>
+<aside class="notes">
+<ul>
+<li>solve the redistribution &amp; build process</li>
 
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/Docker_(container_engine)_logo.svg"/>
+</p>
+
+<ol>
+<li class="fragment appear">Docker registry</li>
+<li class="fragment appear"><code>docker build</code></li>
+
+</ol>
+
+
+</section>
+<section id="slide-org250e9fe">
+<h3 id="org250e9fe">Docker Registry</h3>
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='1|3|5|6|7'>FROM registry.opensuse.org/opensuse/tumbleweed
+
+RUN zypper -n in emacs
+
+ENV EMACS_VERSION=30.1
+USER emacs
+CMD ["/usr/bin/emacs", "-q"]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org86ec13a">
+<h3 id="org86ec13a">Container Images</h3>
 
 
 
 </section>
 </section>
 <section>
-<section id="slide-org9a67f0f">
-<h2 id="org9a67f0f">Questions?</h2>
+<section id="slide-org8879987">
+<h2 id="org8879987">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
