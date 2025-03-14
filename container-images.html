@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org840612b">
-<h2 id="org840612b"><code>who -u</code></h2>
+<section id="slide-orgdce8ee3">
+<h2 id="orgdce8ee3"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org442a4a3">
-<h2 id="org442a4a3"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-orgc175cf4">
+<h2 id="orgc175cf4"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgd428a0e">
-<h2 id="orgd428a0e">Software Delivery</h2>
+<section id="slide-org17cdbce">
+<h2 id="org17cdbce">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgc45771d">
-<h3 id="orgc45771d">Let's build a container</h3>
+<section id="slide-org804f0e8">
+<h3 id="org804f0e8">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org4a87b4a">
-<h3 id="org4a87b4a">Let's run the container</h3>
+<section id="slide-org53346ac">
+<h3 id="org53346ac">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org21b25d8">
-<h3 id="org21b25d8">Is that it?</h3>
+<section id="slide-org7583f1b">
+<h3 id="org7583f1b">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgcc38b82">
-<h3 id="orgcc38b82">Linux Namespaces</h3>
+<section id="slide-org229dc1d">
+<h3 id="org229dc1d">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -181,7 +181,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-orgcc38b82-split">
+<section id="slide-org229dc1d-split">
 
 <p>
 Try it:
@@ -202,8 +202,8 @@ root
 
 
 </section>
-<section id="slide-org2b2292c">
-<h3 id="org2b2292c">cgroups</h3>
+<section id="slide-org23daa62">
+<h3 id="org23daa62">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -237,8 +237,8 @@ Killed
 
 
 </section>
-<section id="slide-orgcc10279">
-<h3 id="orgcc10279">Are we there yet?</h3>
+<section id="slide-org41f29b8">
+<h3 id="org41f29b8">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -259,8 +259,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-org5f17212">
-<h2 id="org5f17212">Introducing: Docker</h2>
+<section id="slide-org57fc778">
+<h2 id="org57fc778">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -281,8 +281,69 @@ What's lacking?
 
 
 </section>
-<section id="slide-org250e9fe">
-<h3 id="org250e9fe">Docker Registry</h3>
+<section id="slide-orgaafe636">
+<h3 id="orgaafe636"><span class="todo TODO">TODO</span> Docker Registry</h3>
+<p>
+<b>maybe an image here?</b>
+</p>
+
+<aside class="notes">
+<ul>
+<li>initially there was only <a href="https://hub.docker.com">Docker Hub</a></li>
+<li>repository: name of the image</li>
+<li>tag: something like a version, but really a free form field
+only special value is <code>:latest</code>, pulled by default
+you can have multiple images with the same tag 😒</li>
+<li>digest: sha256 or sha512 hash of the image manifest</li>
+
+</ul>
+
+<p>
+Digests:
+some background: OCI registries return to <code>GET
+/v2/&lt;repo&gt;/manifests/&lt;tag&gt;</code> either a <code>distribution.manifest</code> or a
+<code>distribution.manifest.list</code> (that's a list of <code>distribution.manifest</code>), the digest
+of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
+</p>
+
+</aside>
+
+<ul>
+<li class="fragment appear">central image storage</li>
+<li class="fragment appear">images identified via <code>repository:tag@digest</code></li>
+<li class="fragment appear">nowadays many registries exist:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >docker pull registry.opensuse.org/opensuse/leap:15.6@sha256:e7bcb978edf8bbf26aa8bbe72a19c10a01c960eb4add5ef516f8038926efd719
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org15747be">
+<h3 id="org15747be">Container Image Build</h3>
+<aside class="notes">
+<ul>
+<li>fix the inconvenient build process</li>
+<li>docker build standardized &amp; simplified the image build process via the
+<code>Dockerfile</code></li>
+<li>syntax is: <code>INSTRUCTION &lt;value&gt;</code></li>
+<li>image build starts <code>FROM</code> an image specified using the same format as the
+registry</li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >docker build .
+</code></pre>
+</div>
+
 <div class="org-src-container">
 
 <pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='1|3|5|6|7'>FROM registry.opensuse.org/opensuse/tumbleweed
@@ -296,16 +357,51 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org86ec13a">
-<h3 id="org86ec13a">Container Images</h3>
+<section id="slide-org145082a">
+<h3 id="org145082a"><span class="todo TODO">TODO</span> Container Images</h3>
+<p>
+<b>IMAGE of overlays here</b>
+</p>
+<ul>
+<li>unionfs</li>
 
+</ul>
+
+</section>
+<section id="slide-org3b0b374">
+<h3 id="org3b0b374">Launching a Container</h3>
+<ol>
+<li class="fragment appear">Lookup image locally</li>
+<li class="fragment appear">(optionally) pull the image</li>
+<li class="fragment appear">write layers to disk &amp; setup unionfs</li>
+<li class="fragment appear">setup namespaces &amp; cgroups</li>
+<li class="fragment appear">setup networking</li>
+<li class="fragment appear">launch entrypoint using <code>runc</code> / <code>crun</code> / <code>$runtime</code></li>
+
+</ol>
+
+</section>
+<section id="slide-orgbbc1491">
+<h3 id="orgbbc1491">Paradigms</h3>
+<ul>
+<li>one entrypoint &rArr; one binary</li>
+<li>configure via env vars</li>
+<li>volumes for persistent data</li>
+
+</ul>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org8879987">
-<h2 id="org8879987">Questions?</h2>
+<section id="slide-org8398792">
+<h2 id="org8398792">Kubernetes</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb48cf95">
+<h2 id="orgb48cf95">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
