@@ -232,6 +232,8 @@ docker pull registry.opensuse.org/opensuse/leap:15.6@sha256:e7bcb978edf8bbf26aa8
 - syntax is: =INSTRUCTION <value>=
 - image build starts =FROM= an image specified using the same format as the
   registry
+- each instruction creates a layer, changes put on top, build process relies
+  heavily on caching
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
@@ -250,10 +252,41 @@ USER emacs
 CMD ["/usr/bin/emacs", "-q"]
 #+end_src
 
-** TODO Container Images
+** UnionFS
 
-*IMAGE of overlays here*
-- unionfs
+#+begin_notes
+- final image constructed from individual layers
+- file precedence: "highest directory" over "lowest"
+- file removal: via whiteout files,
+  in overlayFS: character special file (device 0, 0), create via =mknod $path c 0 0=
+  oci tar archives prepend =.wh.=, empty file
+- directory removal: whiteout file
+  oci tar archives: =dir/.wh..wh..opq= empty file
+  in overlayFS: character special file in upper dir (again created via =mknod=)
+
+catches:
+- you can never truly delete files
+- editing a file creates a full copy (unionFS works on a file level)
+- certain operations not atomic
+- directory renames are very ugly (delete + full copy)
+
+- try it locally with OverlayFS on Linux,
+  lowerdir: read only layers
+  upperdir: rw top dir (= container dir)
+  workdir: used for internal purposes (CoW)
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/overlays.svg"/>@@
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src bash
+mount -t overlay overlay \
+      -o lowerdir=Layer 3:Layer 2:Layer 1,\
+         upperdir=Container,workdir=/work/ \
+           merged
+#+end_src
+
 
 ** Launching a Container
 
@@ -265,11 +298,21 @@ CMD ["/usr/bin/emacs", "-q"]
 5. setup networking
 6. launch entrypoint using =runc= / =crun= / =$runtime=
 
+
+** Volumes
+
+** Entrypoints
+
+** Networking
+
 ** Paradigms
 
 - one entrypoint \Rightarrow one binary
 - configure via env vars
 - volumes for persistent data
+
+
+** Podman
 
 
 * Kubernetes
