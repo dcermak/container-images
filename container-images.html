@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-orgdce8ee3">
-<h2 id="orgdce8ee3"><code>who -u</code></h2>
+<section id="slide-orgf074d78">
+<h2 id="orgf074d78"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orgc175cf4">
-<h2 id="orgc175cf4"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-org546cfeb">
+<h2 id="org546cfeb"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org17cdbce">
-<h2 id="org17cdbce">Software Delivery</h2>
+<section id="slide-org7c0d727">
+<h2 id="org7c0d727">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org804f0e8">
-<h3 id="org804f0e8">Let's build a container</h3>
+<section id="slide-org9abce97">
+<h3 id="org9abce97">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org53346ac">
-<h3 id="org53346ac">Let's run the container</h3>
+<section id="slide-org3034dd5">
+<h3 id="org3034dd5">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org7583f1b">
-<h3 id="org7583f1b">Is that it?</h3>
+<section id="slide-org27126c9">
+<h3 id="org27126c9">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org229dc1d">
-<h3 id="org229dc1d">Linux Namespaces</h3>
+<section id="slide-org59f8e6f">
+<h3 id="org59f8e6f">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -181,7 +181,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org229dc1d-split">
+<section id="slide-org59f8e6f-split">
 
 <p>
 Try it:
@@ -202,8 +202,8 @@ root
 
 
 </section>
-<section id="slide-org23daa62">
-<h3 id="org23daa62">cgroups</h3>
+<section id="slide-org8e75497">
+<h3 id="org8e75497">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -237,8 +237,8 @@ Killed
 
 
 </section>
-<section id="slide-org41f29b8">
-<h3 id="org41f29b8">Are we there yet?</h3>
+<section id="slide-org2e95a33">
+<h3 id="org2e95a33">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -259,8 +259,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-org57fc778">
-<h2 id="org57fc778">Introducing: Docker</h2>
+<section id="slide-org7521cb5">
+<h2 id="org7521cb5">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -281,8 +281,8 @@ What's lacking?
 
 
 </section>
-<section id="slide-orgaafe636">
-<h3 id="orgaafe636"><span class="todo TODO">TODO</span> Docker Registry</h3>
+<section id="slide-org7c322c2">
+<h3 id="org7c322c2"><span class="todo TODO">TODO</span> Docker Registry</h3>
 <p>
 <b>maybe an image here?</b>
 </p>
@@ -323,8 +323,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-org15747be">
-<h3 id="org15747be">Container Image Build</h3>
+<section id="slide-org01c6c61">
+<h3 id="org01c6c61">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -333,6 +333,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 <li>syntax is: <code>INSTRUCTION &lt;value&gt;</code></li>
 <li>image build starts <code>FROM</code> an image specified using the same format as the
 registry</li>
+<li>each instruction creates a layer, changes put on top, build process relies
+heavily on caching</li>
 
 </ul>
 
@@ -357,19 +359,56 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org145082a">
-<h3 id="org145082a"><span class="todo TODO">TODO</span> Container Images</h3>
-<p>
-<b>IMAGE of overlays here</b>
-</p>
+<section id="slide-org37364b1">
+<h3 id="org37364b1">UnionFS</h3>
+<aside class="notes">
 <ul>
-<li>unionfs</li>
+<li>final image constructed from individual layers</li>
+<li>file precedence: "highest directory" over "lowest"</li>
+<li>file removal: via whiteout files,
+in overlayFS: character special file (device 0, 0), create via <code>mknod $path c 0 0</code>
+oci tar archives prepend <code>.wh.</code>, empty file</li>
+<li>directory removal: whiteout file
+oci tar archives: <code>dir/.wh..wh..opq</code> empty file
+in overlayFS: character special file in upper dir (again created via <code>mknod</code>)</li>
 
 </ul>
 
+<p>
+catches:
+</p>
+<ul>
+<li>you can never truly delete files</li>
+<li>editing a file creates a full copy (unionFS works on a file level)</li>
+<li>certain operations not atomic</li>
+<li>directory renames are very ugly (delete + full copy)</li>
+
+<li>try it locally with OverlayFS on Linux,
+lowerdir: read only layers
+upperdir: rw top dir (= container dir)
+workdir: used for internal purposes (CoW)</li>
+
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/overlays.svg"/>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >mount -t overlay overlay \
+      -o lowerdir=Layer 3:Layer 2:Layer 1,\
+         upperdir=Container,workdir=/work/ \
+           merged
+</code></pre>
+</div>
+
+
 </section>
-<section id="slide-org3b0b374">
-<h3 id="org3b0b374">Launching a Container</h3>
+<section id="slide-org04dbc46">
+<h3 id="org04dbc46">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -380,9 +419,22 @@ CMD ["/usr/bin/emacs", "-q"]
 
 </ol>
 
+
 </section>
-<section id="slide-orgbbc1491">
-<h3 id="orgbbc1491">Paradigms</h3>
+<section id="slide-org8fb9e37">
+<h3 id="org8fb9e37">Volumes</h3>
+
+</section>
+<section id="slide-orgbe4f81a">
+<h3 id="orgbe4f81a">Entrypoints</h3>
+
+</section>
+<section id="slide-orged8f0aa">
+<h3 id="orged8f0aa">Networking</h3>
+
+</section>
+<section id="slide-orgd9e633e">
+<h3 id="orgd9e633e">Paradigms</h3>
 <ul>
 <li>one entrypoint &rArr; one binary</li>
 <li>configure via env vars</li>
@@ -392,16 +444,21 @@ CMD ["/usr/bin/emacs", "-q"]
 
 
 </section>
-</section>
-<section>
-<section id="slide-org8398792">
-<h2 id="org8398792">Kubernetes</h2>
+<section id="slide-org179ef07">
+<h3 id="org179ef07">Podman</h3>
+
 
 </section>
 </section>
 <section>
-<section id="slide-orgb48cf95">
-<h2 id="orgb48cf95">Questions?</h2>
+<section id="slide-org623ada6">
+<h2 id="org623ada6">Kubernetes</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-org3e75d71">
+<h2 id="org3e75d71">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
