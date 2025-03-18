@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org1651419">
-<h2 id="org1651419"><code>who -u</code></h2>
+<section id="slide-org6398b97">
+<h2 id="org6398b97"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org3533b59">
-<h2 id="org3533b59"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-org84b6b17">
+<h2 id="org84b6b17"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org4eefecc">
-<h2 id="org4eefecc">Software Delivery</h2>
+<section id="slide-orgb0553be">
+<h2 id="orgb0553be">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgecfc5cf">
-<h3 id="orgecfc5cf">Let's build a container</h3>
+<section id="slide-orga60cf44">
+<h3 id="orga60cf44">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgf81ce2b">
-<h3 id="orgf81ce2b">Let's run the container</h3>
+<section id="slide-org810f594">
+<h3 id="org810f594">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orge9ad577">
-<h3 id="orge9ad577">Is that it?</h3>
+<section id="slide-orgea526ff">
+<h3 id="orgea526ff">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org424aae0">
-<h3 id="org424aae0">Linux Namespaces</h3>
+<section id="slide-org4100c4f">
+<h3 id="org4100c4f">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -181,7 +181,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org424aae0-split">
+<section id="slide-org4100c4f-split">
 
 <p>
 Try it:
@@ -202,8 +202,8 @@ root
 
 
 </section>
-<section id="slide-orgaea3575">
-<h3 id="orgaea3575">cgroups</h3>
+<section id="slide-orgb4cb52f">
+<h3 id="orgb4cb52f">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -237,8 +237,8 @@ Killed
 
 
 </section>
-<section id="slide-org7d77403">
-<h3 id="org7d77403">Are we there yet?</h3>
+<section id="slide-org3b5443d">
+<h3 id="org3b5443d">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -259,8 +259,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-orgb3e3a03">
-<h2 id="orgb3e3a03">Introducing: Docker</h2>
+<section id="slide-org8f7895f">
+<h2 id="org8f7895f">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -281,8 +281,8 @@ What's lacking?
 
 
 </section>
-<section id="slide-org3d86b37">
-<h3 id="org3d86b37">Docker Registry</h3>
+<section id="slide-orgff43c45">
+<h3 id="orgff43c45">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -311,8 +311,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-orgf801a94">
-<h3 id="orgf801a94">Container Image Build</h3>
+<section id="slide-org5559616">
+<h3 id="org5559616">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -347,8 +347,8 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org84aa71c">
-<h3 id="org84aa71c">UnionFS</h3>
+<section id="slide-orga18534d">
+<h3 id="orga18534d">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -395,8 +395,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org31d4985">
-<h3 id="org31d4985">Dockerfile</h3>
+<section id="slide-org3ce01f8">
+<h3 id="org3ce01f8">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -468,32 +468,34 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org49151c0">
-<h3 id="org49151c0">Volumes</h3>
+<section id="slide-org1b9561e">
+<h3 id="org1b9561e">Volumes</h3>
+<p class="fragment (appear)">
+<img src="./media/volumes.svg"/>
+</p>
+
+
+</section>
+<section id="slide-orga1eaa66">
+<h3 id="orga1eaa66">Entrypoints</h3>
+
+</section>
+<section id="slide-org6b62afd">
+<h3 id="org6b62afd">Networking</h3>
 
 
 
 </section>
-<section id="slide-org3f9c993">
-<h3 id="org3f9c993">Entrypoints</h3>
-
-</section>
-<section id="slide-org76cf57f">
-<h3 id="org76cf57f">Networking</h3>
-
-
-
-</section>
-<section id="slide-org4f1360d">
-<h3 id="org4f1360d">Containers are not VMs</h3>
+<section id="slide-org99053e4">
+<h3 id="org99053e4">Containers are not VMs</h3>
 <ul>
 <li class="fragment appear"></li>
 
 </ul>
 
 </section>
-<section id="slide-orgd0dcfcd">
-<h3 id="orgd0dcfcd">Launching a Container</h3>
+<section id="slide-orgeb14210">
+<h3 id="orgeb14210">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -506,8 +508,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org208152c">
-<h3 id="org208152c">Paradigms</h3>
+<section id="slide-org9202a5a">
+<h3 id="org9202a5a">Paradigms</h3>
 <ul>
 <li>one entrypoint &rArr; one binary</li>
 <li>configure via env vars</li>
@@ -517,21 +519,21 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-orga24d383">
-<h3 id="orga24d383">Podman</h3>
+<section id="slide-org6c3be8a">
+<h3 id="org6c3be8a">Podman</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org8d9ada6">
-<h2 id="org8d9ada6">Kubernetes</h2>
+<section id="slide-orgb2812c2">
+<h2 id="orgb2812c2">Kubernetes</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-orge1787d1">
-<h2 id="orge1787d1">Questions?</h2>
+<section id="slide-orgfdd6226">
+<h2 id="orgfdd6226">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
