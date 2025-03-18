@@ -339,6 +339,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 ** Volumes
 
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/volumes.svg"/>@@
 
 
 ** Entrypoints
