@@ -193,12 +193,14 @@ What's lacking?
 2. ~docker build~
 
 
-** TODO Docker Registry
+** Docker Registry
 
-*maybe an image here?*
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/registry.svg"/>@@
 
 #+begin_notes
-- initially there was only [[https://hub.docker.com][Docker Hub]]
+- central image storage, initially there was only [[https://hub.docker.com][Docker Hub]] (nowadays many registries exist)
+- images identified via =repository:tag@digest=
 - repository: name of the image
 - tag: something like a version, but really a free form field
   only special value is =:latest=, pulled by default
@@ -211,16 +213,6 @@ some background: OCI registries return to =GET
 =distribution.manifest.list= (that's a list of =distribution.manifest=), the digest
 of an image is the sha256sum/sha512sum of the =distribution.manifest=
 #+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-- central image storage
-- images identified via =repository:tag@digest=
-- nowadays many registries exist:
-
-#+ATTR_REVEAL: :frag (appear)
-#+begin_src bash
-docker pull registry.opensuse.org/opensuse/leap:15.6@sha256:e7bcb978edf8bbf26aa8bbe72a19c10a01c960eb4add5ef516f8038926efd719
-#+end_src
 
 
 ** Container Image Build
