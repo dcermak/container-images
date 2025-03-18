@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-orgf074d78">
-<h2 id="orgf074d78"><code>who -u</code></h2>
+<section id="slide-org1651419">
+<h2 id="org1651419"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org546cfeb">
-<h2 id="org546cfeb"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-org3533b59">
+<h2 id="org3533b59"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org7c0d727">
-<h2 id="org7c0d727">Software Delivery</h2>
+<section id="slide-org4eefecc">
+<h2 id="org4eefecc">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org9abce97">
-<h3 id="org9abce97">Let's build a container</h3>
+<section id="slide-orgecfc5cf">
+<h3 id="orgecfc5cf">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org3034dd5">
-<h3 id="org3034dd5">Let's run the container</h3>
+<section id="slide-orgf81ce2b">
+<h3 id="orgf81ce2b">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org27126c9">
-<h3 id="org27126c9">Is that it?</h3>
+<section id="slide-orge9ad577">
+<h3 id="orge9ad577">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org59f8e6f">
-<h3 id="org59f8e6f">Linux Namespaces</h3>
+<section id="slide-org424aae0">
+<h3 id="org424aae0">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -181,7 +181,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org59f8e6f-split">
+<section id="slide-org424aae0-split">
 
 <p>
 Try it:
@@ -202,8 +202,8 @@ root
 
 
 </section>
-<section id="slide-org8e75497">
-<h3 id="org8e75497">cgroups</h3>
+<section id="slide-orgaea3575">
+<h3 id="orgaea3575">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -237,8 +237,8 @@ Killed
 
 
 </section>
-<section id="slide-org2e95a33">
-<h3 id="org2e95a33">Are we there yet?</h3>
+<section id="slide-org7d77403">
+<h3 id="org7d77403">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -259,8 +259,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-org7521cb5">
-<h2 id="org7521cb5">Introducing: Docker</h2>
+<section id="slide-orgb3e3a03">
+<h2 id="orgb3e3a03">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -281,15 +281,16 @@ What's lacking?
 
 
 </section>
-<section id="slide-org7c322c2">
-<h3 id="org7c322c2"><span class="todo TODO">TODO</span> Docker Registry</h3>
-<p>
-<b>maybe an image here?</b>
+<section id="slide-org3d86b37">
+<h3 id="org3d86b37">Docker Registry</h3>
+<p class="fragment (appear)">
+<img src="./media/registry.svg"/>
 </p>
 
 <aside class="notes">
 <ul>
-<li>initially there was only <a href="https://hub.docker.com">Docker Hub</a></li>
+<li>central image storage, initially there was only <a href="https://hub.docker.com">Docker Hub</a> (nowadays many registries exist)</li>
+<li>images identified via <code>repository:tag@digest</code></li>
 <li>repository: name of the image</li>
 <li>tag: something like a version, but really a free form field
 only special value is <code>:latest</code>, pulled by default
@@ -308,23 +309,10 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 </aside>
 
-<ul>
-<li class="fragment appear">central image storage</li>
-<li class="fragment appear">images identified via <code>repository:tag@digest</code></li>
-<li class="fragment appear">nowadays many registries exist:</li>
-
-</ul>
-
-<div class="org-src-container">
-
-<pre  class="fragment (appear)"  ><code class="bash" >docker pull registry.opensuse.org/opensuse/leap:15.6@sha256:e7bcb978edf8bbf26aa8bbe72a19c10a01c960eb4add5ef516f8038926efd719
-</code></pre>
-</div>
-
 
 </section>
-<section id="slide-org01c6c61">
-<h3 id="org01c6c61">Container Image Build</h3>
+<section id="slide-orgf801a94">
+<h3 id="orgf801a94">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -359,8 +347,8 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org37364b1">
-<h3 id="org37364b1">UnionFS</h3>
+<section id="slide-org84aa71c">
+<h3 id="org84aa71c">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -407,8 +395,105 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org04dbc46">
-<h3 id="org04dbc46">Launching a Container</h3>
+<section id="slide-org31d4985">
+<h3 id="org31d4985">Dockerfile</h3>
+<aside class="notes">
+<ul>
+<li><code>FROM</code> - specifies the base image for the current build stage</li>
+<li><code>ARG</code> - set build arguments, can be passed via <code>--build-arg "USER=me"</code> CLI flag</li>
+<li><code>COPY</code> - copy files from the current build context (the directory passed as last
+CLI arg) or from other stage to current stage
+<code>ADD</code> used to fill this use case, but discouraged nowadays</li>
+<li><code>ENV</code>: set environment variables, global for rest of build stage &amp; final image</li>
+<li><code>RUN</code>: execute arbitrary commands in the container image context, using the
+default shell. Beware of shell escapes when creating multiline strings, often
+resort to hacks like <a href="https://stackoverflow.com/a/33439625">ksh93 ANSI-C quoting</a>
+supports also flags like mounting secrets or setting the network</li>
+<li><code>LABEL</code>: add key-value metadata to the image, common ones:
+<a href="https://github.com/opencontainers/image-spec/blob/main/annotations.md">https://github.com/opencontainers/image-spec/blob/main/annotations.md</a></li>
+<li><code>VOLUME</code>: declares a directory as a volume, everything in it is temporary from
+this layer on, when launching the container a temporary volume is created</li>
+<li><code>WORKDIR</code>: sets the cwd for all subsequent instructions &amp; for entrypoint/cmd</li>
+<li><code>EXPOSE</code>: defines network ports to be exposed, but only documentation. protocol
+can be specified, defaults to TCP if not supplied. Ports still have to be
+exposed via <code>-p $hostPort:$ctrPort</code> or all via <code>-P</code></li>
+<li><code>USER</code>: defines the user for entrypoint &amp; cmd and subsequent <code>RUN</code> instructions,
+must exist in the image!</li>
+<li><code>CMD</code>: default args for the entrypoint</li>
+<li><code>ENTRYPOINT</code>: defines binary launched as PID 1</li>
+
+</ul>
+
+<p>
+additional directives:
+</p>
+<ul>
+<li><code>SHELL</code>: sets the shell, defaults to <code>["/bin/sh", "-c"]</code></li>
+<li><code>STOPSIGNAL</code>: which signal should be sent to PID 1 on <code>docker stop</code> (defaults to
+<code>SIGTERM</code>)</li>
+
+</ul>
+
+<p>
+non-standard:
+</p>
+<ul>
+<li><code>HEALTHCHECK</code>: command to check whether application in container is up</li>
+<li><code>ONBUILD</code>: commands executed when using this image for building</li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='1|2|3|4|5-8|9|10|11|12|13|14|15-16'>FROM registry.opensuse.org/opensuse/tumbleweed
+ARG USER="geeko"
+COPY ./project/ /src/
+ENV USER="${USER}"
+RUN zypper -n in openssh-clients; \
+    ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N ""; \
+    zypper -n rm --clean-deps openssh-clients; \
+    zypper -n clean; rm -rf /var/log/lastlog;
+LABEL org.opencontainers.image.authors="Me"
+VOLUME ["/src/data"]
+WORKDIR /src/
+EXPOSE 22
+RUN useradd $USER
+USER $USER
+CMD ["echo hello"]
+ENTRYPOINT ["/bin/bash", "-ce"]
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org49151c0">
+<h3 id="org49151c0">Volumes</h3>
+
+
+
+</section>
+<section id="slide-org3f9c993">
+<h3 id="org3f9c993">Entrypoints</h3>
+
+</section>
+<section id="slide-org76cf57f">
+<h3 id="org76cf57f">Networking</h3>
+
+
+
+</section>
+<section id="slide-org4f1360d">
+<h3 id="org4f1360d">Containers are not VMs</h3>
+<ul>
+<li class="fragment appear"></li>
+
+</ul>
+
+</section>
+<section id="slide-orgd0dcfcd">
+<h3 id="orgd0dcfcd">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -421,20 +506,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org8fb9e37">
-<h3 id="org8fb9e37">Volumes</h3>
-
-</section>
-<section id="slide-orgbe4f81a">
-<h3 id="orgbe4f81a">Entrypoints</h3>
-
-</section>
-<section id="slide-orged8f0aa">
-<h3 id="orged8f0aa">Networking</h3>
-
-</section>
-<section id="slide-orgd9e633e">
-<h3 id="orgd9e633e">Paradigms</h3>
+<section id="slide-org208152c">
+<h3 id="org208152c">Paradigms</h3>
 <ul>
 <li>one entrypoint &rArr; one binary</li>
 <li>configure via env vars</li>
@@ -444,21 +517,21 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org179ef07">
-<h3 id="org179ef07">Podman</h3>
+<section id="slide-orga24d383">
+<h3 id="orga24d383">Podman</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org623ada6">
-<h2 id="org623ada6">Kubernetes</h2>
+<section id="slide-org8d9ada6">
+<h2 id="org8d9ada6">Kubernetes</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-org3e75d71">
-<h2 id="org3e75d71">Questions?</h2>
+<section id="slide-orge1787d1">
+<h2 id="orge1787d1">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
