@@ -280,6 +280,78 @@ mount -t overlay overlay \
 #+end_src
 
 
+** Dockerfile
+
+#+begin_notes
+- =FROM= - specifies the base image for the current build stage
+- =ARG= - set build arguments, can be passed via =--build-arg "USER=me"= CLI flag
+- =COPY= - copy files from the current build context (the directory passed as last
+  CLI arg) or from other stage to current stage
+  =ADD= used to fill this use case, but discouraged nowadays
+- =ENV=: set environment variables, global for rest of build stage & final image
+- =RUN=: execute arbitrary commands in the container image context, using the
+  default shell. Beware of shell escapes when creating multiline strings, often
+  resort to hacks like [[https://stackoverflow.com/a/33439625][ksh93 ANSI-C quoting]]
+  supports also flags like mounting secrets or setting the network
+- =LABEL=: add key-value metadata to the image, common ones:
+  https://github.com/opencontainers/image-spec/blob/main/annotations.md
+- =VOLUME=: declares a directory as a volume, everything in it is temporary from
+  this layer on, when launching the container a temporary volume is created
+- =WORKDIR=: sets the cwd for all subsequent instructions & for entrypoint/cmd
+- =EXPOSE=: defines network ports to be exposed, but only documentation. protocol
+  can be specified, defaults to TCP if not supplied. Ports still have to be
+  exposed via =-p $hostPort:$ctrPort= or all via =-P=
+- =USER=: defines the user for entrypoint & cmd and subsequent =RUN= instructions,
+  must exist in the image!
+- =CMD=: default args for the entrypoint
+- =ENTRYPOINT=: defines binary launched as PID 1
+
+additional directives:
+- =SHELL=: sets the shell, defaults to =["/bin/sh", "-c"]=
+- =STOPSIGNAL=: which signal should be sent to PID 1 on =docker stop= (defaults to
+  =SIGTERM=)
+
+non-standard:
+- =HEALTHCHECK=: command to check whether application in container is up
+- =ONBUILD=: commands executed when using this image for building
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3|4|5-8|9|10|11|12|13|14|15-16'
+#+begin_src Dockerfile
+FROM registry.opensuse.org/opensuse/tumbleweed
+ARG USER="geeko"
+COPY ./project/ /src/
+ENV USER="${USER}"
+RUN zypper -n in openssh-clients; \
+    ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N ""; \
+    zypper -n rm --clean-deps openssh-clients; \
+    zypper -n clean; rm -rf /var/log/lastlog;
+LABEL org.opencontainers.image.authors="Me"
+VOLUME ["/src/data"]
+WORKDIR /src/
+EXPOSE 22
+RUN useradd $USER
+USER $USER
+CMD ["echo hello"]
+ENTRYPOINT ["/bin/bash", "-ce"]
+#+end_src
+
+
+** Volumes
+
+
+
+** Entrypoints
+
+** Networking
+
+
+
+** Containers are not VMs
+
+#+ATTR_REVEAL: :frag (appear)
+- 
+
 ** Launching a Container
 
 #+ATTR_REVEAL: :frag (appear)
@@ -290,12 +362,6 @@ mount -t overlay overlay \
 5. setup networking
 6. launch entrypoint using =runc= / =crun= / =$runtime=
 
-
-** Volumes
-
-** Entrypoints
-
-** Networking
 
 ** Paradigms
 
