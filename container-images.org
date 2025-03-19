@@ -103,6 +103,8 @@ Dan Čermák
 - cgroup (added in 4.6): hide cgroup path, i.e. process only sees relative
   cgroup path of the namespace and no others
 - time (added in 5.6): set different system time
+
+- useful tool: lsns
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
@@ -410,14 +412,17 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 6. launch entrypoint using =runc= / =crun= / =$runtime=
 
 
-** Paradigms
+** Best practices
 
 - one entrypoint \Rightarrow one binary
 - configure via env vars
 - volumes for persistent data
+- don't run a full init
 
 
 ** Podman
+
+** Container Orchestration
 
 
 * Kubernetes
