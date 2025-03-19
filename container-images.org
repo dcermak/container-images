@@ -339,9 +339,26 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 ** Volumes
 
+#+begin_notes
+- data of a container exist in the (somewhat) temporary =upper= dir
+  \Rightarrow app data not persisted, must be mounted from external
+1. bind mount
+2. container volume (mount data provided by container engine, implementation
+   defined, but usually folder)
+
+- beware of SELinux! \Rightarrow (podman) launches container process with =container_t=
+  label, can only access files with =container_file_t= label (not present *anywhere*
+  by default) \Rightarrow =:Z= & =:z= flags relabel volumes and add this flag,
+  see: https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-containers
+#+end_notes
+
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/volumes.svg"/>@@
 
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src
+docker run -v /vol/:/var/db/ -v logs:/var/log $img
+#+end_src
 
 ** Entrypoints
 
