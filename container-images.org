@@ -385,6 +385,13 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 
 ** Networking
 
+#+begin_notes
+- containers can reach outside, but not other way around
+- ports need to be explicitly exposed
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/entrypoint.svg"/>@@
 
 
 ** Containers are not VMs
