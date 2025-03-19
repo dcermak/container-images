@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org6398b97">
-<h2 id="org6398b97"><code>who -u</code></h2>
+<section id="slide-org6e3b895">
+<h2 id="org6e3b895"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org84b6b17">
-<h2 id="org84b6b17"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-orge2cb54e">
+<h2 id="orge2cb54e"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgb0553be">
-<h2 id="orgb0553be">Software Delivery</h2>
+<section id="slide-orgefdaba5">
+<h2 id="orgefdaba5">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orga60cf44">
-<h3 id="orga60cf44">Let's build a container</h3>
+<section id="slide-orgcd7c868">
+<h3 id="orgcd7c868">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org810f594">
-<h3 id="org810f594">Let's run the container</h3>
+<section id="slide-org54556fb">
+<h3 id="org54556fb">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orgea526ff">
-<h3 id="orgea526ff">Is that it?</h3>
+<section id="slide-org424ff5d">
+<h3 id="org424ff5d">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org4100c4f">
-<h3 id="org4100c4f">Linux Namespaces</h3>
+<section id="slide-orgbec3c4d">
+<h3 id="orgbec3c4d">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -154,6 +154,8 @@ all other processes become its children (also of sub-namespaces)</li>
 <li>cgroup (added in 4.6): hide cgroup path, i.e. process only sees relative
 cgroup path of the namespace and no others</li>
 <li>time (added in 5.6): set different system time</li>
+
+<li>useful tool: lsns</li>
 
 </ul>
 
@@ -181,7 +183,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org4100c4f-split">
+<section id="slide-orgbec3c4d-split">
 
 <p>
 Try it:
@@ -202,8 +204,8 @@ root
 
 
 </section>
-<section id="slide-orgb4cb52f">
-<h3 id="orgb4cb52f">cgroups</h3>
+<section id="slide-org27ad391">
+<h3 id="org27ad391">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -237,8 +239,8 @@ Killed
 
 
 </section>
-<section id="slide-org3b5443d">
-<h3 id="org3b5443d">Are we there yet?</h3>
+<section id="slide-org85c0fa9">
+<h3 id="org85c0fa9">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -259,8 +261,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-org8f7895f">
-<h2 id="org8f7895f">Introducing: Docker</h2>
+<section id="slide-orgb044ade">
+<h2 id="orgb044ade">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -281,8 +283,8 @@ What's lacking?
 
 
 </section>
-<section id="slide-orgff43c45">
-<h3 id="orgff43c45">Docker Registry</h3>
+<section id="slide-org37f6c99">
+<h3 id="org37f6c99">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -311,8 +313,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-org5559616">
-<h3 id="org5559616">Container Image Build</h3>
+<section id="slide-org7a97945">
+<h3 id="org7a97945">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -347,8 +349,8 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-orga18534d">
-<h3 id="orga18534d">UnionFS</h3>
+<section id="slide-orga15bf1d">
+<h3 id="orga15bf1d">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -395,8 +397,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org3ce01f8">
-<h3 id="org3ce01f8">Dockerfile</h3>
+<section id="slide-org582b908">
+<h3 id="org582b908">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -468,34 +470,90 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org1b9561e">
-<h3 id="org1b9561e">Volumes</h3>
+<section id="slide-orgd4c4420">
+<h3 id="orgd4c4420">Volumes</h3>
+<aside class="notes">
+<ul>
+<li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
+&rArr; app data not persisted, must be mounted from external</li>
+<li>bind mount</li>
+<li>container volume (mount data provided by container engine, implementation
+defined, but usually folder)</li>
+
+<li>beware of SELinux! &rArr; (podman) launches container process with <code>container_t</code>
+label, can only access files with <code>container_file_t</code> label (not present <b>anywhere</b>
+by default) &rArr; <code>:Z</code> &amp; <code>:z</code> flags relabel volumes and add this flag,
+see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-containers">https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-containers</a></li>
+
+</ul>
+
+</aside>
+
 <p class="fragment (appear)">
 <img src="./media/volumes.svg"/>
 </p>
 
+<pre  class="fragment (appear)" >
+docker run -v /vol/:/var/db/ -v logs:/var/log $img
+</pre>
 
 </section>
-<section id="slide-orga1eaa66">
-<h3 id="orga1eaa66">Entrypoints</h3>
+<section id="slide-orga6a6419">
+<h3 id="orga6a6419">Entrypoint</h3>
+<aside class="notes">
+<ul>
+<li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
+&rArr; everything in PID namespace becomes child process
+&rArr; must forward signals to children &amp; reap them</li>
+<li>entrypoint should <b>not</b> be a shell &rArr; use the exec form and not the free form to
+define the <code>ENTRYPOINT</code>, i.e.: <code>ENTRYPOINT ["//bin/foo//", "arg"]</code></li>
+<li>entrypoint gets passed <code>CMD</code> as args by default</li>
+<li>entrypoint should handle custom args, e.g. to launch a shell then</li>
+<li>exec the actual container process, not just launch it as a subprocess (messes
+up signal handling)</li>
+<li>sign that signal handling is messed up:
+<code>WARN[0010] StopSignal SIGTERM failed to stop container $FOO in 10 seconds, resorting to SIGKILL</code></li>
+
+<li>preferably don't run a full init like systemd (hardly doable with docker)</li>
+<li>general scheme: support configuration via environment variables</li>
+
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/entrypoint.svg"/>
+</p>
+
 
 </section>
-<section id="slide-org6b62afd">
-<h3 id="org6b62afd">Networking</h3>
+<section id="slide-org524b626">
+<h3 id="org524b626">Networking</h3>
+<aside class="notes">
+<ul>
+<li>containers can reach outside, but not other way around</li>
+<li>ports need to be explicitly exposed</li>
 
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/entrypoint.svg"/>
+</p>
 
 
 </section>
-<section id="slide-org99053e4">
-<h3 id="org99053e4">Containers are not VMs</h3>
+<section id="slide-orgfaec967">
+<h3 id="orgfaec967">Containers are not VMs</h3>
 <ul>
 <li class="fragment appear"></li>
 
 </ul>
 
 </section>
-<section id="slide-orgeb14210">
-<h3 id="orgeb14210">Launching a Container</h3>
+<section id="slide-org94de698">
+<h3 id="org94de698">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -508,32 +566,37 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org9202a5a">
-<h3 id="org9202a5a">Paradigms</h3>
+<section id="slide-org3406ce4">
+<h3 id="org3406ce4">Best practices</h3>
 <ul>
 <li>one entrypoint &rArr; one binary</li>
 <li>configure via env vars</li>
 <li>volumes for persistent data</li>
+<li>don't run a full init</li>
 
 </ul>
 
 
 </section>
-<section id="slide-org6c3be8a">
-<h3 id="org6c3be8a">Podman</h3>
+<section id="slide-org0e812d9">
+<h3 id="org0e812d9">Podman</h3>
+
+</section>
+<section id="slide-orgd0cb46e">
+<h3 id="orgd0cb46e">Container Orchestration</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgb2812c2">
-<h2 id="orgb2812c2">Kubernetes</h2>
+<section id="slide-orgbeea48b">
+<h2 id="orgbeea48b">Kubernetes</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-orgfdd6226">
-<h2 id="orgfdd6226">Questions?</h2>
+<section id="slide-orge9b5952">
+<h2 id="orge9b5952">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
