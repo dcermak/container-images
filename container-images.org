@@ -360,7 +360,28 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 docker run -v /vol/:/var/db/ -v logs:/var/log $img
 #+end_src
 
-** Entrypoints
+** Entrypoint
+
+#+begin_notes
+- entrypoint is launched as PID 1 in pid namespace by OCI runtime
+  \Rightarrow everything in PID namespace becomes child process
+  \Rightarrow must forward signals to children & reap them
+- entrypoint should *not* be a shell \Rightarrow use the exec form and not the free form to
+  define the =ENTRYPOINT=, i.e.: ~ENTRYPOINT ["//bin/foo//", "arg"]~
+- entrypoint gets passed =CMD= as args by default
+- entrypoint should handle custom args, e.g. to launch a shell then
+- exec the actual container process, not just launch it as a subprocess (messes
+  up signal handling)
+- sign that signal handling is messed up:
+  =WARN[0010] StopSignal SIGTERM failed to stop container $FOO in 10 seconds, resorting to SIGKILL=
+
+- preferably don't run a full init like systemd (hardly doable with docker)
+- general scheme: support configuration via environment variables
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/entrypoint.svg"/>@@
+
 
 ** Networking
 
