@@ -388,18 +388,25 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 ** Networking
 
 #+begin_notes
-- containers can reach outside, but not other way around
-- ports need to be explicitly exposed
+- containers use bridge network by default:
+  can reach outside, but not other way around
+  ports need to be explicitly exposed (in bridge networking)
+- docker uses libnetwork to configure networking
+- CNI is container networking interface for rootfull networking, asigns IPs,
+  setup network interfaces & routin, uses plugins
+  CNI is only used by docker in k8s mode with containerd
+- major networking modes:
+  * bridge: NAT bridge to host net
+  * host: use same network as host
+  * none
+  * overlay: connects multiple docker networks
+  * macvlan: container gets its own network interface with unique MAC
+  * ipvlan: container gets its own IP
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/entrypoint.svg"/>@@
+@@html:<img src="./media/networking.svg"/>@@
 
-
-** Containers are not VMs
-
-#+ATTR_REVEAL: :frag (appear)
-- 
 
 ** Launching a Container
 
@@ -414,13 +421,31 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 
 ** Best practices
 
+#+ATTR_REVEAL: :frag (appear)
 - one entrypoint \Rightarrow one binary
 - configure via env vars
 - volumes for persistent data
 - don't run a full init
 
 
-** Podman
+** Podman & rootless containers
+
+#+begin_notes
+- docker uses split architecture: CLI run as user, daemon performs actual heavy
+  lifting
+- daemon runs as *root* by default! \Rightarrow everyone with access to the daemon is
+  effectively root!!
+- disagreements between RH & Docker caused fork/new project: podman & buildah
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/docker-daemon.svg"/>@@
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/podman.svg"/>@@
+
 
 ** Container Orchestration
 
