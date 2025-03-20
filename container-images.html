@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-orgcae2e2f">
-<h2 id="orgcae2e2f"><code>who -u</code></h2>
+<section id="slide-org32c4aeb">
+<h2 id="org32c4aeb"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org2bc3d26">
-<h2 id="org2bc3d26"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-orgaf9791e">
+<h2 id="orgaf9791e"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgad317e5">
-<h2 id="orgad317e5">Software Delivery</h2>
+<section id="slide-orge13da42">
+<h2 id="orge13da42">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org24731ee">
-<h3 id="org24731ee">Let's build a container</h3>
+<section id="slide-org2d06494">
+<h3 id="org2d06494">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org72b3f2d">
-<h3 id="org72b3f2d">Let's run the container</h3>
+<section id="slide-org099fae7">
+<h3 id="org099fae7">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org21c1dca">
-<h3 id="org21c1dca">Is that it?</h3>
+<section id="slide-org4327417">
+<h3 id="org4327417">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org87d4b5c">
-<h3 id="org87d4b5c">Linux Namespaces</h3>
+<section id="slide-org9b380da">
+<h3 id="org9b380da">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -183,7 +183,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org87d4b5c-split">
+<section id="slide-org9b380da-split">
 
 <p>
 Try it:
@@ -204,8 +204,8 @@ root
 
 
 </section>
-<section id="slide-orga2ad06c">
-<h3 id="orga2ad06c">cgroups</h3>
+<section id="slide-org896320a">
+<h3 id="org896320a">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -239,8 +239,8 @@ Killed
 
 
 </section>
-<section id="slide-org9790605">
-<h3 id="org9790605">Are we there yet?</h3>
+<section id="slide-org28b8716">
+<h3 id="org28b8716">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -261,8 +261,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-orgae72bda">
-<h2 id="orgae72bda">Introducing: Docker</h2>
+<section id="slide-orge81b462">
+<h2 id="orge81b462">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -283,8 +283,8 @@ What's lacking?
 
 
 </section>
-<section id="slide-org259208f">
-<h3 id="org259208f">Docker Registry</h3>
+<section id="slide-org47e310b">
+<h3 id="org47e310b">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -313,8 +313,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-orga9fa991">
-<h3 id="orga9fa991">Container Image Build</h3>
+<section id="slide-org3f3a011">
+<h3 id="org3f3a011">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -349,8 +349,8 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org777d7b4">
-<h3 id="org777d7b4">UnionFS</h3>
+<section id="slide-org3f05ee8">
+<h3 id="org3f05ee8">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -397,8 +397,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org94f3816">
-<h3 id="org94f3816">Dockerfile</h3>
+<section id="slide-orgba18640">
+<h3 id="orgba18640">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -470,8 +470,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org0d7dbdf">
-<h3 id="org0d7dbdf">Volumes</h3>
+<section id="slide-org630977e">
+<h3 id="org630977e">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -498,8 +498,8 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 </pre>
 
 </section>
-<section id="slide-orgb8af228">
-<h3 id="orgb8af228">Entrypoint</h3>
+<section id="slide-orgdc0b8c4">
+<h3 id="orgdc0b8c4">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -527,33 +527,40 @@ up signal handling)</li>
 
 
 </section>
-<section id="slide-orgf57dd85">
-<h3 id="orgf57dd85">Networking</h3>
+<section id="slide-orgdfec19b">
+<h3 id="orgdfec19b">Networking</h3>
 <aside class="notes">
 <ul>
-<li>containers can reach outside, but not other way around</li>
-<li>ports need to be explicitly exposed</li>
+<li>containers use bridge network by default:
+can reach outside, but not other way around
+ports need to be explicitly exposed (in bridge networking)</li>
+<li>docker uses libnetwork to configure networking</li>
+<li>CNI is container networking interface for rootfull networking, asigns IPs,
+setup network interfaces &amp; routin, uses plugins
+CNI is only used by docker in k8s mode with containerd</li>
+<li>major networking modes:
+<ul>
+<li>bridge: NAT bridge to host net</li>
+<li>host: use same network as host</li>
+<li>none</li>
+<li>overlay: connects multiple docker networks</li>
+<li>macvlan: container gets its own network interface with unique MAC</li>
+<li>ipvlan: container gets its own IP</li>
+
+</ul></li>
 
 </ul>
 
 </aside>
 
 <p class="fragment (appear)">
-<img src="./media/entrypoint.svg"/>
+<img src="./media/networking.svg"/>
 </p>
 
 
 </section>
-<section id="slide-org029898e">
-<h3 id="org029898e">Containers are not VMs</h3>
-<ul>
-<li class="fragment appear"></li>
-
-</ul>
-
-</section>
-<section id="slide-org308f087">
-<h3 id="org308f087">Launching a Container</h3>
+<section id="slide-org9d24cd7">
+<h3 id="org9d24cd7">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -566,37 +573,60 @@ up signal handling)</li>
 
 
 </section>
-<section id="slide-orgf805e41">
-<h3 id="orgf805e41">Best practices</h3>
+<section id="slide-org280e9c6">
+<h3 id="org280e9c6">Best practices</h3>
 <ul>
-<li>one entrypoint &rArr; one binary</li>
-<li>configure via env vars</li>
-<li>volumes for persistent data</li>
-<li>don't run a full init</li>
+<li class="fragment appear">one entrypoint &rArr; one binary</li>
+<li class="fragment appear">configure via env vars</li>
+<li class="fragment appear">volumes for persistent data</li>
+<li class="fragment appear">don't run a full init</li>
 
 </ul>
 
 
 </section>
-<section id="slide-orga8112ca">
-<h3 id="orga8112ca">Podman</h3>
+<section id="slide-org0f722b4">
+<h3 id="org0f722b4">Podman &amp; rootless containers</h3>
+<aside class="notes">
+<ul>
+<li>docker uses split architecture: CLI run as user, daemon performs actual heavy
+lifting</li>
+<li>daemon runs as <b>root</b> by default! &rArr; everyone with access to the daemon is
+effectively root!!</li>
+<li>disagreements between RH &amp; Docker caused fork/new project: podman &amp; buildah</li>
+
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/docker-daemon.svg"/>
+</p>
 
 </section>
-<section id="slide-org6189182">
-<h3 id="org6189182">Container Orchestration</h3>
+<section id="slide-org0f722b4-split">
+
+<p class="fragment (appear)">
+<img src="./media/podman.svg"/>
+</p>
+
+
+</section>
+<section id="slide-orga8bdeb1">
+<h3 id="orga8bdeb1">Container Orchestration</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-org9378001">
-<h2 id="org9378001">Kubernetes</h2>
+<section id="slide-orgb8dbb75">
+<h2 id="orgb8dbb75">Kubernetes</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-orgf31b8cc">
-<h2 id="orgf31b8cc">Questions?</h2>
+<section id="slide-orga70146c">
+<h2 id="orga70146c">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
