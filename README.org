@@ -1,8 +1,10 @@
 * Container und Container Images - Was verbirgt sich dahinter?
 
-This repository contains the slides for the presentation "Container und Container Images - Was verbirgt sich dahinter?" held at Chemnitzer Linux Tage 2025.
+This repository contains the slides for the presentation "Container und
+Container Images - Was verbirgt sich dahinter?" held at Chemnitzer Linux
+Tage 2025.
 
-You can find the rendered slides here: [[https://dcermak.github.io/containers-and-container-images/container-images.html][dcermak.github.io/containers-and-container-images]].
+You can find the rendered slides here: [[https://dcermak.github.io/container-images/container-images.html][dcermak.github.io/container-images]].
 
 
 ** Building the slides
