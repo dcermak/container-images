@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org32c4aeb">
-<h2 id="org32c4aeb"><code>who -u</code></h2>
+<section id="slide-org1ca069c">
+<h2 id="org1ca069c"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -65,15 +65,15 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orgaf9791e">
-<h2 id="orgaf9791e"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-org40970bd">
+<h2 id="org40970bd"><span class="todo TODO">TODO</span> Agenda</h2>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orge13da42">
-<h2 id="orge13da42">Software Delivery</h2>
+<section id="slide-org3b24103">
+<h2 id="org3b24103">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -92,8 +92,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org2d06494">
-<h3 id="org2d06494">Let's build a container</h3>
+<section id="slide-org2cb863d">
+<h3 id="org2cb863d">Let's build a container</h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -114,8 +114,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org099fae7">
-<h3 id="org099fae7">Let's run the container</h3>
+<section id="slide-org027c338">
+<h3 id="org027c338">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -124,8 +124,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org4327417">
-<h3 id="org4327417">Is that it?</h3>
+<section id="slide-org082c44e">
+<h3 id="org082c44e">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org9b380da">
-<h3 id="org9b380da">Linux Namespaces</h3>
+<section id="slide-org5635fc7">
+<h3 id="org5635fc7">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -183,7 +183,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org9b380da-split">
+<section id="slide-org5635fc7-split">
 
 <p>
 Try it:
@@ -204,8 +204,8 @@ root
 
 
 </section>
-<section id="slide-org896320a">
-<h3 id="org896320a">cgroups</h3>
+<section id="slide-org3d49a42">
+<h3 id="org3d49a42">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -239,8 +239,8 @@ Killed
 
 
 </section>
-<section id="slide-org28b8716">
-<h3 id="org28b8716">Are we there yet?</h3>
+<section id="slide-orge7f3780">
+<h3 id="orge7f3780">Are we there yet?</h3>
 <p class="fragment (appear)">
 What do we have?
 </p>
@@ -261,8 +261,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-orge81b462">
-<h2 id="orge81b462">Introducing: Docker</h2>
+<section id="slide-org402391f">
+<h2 id="org402391f">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -283,8 +283,8 @@ What's lacking?
 
 
 </section>
-<section id="slide-org47e310b">
-<h3 id="org47e310b">Docker Registry</h3>
+<section id="slide-orgb4567ed">
+<h3 id="orgb4567ed">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -313,8 +313,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-org3f3a011">
-<h3 id="org3f3a011">Container Image Build</h3>
+<section id="slide-org82c490e">
+<h3 id="org82c490e">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -349,8 +349,8 @@ CMD ["/usr/bin/emacs", "-q"]
 </div>
 
 </section>
-<section id="slide-org3f05ee8">
-<h3 id="org3f05ee8">UnionFS</h3>
+<section id="slide-orgfa1dd7c">
+<h3 id="orgfa1dd7c">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -397,8 +397,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-orgba18640">
-<h3 id="orgba18640">Dockerfile</h3>
+<section id="slide-org7e13518">
+<h3 id="org7e13518">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -470,8 +470,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org630977e">
-<h3 id="org630977e">Volumes</h3>
+<section id="slide-orgc20f445">
+<h3 id="orgc20f445">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -498,8 +498,8 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 </pre>
 
 </section>
-<section id="slide-orgdc0b8c4">
-<h3 id="orgdc0b8c4">Entrypoint</h3>
+<section id="slide-org7ba96ac">
+<h3 id="org7ba96ac">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -527,8 +527,8 @@ up signal handling)</li>
 
 
 </section>
-<section id="slide-orgdfec19b">
-<h3 id="orgdfec19b">Networking</h3>
+<section id="slide-orgf134d79">
+<h3 id="orgf134d79">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -559,8 +559,8 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-org9d24cd7">
-<h3 id="org9d24cd7">Launching a Container</h3>
+<section id="slide-orga0e470e">
+<h3 id="orga0e470e">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -573,8 +573,8 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-org280e9c6">
-<h3 id="org280e9c6">Best practices</h3>
+<section id="slide-org79ade1a">
+<h3 id="org79ade1a">Best practices</h3>
 <ul>
 <li class="fragment appear">one entrypoint &rArr; one binary</li>
 <li class="fragment appear">configure via env vars</li>
@@ -585,8 +585,8 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-org0f722b4">
-<h3 id="org0f722b4">Podman &amp; rootless containers</h3>
+<section id="slide-org45ea80b">
+<h3 id="org45ea80b">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -604,29 +604,304 @@ effectively root!!</li>
 </p>
 
 </section>
-<section id="slide-org0f722b4-split">
+<section id="slide-org45ea80b-split">
 
 <p class="fragment (appear)">
 <img src="./media/podman.svg"/>
 </p>
 
+</section>
+<section id="slide-org416d50c">
+<h3 id="org416d50c">Rootless Containers</h3>
+<aside class="notes">
+<ul>
+<li>container runtime executes as non-root, container process launched as non-root</li>
+<li>requires "relatively recent" kernel for user namespaces &amp; <code>newuidmap</code> /
+<code>newgidmap</code> to be setuid root
+&rArr; users in container are mapped to uids/gids from <code>/etc/subuid</code> &amp; <code>/etc/subgid</code></li>
+<li>container has only your privileges, not more!</li>
+<li>cannot expose ports &lt;= 1024</li>
+<li>firewall needs to be manually punched through</li>
+<li>rootless networking runs in userspace, e.g. libslirp/slirp4netns or pasta
+due to kernel requiring root privileges to create network namespaces</li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">container runs as non-root or a sub-uid of your user</li>
+<li class="fragment appear">rootless networking runs in userspace</li>
+
+</ul>
 
 </section>
-<section id="slide-orga8bdeb1">
-<h3 id="orga8bdeb1">Container Orchestration</h3>
+<section id="slide-org6c4996f">
+<h3 id="org6c4996f">When to use</h3>
+<aside class="notes">
+<ul>
+<li>app should have single entrypoint</li>
+<li></li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">Single binary</li>
+<li class="fragment appear">Cloud native deployment</li>
+<li class="fragment appear">testing other distributions</li>
+<li class="fragment appear">reproducible dev environment</li>
+<li class="fragment appear">the base OS doesn't matter</li>
+
+</ul>
+
+</section>
+<section id="slide-org505ba1a">
+<h3 id="org505ba1a">When not to use</h3>
+<ul>
+<li class="fragment appear">complex multi binary legacy code</li>
+<li class="fragment appear">high-performance code</li>
+<li class="fragment appear">the base OS matters</li>
+
+</ul>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgb8dbb75">
-<h2 id="orgb8dbb75">Kubernetes</h2>
+<section id="slide-orgc9a9df9">
+<h2 id="orgc9a9df9">Container Orchestration</h2>
+<aside class="notes">
+<ul>
+<li>each container = one binary &rArr; multiple containers for full app</li>
+<li>need something to launch containers, monitor them &amp; tear down</li>
+<li>preferably from config file &rArr; managed via git</li>
+
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/container-orchestration.svg"/>
+</p>
+
+
+</section>
+<section id="slide-orgf2006eb">
+<h3 id="orgf2006eb">docker-compose</h3>
+<aside class="notes">
+<ul>
+<li>tool to launch multiple containers, defined via YAML file</li>
+<li>first beta in Dec 2013, 1.0 Oct 2014
+v2 Sep 2021 (rewrite in Go, changed format)</li>
+<li>define your whole app in one file, supports every docker/container feature</li>
+<li>supports service dependencies!</li>
+<li>supports scaling but needs an ingress/load balancer then</li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="yaml" >services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: registry.opensuse.org/opensuse/mariadb
+    environment:
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >docker compose up
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org51fbf38">
+<h3 id="org51fbf38">Quadlet / <code>podman generate systemd</code></h3>
+<aside class="notes">
+<ul>
+<li>original podman would generate systemd units</li>
+<li>nowadays: quadlet - simplified systemd unit file like syntax
+uses systemd generator to create systemd units</li>
+<li>systemd manages lifecycle</li>
+
+<li>see <code>man podman-systemd.unit</code> or
+<a href="https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html">https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html</a></li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre   ><code class="ini" >[Unit]
+Description=TW container
+
+[Container]
+Image=registry.opensuse.org/opensuse/tumbleweed
+
+# volume and network defined below in other configs
+Volume=test.volume:/data
+Network=test.network
+
+Exec=sleep infinity
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3b18036">
+<h3 id="org3b18036">Kubernetes</h3>
+<aside class="notes">
+<ul>
+<li>originaly started as "Borg" at Google</li>
+<li>open sourced 2014, donated to CNCF</li>
+<li>declarative configuration via kubernetes yaml</li>
+<li>self healing &amp; (auto) horizontal scaling</li>
+<li>for microservice architecture (i.e. each container single app)</li>
+<li>became quickly industry standard, kubernetes yaml nowadays supported by podman</li>
+
+</ul>
+
+<p>
+architecture:
+</p>
+<ul>
+<li>Control Plane (master components):
+<ul>
+<li>API Server: Front-end for the Kubernetes control plane</li>
+<li>etcd: Consistent and highly-available key-value store for all cluster data</li>
+<li>Scheduler: Assigns workloads to nodes</li>
+<li>Controller Manager: Runs controller processes</li>
+<li>Cloud Controller Manager: Integrates with cloud provider APIs</li>
+
+</ul></li>
+<li>Node Components:
+<ul>
+<li>Kubelet: Ensures containers are running in a pod</li>
+<li>Container Runtime: Software responsible for running containers (Docker,
+containerd, CRI-O)</li>
+<li>Kube-proxy: Network proxy that maintains network rules on nodes</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Key Concepts:
+</p>
+<ul>
+<li>Pods: Smallest deployable units, containing one or more containers</li>
+<li>Services: Abstraction that defines a logical set of pods and a policy to access them</li>
+<li>Deployments: Manage the deployment and scaling of a set of pods</li>
+<li>ConfigMaps/Secrets: Ways to inject configuration into applications</li>
+<li>Namespaces: Virtual clusters within a physical cluster</li>
+<li>Persistent Volumes: Storage abstraction that outlives pod lifecycle</li>
+
+</ul>
+
+<p>
+Common Patterns:
+</p>
+<ul>
+<li>Sidecar: Helper containers that enhance the main container</li>
+<li>Ambassador: Proxy local connections to external services</li>
+<li>Adapter: Standardizes and normalizes output of the main container</li>
+<li>Init Containers: Run before app containers, setting up dependencies</li>
+<li>StatefulSets: For stateful applications requiring stable network identifiers and persistent storage</li>
+<li>DaemonSets: Ensure that all nodes run a copy of a specific pod</li>
+<li>Jobs/CronJobs: Run-to-completion and scheduled tasks</li>
+
+<li>Kubernetes yaml</li>
+
+</ul>
+
+</aside>
+
+<p class="fragment (appear)">
+<img src="./media/Kubernetes.png"/>
+</p>
+
+<div class="org-src-container">
+
+<pre   ><code class="yaml" >apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-application
+  labels:
+    app: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+</code></pre>
+</div>
 
 </section>
 </section>
 <section>
-<section id="slide-orga70146c">
-<h2 id="orga70146c">Questions?</h2>
+<section id="slide-org4d105d7">
+<h2 id="org4d105d7">Should I be using containers?</h2>
+<p class="fragment (appear)">
+It depends
+</p>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org2a86731">
+<h2 id="org2a86731">Questions?</h2>
 <p class="fragment (appear)">
 Answers!
 </p>
