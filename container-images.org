@@ -428,7 +428,7 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 - don't run a full init
 
 
-** Podman & rootless containers
+** Podman
 
 #+begin_notes
 - docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -446,11 +446,224 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/podman.svg"/>@@
 
+** Rootless Containers
 
-** Container Orchestration
+#+begin_notes
+- container runtime executes as non-root, container process launched as non-root
+- requires "relatively recent" kernel for user namespaces & =newuidmap= /
+  =newgidmap= to be setuid root
+  \Rightarrow users in container are mapped to uids/gids from =/etc/subuid= & =/etc/subgid=
+- container has only your privileges, not more!
+- cannot expose ports <= 1024
+- firewall needs to be manually punched through
+- rootless networking runs in userspace, e.g. libslirp/slirp4netns or pasta
+  due to kernel requiring root privileges to create network namespaces
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- container runs as non-root or a sub-uid of your user
+- rootless networking runs in userspace
+
+** When to use
+
+#+begin_notes
+- app should have single entrypoint
+- 
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- Single binary
+- Cloud native deployment
+- testing other distributions
+- reproducible dev environment
+- the base OS doesn't matter
+
+** When not to use
+
+#+ATTR_REVEAL: :frag (appear)
+- complex multi binary legacy code
+- high-performance code
+- the base OS matters
 
 
-* Kubernetes
+* Container Orchestration
+
+#+begin_notes
+- each container = one binary \Rightarrow multiple containers for full app
+- need something to launch containers, monitor them & tear down
+- preferably from config file \Rightarrow managed via git
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/container-orchestration.svg"/>@@
+
+
+** docker-compose
+
+#+begin_notes
+- tool to launch multiple containers, defined via YAML file
+- first beta in Dec 2013, 1.0 Oct 2014
+  v2 Sep 2021 (rewrite in Go, changed format)
+- define your whole app in one file, supports every docker/container feature
+- supports service dependencies!
+- supports scaling but needs an ingress/load balancer then
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src yaml
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: registry.opensuse.org/opensuse/mariadb
+    environment:
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
+#+end_src
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src bash
+docker compose up
+#+end_src
+
+** Quadlet / =podman generate systemd=
+
+#+begin_notes
+- original podman would generate systemd units
+- nowadays: quadlet - simplified systemd unit file like syntax
+  uses systemd generator to create systemd units
+- systemd manages lifecycle
+
+- see =man podman-systemd.unit= or
+  https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html
+#+end_notes
+
+#+begin_src ini
+[Unit]
+Description=TW container
+
+[Container]
+Image=registry.opensuse.org/opensuse/tumbleweed
+
+# volume and network defined below in other configs
+Volume=test.volume:/data
+Network=test.network
+
+Exec=sleep infinity
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target
+#+end_src
+
+** Kubernetes
+
+#+begin_notes
+- originaly started as "Borg" at Google
+- open sourced 2014, donated to CNCF
+- declarative configuration via kubernetes yaml
+- self healing & (auto) horizontal scaling
+- for microservice architecture (i.e. each container single app)
+- became quickly industry standard, kubernetes yaml nowadays supported by podman
+
+architecture:
+- Control Plane (master components):
+  - API Server: Front-end for the Kubernetes control plane
+  - etcd: Consistent and highly-available key-value store for all cluster data
+  - Scheduler: Assigns workloads to nodes
+  - Controller Manager: Runs controller processes
+  - Cloud Controller Manager: Integrates with cloud provider APIs
+- Node Components:
+  - Kubelet: Ensures containers are running in a pod
+  - Container Runtime: Software responsible for running containers (Docker,
+    containerd, CRI-O)
+  - Kube-proxy: Network proxy that maintains network rules on nodes
+
+Key Concepts:
+- Pods: Smallest deployable units, containing one or more containers
+- Services: Abstraction that defines a logical set of pods and a policy to access them
+- Deployments: Manage the deployment and scaling of a set of pods
+- ConfigMaps/Secrets: Ways to inject configuration into applications
+- Namespaces: Virtual clusters within a physical cluster
+- Persistent Volumes: Storage abstraction that outlives pod lifecycle
+
+Common Patterns:
+- Sidecar: Helper containers that enhance the main container
+- Ambassador: Proxy local connections to external services
+- Adapter: Standardizes and normalizes output of the main container
+- Init Containers: Run before app containers, setting up dependencies
+- StatefulSets: For stateful applications requiring stable network identifiers and persistent storage
+- DaemonSets: Ensure that all nodes run a copy of a specific pod
+- Jobs/CronJobs: Run-to-completion and scheduled tasks
+
+- Kubernetes yaml
+#+end_notes
+
+# https://en.wikipedia.org/wiki/Kubernetes#/media/File:Kubernetes.png
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/Kubernetes.png"/>@@
+
+#+ATTR_REVEAL: :frag (appear)
+
+
+#+begin_src yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-application
+  labels:
+    app: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+#+end_src
+
+* Should I be using containers?
+
+#+ATTR_REVEAL: :frag (appear)
+It depends
+
 
 * Questions?
 
