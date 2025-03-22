@@ -353,15 +353,16 @@ CMD ["echo hello"]
 ENTRYPOINT ["/bin/bash", "-ce"]
 #+end_src
 
-** Launching a Container
+# Doesn't fit anywhere…
+# ** Launching a Container
 
-#+ATTR_REVEAL: :frag (appear)
-1. Lookup image locally
-2. (optionally) pull the image
-3. write layers to disk & setup UnionFS
-4. setup namespaces & cgroups
-5. setup networking
-6. launch entrypoint using =runc= / =crun= / =$runtime=
+# #+ATTR_REVEAL: :frag (appear)
+# 1. Lookup image locally
+# 2. (optionally) pull the image
+# 3. write layers to disk & setup UnionFS
+# 4. setup namespaces & cgroups
+# 5. setup networking
+# 6. launch entrypoint using =runc= / =crun= / =$runtime=
 
 
 ** Volumes
