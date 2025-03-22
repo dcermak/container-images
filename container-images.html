@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org3267ab3">
-<h2 id="org3267ab3"><code>who -u</code></h2>
+<section id="slide-org3af6a4e">
+<h2 id="org3af6a4e"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -57,6 +57,7 @@ Dan Čermák
  <tr><td><i class="fa-solid fa-globe"></i></td><td> <a href="https://dancermak.name/">https://dancermak.name</a></td></tr>
  <tr><td><i class="fab fa-github"></i></td><td> <a href="https://github.com/dcermak/">dcermak</a> </td></tr>
  <tr><td><i class="fab fa-mastodon"></i></td><td> <a href="https://mastodon.social/@Defolos">@Defolos@mastodon.social</a></td></tr>
+ <tr><td><i class="fab fa-bluesky"></i></td><td> <a href="https://bsky.app/profile/defolos.bsky.social">@defolos.bsky.social</a></td></tr>
  </table>
  </div>
 </p>
@@ -65,14 +66,14 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org3c603d7">
-<h2 id="org3c603d7"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-orged47204">
+<h2 id="orged47204"><span class="todo TODO">TODO</span> Agenda</h2>
 <ul>
-<li><a href="#/slide-orge5b45c7">History</a></li>
-<li><a href="#/slide-org0f48569">Docker</a></li>
-<li><a href="#/slide-org555a13a">Podman</a></li>
-<li><a href="#/slide-orge5891c4">Container Orchestration</a></li>
-<li><a href="#/slide-org7dfefba">Should I use containers?</a></li>
+<li><a href="#/slide-org545b174">History</a></li>
+<li><a href="#/slide-org727d96f">Docker</a></li>
+<li><a href="#/slide-org8cc970f">Podman</a></li>
+<li><a href="#/slide-org4892b37">Container Orchestration</a></li>
+<li><a href="#/slide-org33a941b">Should I use containers?</a></li>
 
 </ul>
 
@@ -80,8 +81,8 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orge5b45c7">
-<h2 id="orge5b45c7">Software Delivery</h2>
+<section id="slide-org545b174">
+<h2 id="org545b174">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -103,8 +104,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org0746ec3">
-<h3 id="org0746ec3">Let's build a container: <code>chroot</code></h3>
+<section id="slide-org7d7479c">
+<h3 id="org7d7479c">Let's build a container: <code>chroot</code></h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -125,8 +126,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-orge993d5c">
-<h3 id="orge993d5c">Let's run the container</h3>
+<section id="slide-org57adcb2">
+<h3 id="org57adcb2">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -135,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org6676621">
-<h3 id="org6676621">Is that it?</h3>
+<section id="slide-org86a4f22">
+<h3 id="org86a4f22">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -147,8 +148,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org792c275">
-<h3 id="org792c275">Linux Namespaces</h3>
+<section id="slide-org84e32b2">
+<h3 id="org84e32b2">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -195,7 +196,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org792c275-split">
+<section id="slide-org84e32b2-split">
 
 <p>
 Try it:
@@ -216,8 +217,8 @@ root
 
 
 </section>
-<section id="slide-orge258928">
-<h3 id="orge258928">cgroups</h3>
+<section id="slide-org689707a">
+<h3 id="org689707a">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -251,21 +252,12 @@ Killed
 
 
 </section>
-<section id="slide-org116840c">
-<h3 id="org116840c">Are we there yet?</h3>
-<p class="fragment (appear)">
-What do we have?
-</p>
-<p class="fragment (appear)">
-great process isolation
-</p>
-
-<p class="fragment (appear)">
-What's lacking?
-</p>
+<section id="slide-org5f27792">
+<h3 id="org5f27792">Are we there yet?</h3>
 <ul>
-<li class="fragment appear">standardized build process</li>
-<li class="fragment appear">distribution mechanism</li>
+<li class="fragment appear">👍️ great process isolation</li>
+<li class="fragment appear">👎️ standardized build process</li>
+<li class="fragment appear">👎️ distribution mechanism</li>
 
 </ul>
 
@@ -273,8 +265,8 @@ What's lacking?
 </section>
 </section>
 <section>
-<section id="slide-org0f48569">
-<h2 id="org0f48569">Introducing: Docker</h2>
+<section id="slide-org727d96f">
+<h2 id="org727d96f">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -295,15 +287,16 @@ What's lacking?
 
 
 </section>
-<section id="slide-orgb0f8dbd">
-<h3 id="orgb0f8dbd">Docker Registry</h3>
+<section id="slide-org825d08a">
+<h3 id="org825d08a">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >docker pull registry.opensuse.org/opensuse/leap:15.6
+<pre  class="fragment (appear)"  ><code class="bash" data-line-numbers='1|2|3'>docker pull registry.opensuse.org/opensuse/leap
+docker pull registry.opensuse.org/opensuse/leap:15.6
 docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
 </code></pre>
 </div>
@@ -333,11 +326,12 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-org131b5d8">
-<h3 id="org131b5d8"><span class="todo TODO">TODO</span> Container Image Build</h3>
+<section id="slide-org5a30626">
+<h3 id="org5a30626">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
+<li>build runs <b>in</b> a container!</li>
 <li>docker build standardized &amp; simplified the image build process via the
 <code>Dockerfile</code></li>
 <li>syntax is: <code>INSTRUCTION &lt;value&gt;</code></li>
@@ -359,22 +353,24 @@ heavily on caching</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|3|5|6|7|'>FROM registry.opensuse.org/opensuse/tumbleweed
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|3|4|6-9|11|12|'>FROM registry.opensuse.org/opensuse/tumbleweed
 
-RUN zypper -n in emacs
+COPY . /src/
+WORKDIR /src/
 
-COPY ./setup.sh /src/
-RUN /src/setup.sh
+RUN zypper -n in python3-pip; \
+    pip install . ; \
+    zypper -n rm --clean-deps gcc; zypper -n clean; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
 
-ENV EMACS_VERSION=30.1
-USER emacs
-CMD ["/usr/bin/emacs", "-q"]
+EXPOSE 80
+CMD ["/usr/bin/python", "-m", "my-app"]
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orge8455a6">
-<h3 id="orge8455a6">UnionFS</h3>
+<section id="slide-org72413c9">
+<h3 id="org72413c9">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -413,16 +409,16 @@ workdir: used for internal purposes (CoW)</li>
 <div class="org-src-container">
 
 <pre  class="fragment (appear)"  ><code class="bash" >mount -t overlay overlay \
-      -o lowerdir=Layer 3:Layer 2:Layer 1,\
-         upperdir=Container,workdir=/work/ \
+      -o lowerdir=lower_3:lower_2:lower_1,\
+         upperdir=upper,workdir=/work/ \
            merged
 </code></pre>
 </div>
 
 
 </section>
-<section id="slide-org833db09">
-<h3 id="org833db09"><span class="todo TODO">TODO</span> Dockerfile</h3>
+<section id="slide-org0be6809">
+<h3 id="org0be6809">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -473,7 +469,7 @@ non-standard:
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='1|2|3|4|5-8|9|10|11|12|13|14|15-16'>FROM registry.opensuse.org/opensuse/tumbleweed
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|2|3|4-7|8|9|10|11|12|13-14|'>FROM registry.opensuse.org/opensuse/tumbleweed
 COPY ./project/ /src/
 ENV USER="geeko"
 RUN zypper -n in openssh-clients; \
@@ -491,8 +487,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </div>
 
 </section>
-<section id="slide-org1d8b3a3">
-<h3 id="org1d8b3a3">Launching a Container</h3>
+<section id="slide-org05f4b44">
+<h3 id="org05f4b44">Launching a Container</h3>
 <ol>
 <li class="fragment appear">Lookup image locally</li>
 <li class="fragment appear">(optionally) pull the image</li>
@@ -505,8 +501,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 
 
 </section>
-<section id="slide-org1fc2489">
-<h3 id="org1fc2489">Volumes</h3>
+<section id="slide-org74c606e">
+<h3 id="org74c606e">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -535,8 +531,8 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 </div>
 
 </section>
-<section id="slide-org5db4e01">
-<h3 id="org5db4e01">Entrypoint</h3>
+<section id="slide-orgd29f1d7">
+<h3 id="orgd29f1d7">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -564,8 +560,8 @@ up signal handling)</li>
 
 
 </section>
-<section id="slide-org5cc4ac1">
-<h3 id="org5cc4ac1">Networking</h3>
+<section id="slide-org0637b6a">
+<h3 id="org0637b6a">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -596,8 +592,8 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-org43f87e5">
-<h3 id="org43f87e5">Best practices</h3>
+<section id="slide-orgf3160e9">
+<h3 id="orgf3160e9">Best practices</h3>
 <ul>
 <li class="fragment appear">one entrypoint &rArr; one binary</li>
 <li class="fragment appear">configure via env vars</li>
@@ -608,8 +604,8 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-org555a13a">
-<h3 id="org555a13a">Podman</h3>
+<section id="slide-org8cc970f">
+<h3 id="org8cc970f">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -631,7 +627,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-org555a13a-split">
+<section id="slide-org8cc970f-split">
 
 <p>
 Podman
@@ -642,8 +638,8 @@ Podman
 </p>
 
 </section>
-<section id="slide-org89df8ea">
-<h3 id="org89df8ea">Rootless Containers</h3>
+<section id="slide-orgb49dd0a">
+<h3 id="orgb49dd0a">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -667,8 +663,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </ul>
 
 </section>
-<section id="slide-org19d0124">
-<h3 id="org19d0124">Security</h3>
+<section id="slide-org821a7c2">
+<h3 id="org821a7c2">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -690,8 +686,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 
 </section>
-<section id="slide-org5f19e71">
-<h3 id="org5f19e71">When to use</h3>
+<section id="slide-org9c447f0">
+<h3 id="org9c447f0">When to use</h3>
 <aside class="notes">
 <ul>
 <li>app should have single entrypoint</li>
@@ -711,8 +707,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </ul>
 
 </section>
-<section id="slide-orgf63e1d8">
-<h3 id="orgf63e1d8">When not to use</h3>
+<section id="slide-org33e9d3c">
+<h3 id="org33e9d3c">When not to use</h3>
 <ul>
 <li class="fragment appear">complex multi binary legacy code</li>
 <li class="fragment appear">high-performance code</li>
@@ -724,8 +720,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </section>
 </section>
 <section>
-<section id="slide-orge5891c4">
-<h2 id="orge5891c4">Container Orchestration</h2>
+<section id="slide-org4892b37">
+<h2 id="org4892b37">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -742,8 +738,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 
 </section>
-<section id="slide-org5956391">
-<h3 id="org5956391">docker-compose</h3>
+<section id="slide-org5c9f93e">
+<h3 id="org5c9f93e">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -783,8 +779,8 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 </div>
 
 </section>
-<section id="slide-orgc63c975">
-<h3 id="orgc63c975">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org17f2062">
+<h3 id="org17f2062">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -824,8 +820,8 @@ WantedBy=multi-user.target default.target
 </div>
 
 </section>
-<section id="slide-org1e92256">
-<h3 id="org1e92256">Kubernetes</h3>
+<section id="slide-org35ef7f3">
+<h3 id="org35ef7f3">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originaly started as "Borg" at Google</li>
@@ -897,7 +893,7 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-org1e92256-split">
+<section id="slide-org35ef7f3-split">
 
 <div class="org-src-container">
 
@@ -947,8 +943,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-org7dfefba">
-<h2 id="org7dfefba">Should I use containers?</h2>
+<section id="slide-org33a941b">
+<h2 id="org33a941b">Should I use containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -981,8 +977,8 @@ It depends
 </section>
 </section>
 <section>
-<section id="slide-orgb243406">
-<h2 id="orgb243406">Questions?</h2>
+<section id="slide-org7eb2cf0">
+<h2 id="org7eb2cf0">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
