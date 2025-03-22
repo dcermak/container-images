@@ -37,6 +37,7 @@ Dan Čermák
 @@html: <tr><td><i class="fa-solid fa-globe"></i></td><td> <a href="https://dancermak.name/">https://dancermak.name</a></td></tr>@@
 @@html: <tr><td><i class="fab fa-github"></i></td><td> <a href="https://github.com/dcermak/">dcermak</a> </td></tr>@@
 @@html: <tr><td><i class="fab fa-mastodon"></i></td><td> <a href="https://mastodon.social/@Defolos">@Defolos@mastodon.social</a></td></tr>@@
+@@html: <tr><td><i class="fab fa-bluesky"></i></td><td> <a href="https://bsky.app/profile/defolos.bsky.social">@defolos.bsky.social</a></td></tr>@@
 @@html: </table>@@
 @@html: </div>@@
 
@@ -178,15 +179,9 @@ Killed
 ** Are we there yet?
 
 #+ATTR_REVEAL: :frag (appear)
-What do we have?
-#+ATTR_REVEAL: :frag (appear)
-great process isolation
-
-#+ATTR_REVEAL: :frag (appear)
-What's lacking?
-#+ATTR_REVEAL: :frag (appear)
-- standardized build process
-- distribution mechanism
+- 👍️ great process isolation
+- 👎️ standardized build process
+- 👎️ distribution mechanism
 
 
 * Introducing: Docker
@@ -208,8 +203,9 @@ What's lacking?
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/registry.svg"/>@@
 
-#+ATTR_REVEAL: :frag (appear)
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3'
 #+begin_src bash
+docker pull registry.opensuse.org/opensuse/leap
 docker pull registry.opensuse.org/opensuse/leap:15.6
 docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
 #+end_src
@@ -232,10 +228,11 @@ of an image is the sha256sum/sha512sum of the =distribution.manifest=
 #+end_notes
 
 
-** TODO Container Image Build
+** Container Image Build
 
 #+begin_notes
 - fix the inconvenient build process
+- build runs *in* a container!
 - docker build standardized & simplified the image build process via the
   =Dockerfile=
 - syntax is: =INSTRUCTION <value>=
@@ -251,18 +248,20 @@ of an image is the sha256sum/sha512sum of the =distribution.manifest=
 docker build .
 #+end_src
 
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='|1|3|5|6|7|'
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='|1|3|4|6-9|11|12|'
 #+begin_src Dockerfile
 FROM registry.opensuse.org/opensuse/tumbleweed
 
-RUN zypper -n in emacs
+COPY . /src/
+WORKDIR /src/
 
-COPY ./setup.sh /src/
-RUN /src/setup.sh
+RUN zypper -n in python3-pip; \
+    pip install . ; \
+    zypper -n rm --clean-deps gcc; zypper -n clean; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
 
-ENV EMACS_VERSION=30.1
-USER emacs
-CMD ["/usr/bin/emacs", "-q"]
+EXPOSE 80
+CMD ["/usr/bin/python", "-m", "my-app"]
 #+end_src
 
 ** UnionFS
@@ -295,13 +294,13 @@ catches:
 #+ATTR_REVEAL: :frag (appear)
 #+begin_src bash
 mount -t overlay overlay \
-      -o lowerdir=Layer 3:Layer 2:Layer 1,\
-         upperdir=Container,workdir=/work/ \
+      -o lowerdir=lower_3:lower_2:lower_1,\
+         upperdir=upper,workdir=/work/ \
            merged
 #+end_src
 
 
-** TODO Dockerfile
+** Dockerfile
 
 #+begin_notes
 - =FROM= - specifies the base image for the current build stage
@@ -337,7 +336,7 @@ non-standard:
 - =ONBUILD=: commands executed when using this image for building
 #+end_notes
 
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3|4|5-8|9|10|11|12|13|14|15-16'
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='|1|2|3|4-7|8|9|10|11|12|13-14|'
 #+begin_src Dockerfile
 FROM registry.opensuse.org/opensuse/tumbleweed
 COPY ./project/ /src/
