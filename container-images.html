@@ -40,8 +40,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 
 <section>
-<section id="slide-org3af6a4e">
-<h2 id="org3af6a4e"><code>who -u</code></h2>
+<section id="slide-org698bcf8">
+<h2 id="org698bcf8"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -66,14 +66,13 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orged47204">
-<h2 id="orged47204"><span class="todo TODO">TODO</span> Agenda</h2>
+<section id="slide-orgc497d7a">
+<h2 id="orgc497d7a">Agenda</h2>
 <ul>
-<li><a href="#/slide-org545b174">History</a></li>
-<li><a href="#/slide-org727d96f">Docker</a></li>
-<li><a href="#/slide-org8cc970f">Podman</a></li>
-<li><a href="#/slide-org4892b37">Container Orchestration</a></li>
-<li><a href="#/slide-org33a941b">Should I use containers?</a></li>
+<li><a href="#/slide-org5523cb5">Containers from Scratch</a></li>
+<li><a href="#/slide-orga4d6506">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org8f26885">Container Orchestration</a></li>
+<li><a href="#/slide-orge1680a6">Should I use containers?</a></li>
 
 </ul>
 
@@ -81,16 +80,17 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org545b174">
-<h2 id="org545b174">Software Delivery</h2>
+<section id="slide-org5523cb5">
+<h2 id="org5523cb5">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
-<li></li>
+<li>bundling solves <i>some</i> problems</li>
+<li>VMs too heavy, too much software (bootloader, kernel), often not even necessary</li>
 
 </ul>
 <p>
--&gt; build something lightweight
+&rarr; build something lightweight
 </p>
 
 </aside>
@@ -104,8 +104,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org7d7479c">
-<h3 id="org7d7479c">Let's build a container: <code>chroot</code></h3>
+<section id="slide-org758a401">
+<h3 id="org758a401">Let's build a container: <code>chroot</code></h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -126,8 +126,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org57adcb2">
-<h3 id="org57adcb2">Let's run the container</h3>
+<section id="slide-org0f4c9f2">
+<h3 id="org0f4c9f2">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
@@ -136,8 +136,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org86a4f22">
-<h3 id="org86a4f22">Is that it?</h3>
+<section id="slide-orge5ed782">
+<h3 id="orge5ed782">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -148,8 +148,8 @@ Dan Čermák
 
 
 </section>
-<section id="slide-org84e32b2">
-<h3 id="org84e32b2">Linux Namespaces</h3>
+<section id="slide-orgf466d45">
+<h3 id="orgf466d45">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -196,7 +196,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org84e32b2-split">
+<section id="slide-orgf466d45-split">
 
 <p>
 Try it:
@@ -217,8 +217,8 @@ root
 
 
 </section>
-<section id="slide-org689707a">
-<h3 id="org689707a">cgroups</h3>
+<section id="slide-org2b2ef4e">
+<h3 id="org2b2ef4e">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -252,8 +252,8 @@ Killed
 
 
 </section>
-<section id="slide-org5f27792">
-<h3 id="org5f27792">Are we there yet?</h3>
+<section id="slide-orgbc0774a">
+<h3 id="orgbc0774a">Are we there yet?</h3>
 <ul>
 <li class="fragment appear">👍️ great process isolation</li>
 <li class="fragment appear">👎️ standardized build process</li>
@@ -265,8 +265,8 @@ Killed
 </section>
 </section>
 <section>
-<section id="slide-org727d96f">
-<h2 id="org727d96f">Introducing: Docker</h2>
+<section id="slide-orga4d6506">
+<h2 id="orga4d6506">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -287,8 +287,8 @@ Killed
 
 
 </section>
-<section id="slide-org825d08a">
-<h3 id="org825d08a">Docker Registry</h3>
+<section id="slide-orge33207a">
+<h3 id="orge33207a">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -326,8 +326,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 
 </section>
-<section id="slide-org5a30626">
-<h3 id="org5a30626">Container Image Build</h3>
+<section id="slide-orgfbc8627">
+<h3 id="orgfbc8627">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -369,8 +369,8 @@ CMD ["/usr/bin/python", "-m", "my-app"]
 </div>
 
 </section>
-<section id="slide-org72413c9">
-<h3 id="org72413c9">UnionFS</h3>
+<section id="slide-org41d7987">
+<h3 id="org41d7987">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -417,8 +417,8 @@ workdir: used for internal purposes (CoW)</li>
 
 
 </section>
-<section id="slide-org0be6809">
-<h3 id="org0be6809">Dockerfile</h3>
+<section id="slide-orgfad1325">
+<h3 id="orgfad1325">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -486,23 +486,10 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
 
-</section>
-<section id="slide-org05f4b44">
-<h3 id="org05f4b44">Launching a Container</h3>
-<ol>
-<li class="fragment appear">Lookup image locally</li>
-<li class="fragment appear">(optionally) pull the image</li>
-<li class="fragment appear">write layers to disk &amp; setup UnionFS</li>
-<li class="fragment appear">setup namespaces &amp; cgroups</li>
-<li class="fragment appear">setup networking</li>
-<li class="fragment appear">launch entrypoint using <code>runc</code> / <code>crun</code> / <code>$runtime</code></li>
-
-</ol>
-
 
 </section>
-<section id="slide-org74c606e">
-<h3 id="org74c606e">Volumes</h3>
+<section id="slide-org275da03">
+<h3 id="org275da03">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -531,8 +518,8 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 </div>
 
 </section>
-<section id="slide-orgd29f1d7">
-<h3 id="orgd29f1d7">Entrypoint</h3>
+<section id="slide-orga35fb9d">
+<h3 id="orga35fb9d">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -560,8 +547,8 @@ up signal handling)</li>
 
 
 </section>
-<section id="slide-org0637b6a">
-<h3 id="org0637b6a">Networking</h3>
+<section id="slide-org91156ad">
+<h3 id="org91156ad">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -592,20 +579,36 @@ CNI is only used by docker in k8s mode with containerd</li>
 
 
 </section>
-<section id="slide-orgf3160e9">
-<h3 id="orgf3160e9">Best practices</h3>
+<section id="slide-orgea500e9">
+<h3 id="orgea500e9">Best Practices</h3>
+<aside class="notes">
 <ul>
-<li class="fragment appear">one entrypoint &rArr; one binary</li>
-<li class="fragment appear">configure via env vars</li>
-<li class="fragment appear">volumes for persistent data</li>
+<li>entrypoint should launch one primary binary not two or 15</li>
+<li>configuration via env vars is nice :-)</li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >podman run -e POSTGRES_PORT=1234 \
+           -e POSTGRES_USER=pg \
+               my-app
+podman run my-app bash
+</code></pre>
+</div>
+
+<ul>
+<li class="fragment appear">Volumes are your friend</li>
 <li class="fragment appear">don't run a full init</li>
 
 </ul>
 
 
 </section>
-<section id="slide-org8cc970f">
-<h3 id="org8cc970f">Podman</h3>
+<section id="slide-orgcc24a9b">
+<h3 id="orgcc24a9b">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -613,6 +616,7 @@ lifting</li>
 <li>daemon runs as <b>root</b> by default! &rArr; everyone with access to the daemon is
 effectively root!!</li>
 <li>disagreements between RH &amp; Docker caused fork/new project: podman &amp; buildah</li>
+<li>podman inner workings: <a href="https://www.redhat.com/en/blog/behind-scenes-podman">https://www.redhat.com/en/blog/behind-scenes-podman</a></li>
 
 </ul>
 
@@ -627,7 +631,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-org8cc970f-split">
+<section id="slide-orgcc24a9b-split">
 
 <p>
 Podman
@@ -638,8 +642,8 @@ Podman
 </p>
 
 </section>
-<section id="slide-orgb49dd0a">
-<h3 id="orgb49dd0a">Rootless Containers</h3>
+<section id="slide-org6a00d99">
+<h3 id="org6a00d99">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -663,8 +667,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </ul>
 
 </section>
-<section id="slide-org821a7c2">
-<h3 id="org821a7c2">Security</h3>
+<section id="slide-org3b63407">
+<h3 id="org3b63407">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -686,8 +690,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 
 </section>
-<section id="slide-org9c447f0">
-<h3 id="org9c447f0">When to use</h3>
+<section id="slide-org24d09dc">
+<h3 id="org24d09dc">When to use</h3>
 <aside class="notes">
 <ul>
 <li>app should have single entrypoint</li>
@@ -699,20 +703,20 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 <ul>
 <li class="fragment appear">Single binary</li>
-<li class="fragment appear">Cloud native deployment</li>
-<li class="fragment appear">testing other distributions</li>
-<li class="fragment appear">reproducible dev environment</li>
-<li class="fragment appear">the base OS doesn't matter</li>
+<li class="fragment appear">Cloud Native Deployment</li>
+<li class="fragment appear">Testing other Distributions</li>
+<li class="fragment appear">Reproducible Dev/Test/Build Environment</li>
+<li class="fragment appear">Base OS doesn't matter</li>
 
 </ul>
 
 </section>
-<section id="slide-org33e9d3c">
-<h3 id="org33e9d3c">When not to use</h3>
+<section id="slide-org9b16337">
+<h3 id="org9b16337">When not to use</h3>
 <ul>
-<li class="fragment appear">complex multi binary legacy code</li>
-<li class="fragment appear">high-performance code</li>
-<li class="fragment appear">the base OS matters</li>
+<li class="fragment appear">Complex multi binary legacy code</li>
+<li class="fragment appear">High-Performance Code</li>
+<li class="fragment appear">Base OS matters</li>
 
 </ul>
 
@@ -720,8 +724,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </section>
 </section>
 <section>
-<section id="slide-org4892b37">
-<h2 id="org4892b37">Container Orchestration</h2>
+<section id="slide-org8f26885">
+<h2 id="org8f26885">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -738,8 +742,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 
 </section>
-<section id="slide-org5c9f93e">
-<h3 id="org5c9f93e">docker-compose</h3>
+<section id="slide-org49c714c">
+<h3 id="org49c714c">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -779,8 +783,8 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 </div>
 
 </section>
-<section id="slide-org17f2062">
-<h3 id="org17f2062">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org0bb16b4">
+<h3 id="org0bb16b4">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -820,8 +824,8 @@ WantedBy=multi-user.target default.target
 </div>
 
 </section>
-<section id="slide-org35ef7f3">
-<h3 id="org35ef7f3">Kubernetes</h3>
+<section id="slide-orgbbcc446">
+<h3 id="orgbbcc446">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originaly started as "Borg" at Google</li>
@@ -893,7 +897,7 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-org35ef7f3-split">
+<section id="slide-orgbbcc446-split">
 
 <div class="org-src-container">
 
@@ -943,8 +947,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-org33a941b">
-<h2 id="org33a941b">Should I use containers?</h2>
+<section id="slide-orge1680a6">
+<h2 id="orge1680a6">Should I use containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -977,8 +981,8 @@ It depends
 </section>
 </section>
 <section>
-<section id="slide-org7eb2cf0">
-<h2 id="org7eb2cf0">Questions?</h2>
+<section id="slide-org40e7089">
+<h2 id="org40e7089">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
