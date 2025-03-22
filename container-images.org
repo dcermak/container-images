@@ -53,8 +53,9 @@ Dan Čermák
 * Software Delivery
 #+begin_notes
 - dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions
--
--> build something lightweight
+- bundling solves /some/ problems
+- VMs too heavy, too much software (bootloader, kernel), often not even necessary
+\rightarrow build something lightweight
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
