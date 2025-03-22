@@ -435,12 +435,23 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 @@html:<img src="./media/networking.svg"/>@@
 
 
-** Best practices
+** Best Practices
+
+#+begin_notes
+- entrypoint should launch one primary binary not two or 15
+- configuration via env vars is nice :-)
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear) :code-attribs data-line-numbers='1-3|4'
+#+begin_src bash
+podman run -e POSTGRES_PORT=1234 \
+           -e POSTGRES_USER=pg \
+               my-app
+podman run my-app bash
+#+end_src
 
 #+ATTR_REVEAL: :frag (appear)
-- one entrypoint \Rightarrow one binary
-- configure via env vars
-- volumes for persistent data
+- Volumes are your friend
 - don't run a full init
 
 
