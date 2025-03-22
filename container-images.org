@@ -42,11 +42,10 @@ Dan Čermák
 @@html: </div>@@
 
 
-* TODO Agenda
+* Agenda
 
-- [[Software Delivery][History]]
-- [[Introducing: Docker][Docker]]
-- [[Podman][Podman]]
+- [[Software Delivery][Containers from Scratch]]
+- [[Introducing: Docker][Docker & Podman]]
 - [[Container Orchestration][Container Orchestration]]
 - [[Should I use containers?][Should I use containers?]]
 
