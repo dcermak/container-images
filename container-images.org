@@ -451,6 +451,7 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 - daemon runs as *root* by default! \Rightarrow everyone with access to the daemon is
   effectively root!!
 - disagreements between RH & Docker caused fork/new project: podman & buildah
+- podman inner workings: https://www.redhat.com/en/blog/behind-scenes-podman
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
