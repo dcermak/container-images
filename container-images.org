@@ -509,17 +509,17 @@ Podman
 
 #+ATTR_REVEAL: :frag (appear)
 - Single binary
-- Cloud native deployment
-- testing other distributions
-- reproducible dev environment
-- the base OS doesn't matter
+- Cloud Native Deployment
+- Testing other Distributions
+- Reproducible Dev/Test/Build Environment
+- Base OS doesn't matter
 
 ** When not to use
 
 #+ATTR_REVEAL: :frag (appear)
-- complex multi binary legacy code
-- high-performance code
-- the base OS matters
+- Complex multi binary legacy code
+- High-Performance Code
+- Base OS matters
 
 
 * Container Orchestration
