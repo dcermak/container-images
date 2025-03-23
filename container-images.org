@@ -395,6 +395,9 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 - entrypoint is launched as PID 1 in pid namespace by OCI runtime
   \Rightarrow everything in PID namespace becomes child process
   \Rightarrow must forward signals to children & reap them
+
+This is why containers are not mini-VMs!
+
 - entrypoint should *not* be a shell \Rightarrow use the exec form and not the free form to
   define the =ENTRYPOINT=, i.e.: ~ENTRYPOINT ["//bin/foo//", "arg"]~
 - entrypoint gets passed =CMD= as args by default
@@ -438,21 +441,57 @@ docker run -v /vol/:/var/db/ -v logs:/var/log $img
 ** Best Practices
 
 #+begin_notes
+- ensure that layers don't leave stuff you don't need around
 - entrypoint should launch one primary binary not two or 15
 - configuration via env vars is nice :-)
+- entrypoint should either drop you into a shell or launch an app, depends on
+  the type of app
+- don't run a full init like systemd please
+- volumes are your friend to ensure data survive a container "death"
 #+end_notes
 
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src Dockerfile
+RUN zypper -n in python3-pip; \
+    pip install . ; \
+    zypper -n rm --clean-deps gcc; zypper -n clean; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
+#+end_src
+
+#+REVEAL: split
+
 #+ATTR_REVEAL: :frag (appear) :code-attribs data-line-numbers='1-3|4'
-#+begin_src bash
-podman run -e POSTGRES_PORT=1234 \
-           -e POSTGRES_USER=pg \
-               my-app
-podman run my-app bash
+#+begin_src shell
+$ podman run -e POSTGRES_PORT=1234 \
+             -e POSTGRES_USER=pg \
+                 my-app
+$ podman run my-app bash
+#
 #+end_src
 
 #+ATTR_REVEAL: :frag (appear)
-- Volumes are your friend
-- don't run a full init
+or:
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src shell
+$ podman run my-app
+#
+#+end_src
+
+#+REVEAL: split
+
+Volumes are your friend:
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src Dockerfile
+VOLUME ["/var/db/"]
+# /var/db/ is now erased after each step!
+#+end_src
+
+#+ATTR_REVEAL: :frag (appear)
+use the exec-form:
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src Dockerfile
+ENTRYPOINT ["/usr/bin/my-app", "-param", "value"]
+#+end_src
 
 
 ** Podman
@@ -517,7 +556,6 @@ Podman
 
 #+begin_notes
 - app should have single entrypoint
-- 
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
@@ -619,7 +657,7 @@ WantedBy=multi-user.target default.target
 ** Kubernetes
 
 #+begin_notes
-- originaly started as "Borg" at Google
+- originally started as "Borg" at Google
 - open sourced 2014, donated to CNCF
 - declarative configuration via kubernetes yaml
 - self healing & (auto) horizontal scaling
