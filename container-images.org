@@ -432,6 +432,8 @@ This is why containers are not mini-VMs!
   * overlay: connects multiple docker networks
   * macvlan: container gets its own network interface with unique MAC
   * ipvlan: container gets its own IP
+
+More information: https://web.archive.org/web/20240215124249/https://labs.iximiuz.com/tutorials/container-networking-from-scratch
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
