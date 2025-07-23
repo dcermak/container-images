@@ -38,10 +38,9 @@
 <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
-
 <section>
-<section id="slide-org62042fc">
-<h2 id="org62042fc"><code>who -u</code></h2>
+<section id="slide-org2527238">
+<h2 id="org2527238"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -61,27 +60,23 @@ Dan Čermák
  </table>
  </div>
 </p>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orga3e5931">
-<h2 id="orga3e5931">Agenda</h2>
+<section id="slide-org1fdeed0">
+<h2 id="org1fdeed0">Agenda</h2>
 <ul>
-<li><a href="#/slide-orgf2ce626">Containers from Scratch</a></li>
-<li><a href="#/slide-orgf54909f">Docker &amp; Podman</a></li>
-<li><a href="#/slide-org793d611">Container Orchestration</a></li>
-<li><a href="#/slide-orge664008">Should I use containers?</a></li>
+<li><a href="#/slide-org7dbb767">Containers from Scratch</a></li>
+<li><a href="#/slide-orgeac0b43">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org5c9a5e1">Container Orchestration</a></li>
+<li><a href="#/slide-org43a4065">Should I use containers?</a></li>
 
 </ul>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgf2ce626">
-<h2 id="orgf2ce626">Software Delivery</h2>
+<section id="slide-org7dbb767">
+<h2 id="org7dbb767">Software Delivery</h2>
 <aside class="notes">
 <ul>
 <li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
@@ -101,11 +96,9 @@ Dan Čermák
 <li class="fragment appear">yes, but VMs suck as well 🫠</li>
 
 </ul>
-
-
 </section>
-<section id="slide-org81e9b4c">
-<h3 id="org81e9b4c">Let's build a container: <code>chroot</code></h3>
+<section id="slide-orgc7b1737">
+<h3 id="orgc7b1737">Let's build a container: <code>chroot</code></h3>
 <aside class="notes">
 <ul>
 <li>build everything locally or in a pre-installed VM</li>
@@ -123,21 +116,17 @@ Dan Čermák
 <li class="fragment appear"><code>tar -czvf my-app.tar.gz /sysroot</code></li>
 
 </ol>
-
-
 </section>
-<section id="slide-org5ea0b92">
-<h3 id="org5ea0b92">Let's run the container</h3>
+<section id="slide-org8ae7cbd">
+<h3 id="org8ae7cbd">Let's run the container</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
 <li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
 
 </ol>
-
-
 </section>
-<section id="slide-orgefaa833">
-<h3 id="orgefaa833">Is that it?</h3>
+<section id="slide-org0b89975">
+<h3 id="org0b89975">Is that it?</h3>
 <ul>
 <li class="fragment appear">inconvenient build process</li>
 <li class="fragment appear">no upgrade path</li>
@@ -145,11 +134,9 @@ Dan Čermák
 <li class="fragment appear">no security</li>
 
 </ul>
-
-
 </section>
-<section id="slide-org34e579a">
-<h3 id="org34e579a">Linux Namespaces</h3>
+<section id="slide-orge85ffa8">
+<h3 id="orge85ffa8">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
@@ -196,7 +183,7 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-org34e579a-split">
+<section id="slide-orge85ffa8-split">
 
 <p>
 Try it:
@@ -214,11 +201,9 @@ root
     104 pts/8    00:00:00 ps
 </code></pre>
 </div>
-
-
 </section>
-<section id="slide-org163d2e1">
-<h3 id="org163d2e1">cgroups</h3>
+<section id="slide-org7515de0">
+<h3 id="org7515de0">cgroups</h3>
 <aside class="notes">
 <ul>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
@@ -249,24 +234,20 @@ root
 Killed
 </code></pre>
 </div>
-
-
 </section>
-<section id="slide-org3ace95d">
-<h3 id="org3ace95d">Are we there yet?</h3>
+<section id="slide-orgf16d2c2">
+<h3 id="orgf16d2c2">Are we there yet?</h3>
 <ul>
 <li class="fragment appear">👍️ great process isolation</li>
 <li class="fragment appear">👎️ standardized build process</li>
 <li class="fragment appear">👎️ distribution mechanism</li>
 
 </ul>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgf54909f">
-<h2 id="orgf54909f">Introducing: Docker</h2>
+<section id="slide-orgeac0b43">
+<h2 id="orgeac0b43">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>solve the redistribution &amp; build process</li>
@@ -284,11 +265,9 @@ Killed
 <li class="fragment appear">Docker registry</li>
 
 </ol>
-
-
 </section>
-<section id="slide-orga6e87b0">
-<h3 id="orga6e87b0">Docker Registry</h3>
+<section id="slide-orgcb82893">
+<h3 id="orgcb82893">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -323,11 +302,9 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 </p>
 
 </aside>
-
-
 </section>
-<section id="slide-org08719b8">
-<h3 id="org08719b8">Container Image Build</h3>
+<section id="slide-org55db9ff">
+<h3 id="org55db9ff">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -367,10 +344,9 @@ EXPOSE 80
 CMD ["/usr/bin/python", "-m", "my-app"]
 </code></pre>
 </div>
-
 </section>
-<section id="slide-orga30400c">
-<h3 id="orga30400c">UnionFS</h3>
+<section id="slide-org781994e">
+<h3 id="org781994e">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -414,11 +390,9 @@ workdir: used for internal purposes (CoW)</li>
            merged
 </code></pre>
 </div>
-
-
 </section>
-<section id="slide-org46d6164">
-<h3 id="org46d6164">Dockerfile</h3>
+<section id="slide-org9e6dc2f">
+<h3 id="org9e6dc2f">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -485,11 +459,9 @@ CMD ["echo hello"]
 ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
-
-
 </section>
-<section id="slide-orgc5753a3">
-<h3 id="orgc5753a3">Volumes</h3>
+<section id="slide-org2963ee0">
+<h3 id="org2963ee0">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -516,10 +488,9 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 <pre  class="fragment (appear)"  ><code class="bash" >docker run -v /vol/:/var/db/ -v logs:/var/log $img
 </code></pre>
 </div>
-
 </section>
-<section id="slide-orgf741503">
-<h3 id="orgf741503">Entrypoint</h3>
+<section id="slide-orgfeaf6ea">
+<h3 id="orgfeaf6ea">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -552,11 +523,9 @@ up signal handling)</li>
 <p class="fragment (appear)">
 <img src="./media/entrypoint.svg"/>
 </p>
-
-
 </section>
-<section id="slide-org4ccd78c">
-<h3 id="org4ccd78c">Networking</h3>
+<section id="slide-org0f38328">
+<h3 id="org0f38328">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -588,11 +557,9 @@ More information: <a href="https://web.archive.org/web/20240215124249/https://la
 <p class="fragment (appear)">
 <img src="./media/networking.svg"/>
 </p>
-
-
 </section>
-<section id="slide-orgde48921">
-<h3 id="orgde48921">Best Practices</h3>
+<section id="slide-org52e73be">
+<h3 id="org52e73be">Best Practices</h3>
 <aside class="notes">
 <ul>
 <li>ensure that layers don't leave stuff you don't need around</li>
@@ -617,7 +584,7 @@ the type of app</li>
 </div>
 
 </section>
-<section id="slide-orgde48921-split">
+<section id="slide-org52e73be-split">
 
 <div class="org-src-container">
 
@@ -640,7 +607,7 @@ or:
 </div>
 
 </section>
-<section id="slide-orgde48921-split">
+<section id="slide-org52e73be-split">
 
 <p>
 Volumes are your friend:
@@ -660,11 +627,9 @@ use the exec-form:
 <pre  class="fragment (appear)"  ><code class="Dockerfile" >ENTRYPOINT ["/usr/bin/my-app", "-param", "value"]
 </code></pre>
 </div>
-
-
 </section>
-<section id="slide-orgd0e02c9">
-<h3 id="orgd0e02c9">Podman</h3>
+<section id="slide-orgcf25bda">
+<h3 id="orgcf25bda">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -687,7 +652,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-orgd0e02c9-split">
+<section id="slide-orgcf25bda-split">
 
 <p>
 Podman
@@ -696,10 +661,9 @@ Podman
 <p class="fragment (appear)">
 <img src="./media/podman.svg"/>
 </p>
-
 </section>
-<section id="slide-org49bf987">
-<h3 id="org49bf987">Rootless Containers</h3>
+<section id="slide-orgf7839a4">
+<h3 id="orgf7839a4">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -721,10 +685,9 @@ due to kernel requiring root privileges to create network namespaces</li>
 <li class="fragment appear">rootless networking runs in userspace</li>
 
 </ul>
-
 </section>
-<section id="slide-org77de077">
-<h3 id="org77de077">Security</h3>
+<section id="slide-org53505bb">
+<h3 id="org53505bb">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -743,11 +706,9 @@ due to kernel requiring root privileges to create network namespaces</li>
 <li class="fragment appear">SELinux is your friend</li>
 
 </ul>
-
-
 </section>
-<section id="slide-org40b2a60">
-<h3 id="org40b2a60">When to use</h3>
+<section id="slide-org9886a47">
+<h3 id="org9886a47">When to use</h3>
 <aside class="notes">
 <ul>
 <li>app should have single entrypoint</li>
@@ -764,23 +725,20 @@ due to kernel requiring root privileges to create network namespaces</li>
 <li class="fragment appear">Base OS doesn't matter</li>
 
 </ul>
-
 </section>
-<section id="slide-orgd83107a">
-<h3 id="orgd83107a">When not to use</h3>
+<section id="slide-orgce3a784">
+<h3 id="orgce3a784">When not to use</h3>
 <ul>
 <li class="fragment appear">Complex multi binary legacy code</li>
 <li class="fragment appear">High-Performance Code</li>
 <li class="fragment appear">Base OS matters</li>
 
 </ul>
-
-
 </section>
 </section>
 <section>
-<section id="slide-org793d611">
-<h2 id="org793d611">Container Orchestration</h2>
+<section id="slide-org5c9a5e1">
+<h2 id="org5c9a5e1">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -794,11 +752,9 @@ due to kernel requiring root privileges to create network namespaces</li>
 <p class="fragment (appear)">
 <img src="./media/container-orchestration.svg"/>
 </p>
-
-
 </section>
-<section id="slide-orge0667be">
-<h3 id="orge0667be">docker-compose</h3>
+<section id="slide-orgd82340c">
+<h3 id="orgd82340c">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -836,10 +792,9 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 <pre  class="fragment (appear)"  ><code class="bash" >docker compose up
 </code></pre>
 </div>
-
 </section>
-<section id="slide-orgc71bf3c">
-<h3 id="orgc71bf3c">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org75d54cb">
+<h3 id="org75d54cb">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -877,10 +832,9 @@ TimeoutStartSec=900
 WantedBy=multi-user.target default.target
 </code></pre>
 </div>
-
 </section>
-<section id="slide-org7637c07">
-<h3 id="org7637c07">Kubernetes</h3>
+<section id="slide-org633cc86">
+<h3 id="org633cc86">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originally started as "Borg" at Google</li>
@@ -952,7 +906,7 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-org7637c07-split">
+<section id="slide-org633cc86-split">
 
 <div class="org-src-container">
 
@@ -998,12 +952,11 @@ spec:
           periodSeconds: 5
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
-<section id="slide-orge664008">
-<h2 id="orge664008">Should I use containers?</h2>
+<section id="slide-org43a4065">
+<h2 id="org43a4065">Should I use containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -1031,13 +984,11 @@ con:
 <p class="fragment (appear)">
 It depends
 </p>
-
-
 </section>
 </section>
 <section>
-<section id="slide-orgc37caca">
-<h2 id="orgc37caca">Questions?</h2>
+<section id="slide-org6498ecf">
+<h2 id="org6498ecf">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
