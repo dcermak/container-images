@@ -43,59 +43,86 @@ Dan Čermák
 
 * Agenda
 
-- [[Software Delivery][Containers from Scratch]]
+- [[Software Delivery: The Real Problem][Containers from Scratch]]
 - [[Introducing: Docker][Docker & Podman]]
 - [[Container Orchestration][Container Orchestration]]
 - [[Should I use containers?][Should I use containers?]]
 
 
-* Software Delivery
+* Software Delivery: The Real Problem
+
 #+begin_notes
-- dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions
-- bundling solves /some/ problems
-- VMs too heavy, too much software (bootloader, kernel), often not even necessary
-\rightarrow build something lightweight
+- devs typically run "bleeding edge", production is a "stable" distribution
+  \Rightarrow version conflicts are guaranteed, especially subtle ones
+- debugging prod is "fun", so can't we ship "dev"?
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- dependencies suck \rightarrow bundle everything
-- Can't we just ship everything?
-- yes, but VMs suck as well 🫠
+- Dev environment != Production environment
+- Deploy \Rightarrow 2 days of debugging 😡
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_quote
+Why can't we just ship the exact environment that works?
+#+end_quote
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_quote
+So you want a VM?
+#+end_quote
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_quote
+No…
+#+end_quote
 
 
-** Let's build a container: =chroot=
+** Attempt #1: Bundle Everything 📦️
 
 #+begin_notes
-- build everything locally or in a pre-installed VM
-- tar the whole thing
-- clean up everything (logs, temporary build deps, etc)
+- first idea: if the problem is environment differences, bundle the whole environment
+- chroot creates isolated filesystem view
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-1. Create a chroot: ~rsync -avz --exclude=/sysroot/ / /sysroot/~
-2. build your app
-3. clean =/sysroot= of everything unneeded
-4. ~tar -czvf my-app.tar.gz /sysroot~
+1. Create dev: ~rsync -avz --exclude=/dev/ / /dev/~
+2. Install app: ~chroot /dev make install~
+3. Clean up: ~chroot /dev/ make clean~
+4. Package: ~tar -czf app.tar.gz /dev~
 
 
-** Let's run the container
-
-#+ATTR_REVEAL: :frag (appear)
-1. ~tar -xzvf my-app.tar.gz -C /path/to/app~
-2. ~chroot /path/to/app /usr/local/bin/my-app~
-
-
-** Is that it?
+** And deploy 🚀
 
 #+ATTR_REVEAL: :frag (appear)
-- inconvenient build process
-- no upgrade path
-- data sharing?
-- no security
+1. ~tar -xzf app.tar.gz -C /opt/~
+2. ~chroot /opt/dev/ /usr/local/bin/app.bin~
+
+#+ATTR_REVEAL: :frag (appear)
 
 
-** Linux Namespaces
+** 🎉 Success?
+
 #+begin_notes
+- manual \rightarrow bad
+- huge archives are unwieldy
+- build process inefficient
+
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- Manual process
+- Huge tar files (entire OS + app) are unwieldy
+- No process isolation
+- No resource limits
+- No network isolation
+
+
+** Attempt #2: Add Process Isolation (Linux Namespaces)
+
+#+begin_notes
+- chroot only isolates filesystem, not processes or network:
+  deployed app has full PID & network access
+- Namespaces provide deeper isolation - exactly what containers need
 - introduced in 2002 (kernel 2.4), more added in 2006
 - container support finished in 2013: user namespace with kernel 3.8
 - user: separate user ids of namespace & host, map uids between host & namespace
@@ -116,10 +143,7 @@ Dan Čermák
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- kernel level resource isolation
-
-#+ATTR_REVEAL: :frag (appear)
-available namespaces:
+Linux Namespaces provide kernel-level resource isolation
 
 #+ATTR_REVEAL: :frag (appear)
 - user
@@ -133,7 +157,6 @@ available namespaces:
 
 #+REVEAL: split
 
-Try it:
 #+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1-3|4-5|6-9'
 #+begin_src shell
 $ unshare --user --map-root-user \
@@ -148,14 +171,17 @@ root
 #+end_src
 
 
-** cgroups
+** Attempt #3: Add Resource Limits (cgroups)
 
 #+begin_notes
+- isolation in place, but no protection from resource consumption:
+  could eat all the RAM, consume too much CPU, no monitoring, no disk I/O limits, etc.
+- cgroups provide the missing piece - resource control and limits
 - started in 2006, merged in 2008 (2.6.24)
 - redesigned to v2 in 2016 (4.5)
 
 - resource limits like I/O, FS caches, CPU quota, open files
-- process priorization
+- process prioritization
 - measure whole group resource usage & freeze/restart it
 
 - nowadays used by userspace memory killers
@@ -163,8 +189,9 @@ root
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- apply resource limits to processes
-- measure resource usage
+cgroups (Control Groups) provide resource management:
+- Apply resource limits to processes
+- Measure resource usage
 
 #+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3-4'
 #+begin_src shell
@@ -175,93 +202,63 @@ Killed
 #+end_src
 
 
-** Are we there yet?
+** The Manual Approach Doesn't Scale
 
 #+ATTR_REVEAL: :frag (appear)
-- 👍️ great process isolation
-- 👎️ standardized build process
-- 👎️ distribution mechanism
+We have:
+
+#+ATTR_REVEAL: :frag (appear)
+- ✔️ Filesystem isolation (chroot)
+- ✔️ Process isolation (namespaces)
+- ✔️ Resource limits (cgroups)
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
+We need:
+
+#+ATTR_REVEAL: :frag (appear)
+- ❌ Standardized container build process
+- ❌ Easy sharing and distribution
+- ❌ Automated namespace/cgroup/FS setup
+- ❌ Simple command-line interface
 
 
 * Introducing: Docker
 
 #+begin_notes
-- solve the redistribution & build process
+- Docker directly addresses each of the pain points
+- show how Docker features map to manual problems
+- this is the payoff moment - all the technical details come together
 #+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- *Standardized build process* → ~Dockerfile~
+- *Easy sharing/distribution* → Docker Registry
+- *Automated setup* → ~docker run~
+- *Simple interface* → ~docker~ CLI
 
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/Docker_(container_engine)_logo.svg"/>@@
 
-#+ATTR_REVEAL: :frag (appear)
-1. ~docker build~
-2. Docker registry
-
-
-** Docker Registry
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/registry.svg"/>@@
-
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3'
-#+begin_src bash
-docker pull registry.opensuse.org/opensuse/leap
-docker pull registry.opensuse.org/opensuse/leap:15.6
-docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
-#+end_src
-
-#+begin_notes
-- central image storage, initially there was only [[https://hub.docker.com][Docker Hub]] (nowadays many registries exist)
-- provides images via HTTP API
-- images identified via =repository:tag@digest=
-- repository: name of the image
-- tag: something like a version, but really a free form field
-  only special value is =:latest=, pulled by default
-  you can have multiple images with the same tag 😒
-- digest: sha256 or sha512 hash of the image manifest
-
-Digests:
-some background: OCI registries return to =GET
-/v2/<repo>/manifests/<tag>= either a =distribution.manifest= or a
-=distribution.manifest.list= (that's a list of =distribution.manifest=), the digest
-of an image is the sha256sum/sha512sum of the =distribution.manifest=
-#+end_notes
-
-
 ** Container Image Build
 
 #+begin_notes
-- fix the inconvenient build process
-- build runs *in* a container!
-- docker build standardized & simplified the image build process via the
-  =Dockerfile=
-- syntax is: =INSTRUCTION <value>=
-- image build starts =FROM= an image specified using the same format as the
-  registry
-- each instruction creates a layer, changes put on top, build process relies
-  heavily on caching
-- container image is "just a bunch of tar balls"
+- usually build is a multi-step process \Rightarrow how about caching?
+- also, launching five containers *must* not result in five full copies
 #+end_notes
 
-#+ATTR_REVEAL: :frag (appear)
-#+begin_src bash
-docker build .
-#+end_src
-
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='|1|3|4|6-9|11|12|'
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='2|3|4|5|'
 #+begin_src Dockerfile
 FROM registry.opensuse.org/opensuse/tumbleweed
-
+RUN zypper -n in python3
 COPY . /src/
-WORKDIR /src/
-
-RUN zypper -n in python3-pip; \
-    pip install . ; \
-    zypper -n rm --clean-deps gcc; zypper -n clean; \
-    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
-
-EXPOSE 80
-CMD ["/usr/bin/python", "-m", "my-app"]
+RUN pip install .
+RUN make test
 #+end_src
+
+#+ATTR_REVEAL: :frag (appear)
+and we need some CoW
 
 ** UnionFS
 
@@ -298,6 +295,41 @@ mount -t overlay overlay \
            merged
 #+end_src
 
+** Container Image Build
+
+#+begin_notes
+- fix the inconvenient build process
+- build runs *in* a container!
+- docker build standardized & simplified the image build process via the
+  =Dockerfile=
+- syntax is: =INSTRUCTION <value>=
+- image build starts =FROM= an image specified using the same format as the
+  registry
+- each instruction creates a layer, changes put on top, build process relies
+  heavily on caching
+- container image is "just a bunch of tar balls"
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src bash
+docker build .
+#+end_src
+
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='|1|3|4|6-9|11|12|'
+#+Begin_src Dockerfile
+FROM registry.opensuse.org/opensuse/tumbleweed
+
+COPY . /src/
+WORKDIR /src/
+
+RUN zypper -n in python3-pip; \
+    pip install . ; \
+    zypper -n rm --clean-deps gcc; zypper -n clean; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
+
+EXPOSE 80
+CMD ["/usr/bin/python", "-m", "my-app"]
+#+end_src
 
 ** Dockerfile
 
@@ -364,6 +396,34 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 # 5. setup networking
 # 6. launch entrypoint using =runc= / =crun= / =$runtime=
 
+** Docker Registry
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/registry.svg"/>@@
+
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3'
+#+begin_src bash
+docker pull registry.opensuse.org/opensuse/leap
+docker pull registry.opensuse.org/opensuse/leap:15.6
+docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
+#+end_src
+
+#+begin_notes
+- central image storage, initially there was only [[https://hub.docker.com][Docker Hub]] (nowadays many registries exist)
+- provides images via HTTP API
+- images identified via =repository:tag@digest=
+- repository: name of the image
+- tag: something like a version, but really a free form field
+  only special value is =:latest=, pulled by default
+  you can have multiple images with the same tag 😒
+- digest: sha256 or sha512 hash of the image manifest
+
+Digests:
+some background: OCI registries return to =GET
+/v2/<repo>/manifests/<tag>= either a =distribution.manifest= or a
+=distribution.manifest.list= (that's a list of =distribution.manifest=), the digest
+of an image is the sha256sum/sha512sum of the =distribution.manifest=
+#+end_notes
 
 ** Volumes
 
@@ -552,26 +612,24 @@ Podman
 - container breakout attacks exist
 - SELinux is your friend
 
-
-** When to use
+** When to use Containers
 
 #+begin_notes
-- app should have single entrypoint
+- PID 1 signal handling model works well
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- Single binary
-- Cloud Native Deployment
-- Testing other Distributions
-- Reproducible Dev/Test/Build Environment
-- Base OS doesn't matter
+- Single-process applications
+- "Works on my machine" problems
+- Cloud/OS independent deployment
+- Reproducible environments
 
-** When not to use
+** When *NOT* to Use Containers
 
 #+ATTR_REVEAL: :frag (appear)
-- Complex multi binary legacy code
-- High-Performance Code
-- Base OS matters
+- High-performance I/O applications
+- Legacy multi-process applications
+- Desktop GUI applications
 
 
 * Container Orchestration
@@ -748,7 +806,7 @@ spec:
           periodSeconds: 5
 #+end_src
 
-* Should I use containers?
+* Should I use Containers?
 
 #+begin_notes
 pro:
@@ -764,7 +822,21 @@ con:
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
+#+begin_quote
 It depends
+#+end_quote
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
+Ask yourself:
+
+#+ATTR_REVEAL: :frag (appear)
+1. Do I have environment consistency problems?
+2. Is my app a single process that I can isolate?
+3. Do I need to share/distribute my app environment?
+4. Can I separate data & code in deployment?
+5. Am I willing to learn new deployment patterns?
 
 
 * Questions?
