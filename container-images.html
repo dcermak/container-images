@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Container und Container Images</title>
+<title>Demystifying Containers and Container Images</title>
 <meta name="author" content="Dan Čermák"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -31,16 +31,28 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h2 class="title">Container und Container Images</h2>
-<p class="subtitle" style="color: Gray;">Was verbirgt sich dahinter?</p>
+<section id="sec-title-slide"><h2 class="title">Demystifying Containers and Container Images</h2>
+<p class="subtitle" style="color: Gray;"></p>
 <p class="author">Dan Čermák</p>
-<div style="float:left"><a href="https://chemnitzer.linux-tage.de/2025/" target="_blank"><img src="./media/clt-logo_2025_en.svg" height="50px"/></a></div>
+<div style="float:left"><a href="https://events.linuxfoundation.org/open-source-summit-europe/" target="_blank"><img src="./media/OSS-EU-logo-bg.svg" height="100px"/></a></div>
 <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
 <section>
-<section id="slide-org516bd8f">
-<h2 id="org516bd8f"><code>who -u</code></h2>
+<section id="slide-orgc5dd27f">
+<h2 id="orgc5dd27f">Follow Along</h2>
+<p>
+<img src="./media/qr.svg" height="300px"/>
+</p>
+
+<p>
+<i class="fa-solid fa-person-chalkboard"></i> <a href="https://dcermak.github.io/container-images/container-images.html"><code>dcermak.github.io/container-images</code></a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgbb9fce8">
+<h2 id="orgbb9fce8"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -63,82 +75,109 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orgc8e1753">
-<h2 id="orgc8e1753">Agenda</h2>
+<section id="slide-orgb31d839">
+<h2 id="orgb31d839">Agenda</h2>
 <ul>
-<li><a href="#/slide-orga3667cd">Containers from Scratch</a></li>
-<li><a href="#/slide-org79cf3f2">Docker &amp; Podman</a></li>
-<li><a href="#/slide-org046eccc">Container Orchestration</a></li>
-<li><a href="#/slide-org5d3324a">Should I use containers?</a></li>
+<li><a href="#/slide-org46f034a">Containers from Scratch</a></li>
+<li><a href="#/slide-orgaeee008">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org67b8d9a">Container Orchestration</a></li>
+<li><a href="#/slide-org3326591">Should I use containers?</a></li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orga3667cd">
-<h2 id="orga3667cd">Software Delivery</h2>
+<section id="slide-org46f034a">
+<h2 id="org46f034a">Software Delivery: The Real Problem</h2>
 <aside class="notes">
 <ul>
-<li>dependencies suck, dependency handling sucks, don't wanna handle 20 different library versions</li>
-<li>bundling solves <i>some</i> problems</li>
-<li>VMs too heavy, too much software (bootloader, kernel), often not even necessary</li>
+<li>devs typically run "bleeding edge", production is a "stable" distribution
+&rArr; version conflicts are guaranteed, especially subtle ones</li>
+<li>debugging prod is "fun", so can't we ship "dev"?</li>
 
 </ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">Dev environment != Production environment</li>
+<li class="fragment appear">Deploy &rArr; 2 days of debugging 😡</li>
+
+</ul>
+
+<blockquote  class="fragment (appear)">
 <p>
-&rarr; build something lightweight
+Why can't we just ship the exact environment that works?
 </p>
+</blockquote>
 
-</aside>
+<blockquote  class="fragment (appear)">
+<p>
+So you want a VM?
+</p>
+</blockquote>
 
-<ul>
-<li class="fragment appear">dependencies suck &rarr; bundle everything</li>
-<li class="fragment appear">Can't we just ship everything?</li>
-<li class="fragment appear">yes, but VMs suck as well 🫠</li>
-
-</ul>
+<blockquote  class="fragment (appear)">
+<p>
+No…
+</p>
+</blockquote>
 </section>
-<section id="slide-orgd972870">
-<h3 id="orgd972870">Let's build a container: <code>chroot</code></h3>
+<section id="slide-orge55a543">
+<h3 id="orge55a543">Attempt #1: Bundle Everything 📦️</h3>
 <aside class="notes">
 <ul>
-<li>build everything locally or in a pre-installed VM</li>
-<li>tar the whole thing</li>
-<li>clean up everything (logs, temporary build deps, etc)</li>
+<li>first idea: if the problem is environment differences, bundle the whole environment</li>
+<li>chroot creates isolated filesystem view</li>
 
 </ul>
 
 </aside>
 
 <ol>
-<li class="fragment appear">Create a chroot: <code>rsync -avz --exclude=/sysroot/ / /sysroot/</code></li>
-<li class="fragment appear">build your app</li>
-<li class="fragment appear">clean <code>/sysroot</code> of everything unneeded</li>
-<li class="fragment appear"><code>tar -czvf my-app.tar.gz /sysroot</code></li>
+<li class="fragment appear">Create dev: <code>rsync -avz --exclude=/dev/ / /dev/</code></li>
+<li class="fragment appear">Install app: <code>chroot /dev make install</code></li>
+<li class="fragment appear">Clean up: <code>chroot /dev/ make clean</code></li>
+<li class="fragment appear">Package: <code>tar -czf app.tar.gz /dev</code></li>
 
 </ol>
 </section>
-<section id="slide-orgbedece4">
-<h3 id="orgbedece4">Let's run the container</h3>
+<section id="slide-orgaf113e0">
+<h3 id="orgaf113e0">And deploy 🚀</h3>
 <ol>
-<li class="fragment appear"><code>tar -xzvf my-app.tar.gz -C /path/to/app</code></li>
-<li class="fragment appear"><code>chroot /path/to/app /usr/local/bin/my-app</code></li>
+<li class="fragment appear"><code>tar -xzf app.tar.gz -C /opt/</code></li>
+<li class="fragment appear"><code>chroot /opt/dev/ /usr/local/bin/app.bin</code></li>
 
 </ol>
 </section>
-<section id="slide-org7ecc9a1">
-<h3 id="org7ecc9a1">Is that it?</h3>
+<section id="slide-org0dd7023">
+<h3 id="org0dd7023">🎉 Success?</h3>
+<aside class="notes">
 <ul>
-<li class="fragment appear">inconvenient build process</li>
-<li class="fragment appear">no upgrade path</li>
-<li class="fragment appear">data sharing?</li>
-<li class="fragment appear">no security</li>
+<li>manual &rarr; bad</li>
+<li>huge archives are unwieldy</li>
+<li>build process inefficient</li>
+
+</ul>
+
+</aside>
+
+<ul>
+<li class="fragment appear">Manual process</li>
+<li class="fragment appear">Huge tar files (entire OS + app) are unwieldy</li>
+<li class="fragment appear">No process isolation</li>
+<li class="fragment appear">No resource limits</li>
+<li class="fragment appear">No network isolation</li>
 
 </ul>
 </section>
-<section id="slide-orgd8f5637">
-<h3 id="orgd8f5637">Linux Namespaces</h3>
+<section id="slide-org990a713">
+<h3 id="org990a713">Attempt #2: Add Process Isolation (Linux Namespaces)</h3>
 <aside class="notes">
 <ul>
+<li>chroot only isolates filesystem, not processes or network:
+deployed app has full PID &amp; network access</li>
+<li>Namespaces provide deeper isolation - exactly what containers need</li>
 <li>introduced in 2002 (kernel 2.4), more added in 2006</li>
 <li>container support finished in 2013: user namespace with kernel 3.8</li>
 <li>user: separate user ids of namespace &amp; host, map uids between host &amp; namespace
@@ -161,13 +200,8 @@ cgroup path of the namespace and no others</li>
 
 </aside>
 
-<ul>
-<li class="fragment appear">kernel level resource isolation</li>
-
-</ul>
-
 <p class="fragment (appear)">
-available namespaces:
+Linux Namespaces provide kernel-level resource isolation
 </p>
 
 <ul>
@@ -183,11 +217,8 @@ available namespaces:
 </ul>
 
 </section>
-<section id="slide-orgd8f5637-split">
+<section id="slide-org990a713-split">
 
-<p>
-Try it:
-</p>
 <div class="org-src-container">
 
 <pre  class="fragment (appear)"  ><code class="shell" data-line-numbers='1-3|4-5|6-9'>$ unshare --user --map-root-user \
@@ -202,15 +233,18 @@ root
 </code></pre>
 </div>
 </section>
-<section id="slide-org0fcdf73">
-<h3 id="org0fcdf73">cgroups</h3>
+<section id="slide-org535cfc5">
+<h3 id="org535cfc5">Attempt #3: Add Resource Limits (cgroups)</h3>
 <aside class="notes">
 <ul>
+<li>isolation in place, but no protection from resource consumption:
+could eat all the RAM, consume too much CPU, no monitoring, no disk I/O limits, etc.</li>
+<li>cgroups provide the missing piece - resource control and limits</li>
 <li>started in 2006, merged in 2008 (2.6.24)</li>
 <li>redesigned to v2 in 2016 (4.5)</li>
 
 <li>resource limits like I/O, FS caches, CPU quota, open files</li>
-<li>process priorization</li>
+<li>process prioritization</li>
 <li>measure whole group resource usage &amp; freeze/restart it</li>
 
 <li>nowadays used by userspace memory killers</li>
@@ -220,9 +254,12 @@ root
 
 </aside>
 
+<p class="fragment (appear)">
+cgroups (Control Groups) provide resource management:
+</p>
 <ul>
-<li class="fragment appear">apply resource limits to processes</li>
-<li class="fragment appear">measure resource usage</li>
+<li>Apply resource limits to processes</li>
+<li>Measure resource usage</li>
 
 </ul>
 
@@ -235,88 +272,66 @@ Killed
 </code></pre>
 </div>
 </section>
-<section id="slide-orgde1e5c4">
-<h3 id="orgde1e5c4">Are we there yet?</h3>
+<section id="slide-orgc4ecc1e">
+<h3 id="orgc4ecc1e">The Manual Approach Doesn't Scale</h3>
+<p class="fragment (appear)">
+We have:
+</p>
+
 <ul>
-<li class="fragment appear">👍️ great process isolation</li>
-<li class="fragment appear">👎️ standardized build process</li>
-<li class="fragment appear">👎️ distribution mechanism</li>
+<li class="fragment appear">✔️ Filesystem isolation (chroot)</li>
+<li class="fragment appear">✔️ Process isolation (namespaces)</li>
+<li class="fragment appear">✔️ Resource limits (cgroups)</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc4ecc1e-split">
+
+<p class="fragment (appear)">
+We need:
+</p>
+
+<ul>
+<li class="fragment appear">❌ Standardized container build process</li>
+<li class="fragment appear">❌ Easy sharing and distribution</li>
+<li class="fragment appear">❌ Automated namespace/cgroup/FS setup</li>
+<li class="fragment appear">❌ Simple command-line interface</li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-org79cf3f2">
-<h2 id="org79cf3f2">Introducing: Docker</h2>
+<section id="slide-orgaeee008">
+<h2 id="orgaeee008">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
-<li>solve the redistribution &amp; build process</li>
+<li>Docker directly addresses each of the pain points</li>
+<li>show how Docker features map to manual problems</li>
+<li>this is the payoff moment - all the technical details come together</li>
 
 </ul>
 
 </aside>
+
+<ul>
+<li class="fragment appear"><b>Standardized build process</b> → <code>Dockerfile</code></li>
+<li class="fragment appear"><b>Easy sharing/distribution</b> → Docker Registry</li>
+<li class="fragment appear"><b>Automated setup</b> → <code>docker run</code></li>
+<li class="fragment appear"><b>Simple interface</b> → <code>docker</code> CLI</li>
+
+</ul>
 
 <p class="fragment (appear)">
 <img src="./media/Docker_(container_engine)_logo.svg"/>
 </p>
-
-<ol>
-<li class="fragment appear"><code>docker build</code></li>
-<li class="fragment appear">Docker registry</li>
-
-</ol>
 </section>
-<section id="slide-orge92a08b">
-<h3 id="orge92a08b">Docker Registry</h3>
-<p class="fragment (appear)">
-<img src="./media/registry.svg"/>
-</p>
-
-<div class="org-src-container">
-
-<pre  class="fragment (appear)"  ><code class="bash" data-line-numbers='1|2|3'>docker pull registry.opensuse.org/opensuse/leap
-docker pull registry.opensuse.org/opensuse/leap:15.6
-docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
-</code></pre>
-</div>
-
+<section id="slide-org871bf71">
+<h3 id="org871bf71">Container Image Build</h3>
 <aside class="notes">
 <ul>
-<li>central image storage, initially there was only <a href="https://hub.docker.com">Docker Hub</a> (nowadays many registries exist)</li>
-<li>provides images via HTTP API</li>
-<li>images identified via <code>repository:tag@digest</code></li>
-<li>repository: name of the image</li>
-<li>tag: something like a version, but really a free form field
-only special value is <code>:latest</code>, pulled by default
-you can have multiple images with the same tag 😒</li>
-<li>digest: sha256 or sha512 hash of the image manifest</li>
-
-</ul>
-
-<p>
-Digests:
-some background: OCI registries return to <code>GET
-/v2/&lt;repo&gt;/manifests/&lt;tag&gt;</code> either a <code>distribution.manifest</code> or a
-<code>distribution.manifest.list</code> (that's a list of <code>distribution.manifest</code>), the digest
-of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
-</p>
-
-</aside>
-</section>
-<section id="slide-orgef56020">
-<h3 id="orgef56020">Container Image Build</h3>
-<aside class="notes">
-<ul>
-<li>fix the inconvenient build process</li>
-<li>build runs <b>in</b> a container!</li>
-<li>docker build standardized &amp; simplified the image build process via the
-<code>Dockerfile</code></li>
-<li>syntax is: <code>INSTRUCTION &lt;value&gt;</code></li>
-<li>image build starts <code>FROM</code> an image specified using the same format as the
-registry</li>
-<li>each instruction creates a layer, changes put on top, build process relies
-heavily on caching</li>
-<li>container image is "just a bunch of tar balls"</li>
+<li>usually build is a multi-step process &rArr; how about caching?</li>
+<li>also, launching five containers <b>must</b> not result in five full copies</li>
 
 </ul>
 
@@ -324,29 +339,20 @@ heavily on caching</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >docker build .
-</code></pre>
-</div>
-
-<div class="org-src-container">
-
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|3|4|6-9|11|12|'>FROM registry.opensuse.org/opensuse/tumbleweed
-
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='2|3|4|5|'>FROM registry.opensuse.org/opensuse/tumbleweed
+RUN zypper -n in python3
 COPY . /src/
-WORKDIR /src/
-
-RUN zypper -n in python3-pip; \
-    pip install . ; \
-    zypper -n rm --clean-deps gcc; zypper -n clean; \
-    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
-
-EXPOSE 80
-CMD ["/usr/bin/python", "-m", "my-app"]
+RUN pip install .
+RUN make test
 </code></pre>
 </div>
+
+<p class="fragment (appear)">
+and we need some CoW
+</p>
 </section>
-<section id="slide-org1afb8b0">
-<h3 id="org1afb8b0">UnionFS</h3>
+<section id="slide-org302c9d1">
+<h3 id="org302c9d1">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -391,8 +397,50 @@ workdir: used for internal purposes (CoW)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-orgf5f68dd">
-<h3 id="orgf5f68dd">Dockerfile</h3>
+<section id="slide-orgbf74e78">
+<h3 id="orgbf74e78">Container Image Build</h3>
+<aside class="notes">
+<ul>
+<li>fix the inconvenient build process</li>
+<li>build runs <b>in</b> a container!</li>
+<li>docker build standardized &amp; simplified the image build process via the
+<code>Dockerfile</code></li>
+<li>syntax is: <code>INSTRUCTION &lt;value&gt;</code></li>
+<li>image build starts <code>FROM</code> an image specified using the same format as the
+registry</li>
+<li>each instruction creates a layer, changes put on top, build process relies
+heavily on caching</li>
+<li>container image is "just a bunch of tar balls"</li>
+
+</ul>
+
+</aside>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" >docker build .
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|3|4|6-9|11|12|'>FROM registry.opensuse.org/opensuse/tumbleweed
+
+COPY . /src/
+WORKDIR /src/
+
+RUN zypper -n in python3-pip; \
+    pip install . ; \
+    zypper -n rm --clean-deps gcc; zypper -n clean; \
+    rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
+
+EXPOSE 80
+CMD ["/usr/bin/python", "-m", "my-app"]
+</code></pre>
+</div>
+</section>
+<section id="slide-orgb4d03be">
+<h3 id="orgb4d03be">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -460,8 +508,45 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
 </section>
-<section id="slide-org05bcbdc">
-<h3 id="org05bcbdc">Volumes</h3>
+<section id="slide-org6ed8d96">
+<h3 id="org6ed8d96">Docker Registry</h3>
+<p class="fragment (appear)">
+<img src="./media/registry.svg"/>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="fragment (appear)"  ><code class="bash" data-line-numbers='1|2|3'>docker pull registry.opensuse.org/opensuse/leap
+docker pull registry.opensuse.org/opensuse/leap:15.6
+docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
+</code></pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>central image storage, initially there was only <a href="https://hub.docker.com">Docker Hub</a> (nowadays many registries exist)</li>
+<li>provides images via HTTP API</li>
+<li>images identified via <code>repository:tag@digest</code></li>
+<li>repository: name of the image</li>
+<li>tag: something like a version, but really a free form field
+only special value is <code>:latest</code>, pulled by default
+you can have multiple images with the same tag 😒</li>
+<li>digest: sha256 or sha512 hash of the image manifest</li>
+
+</ul>
+
+<p>
+Digests:
+some background: OCI registries return to <code>GET
+/v2/&lt;repo&gt;/manifests/&lt;tag&gt;</code> either a <code>distribution.manifest</code> or a
+<code>distribution.manifest.list</code> (that's a list of <code>distribution.manifest</code>), the digest
+of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
+</p>
+
+</aside>
+</section>
+<section id="slide-org6e8803e">
+<h3 id="org6e8803e">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -489,8 +574,8 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 </code></pre>
 </div>
 </section>
-<section id="slide-orgf318c98">
-<h3 id="orgf318c98">Entrypoint</h3>
+<section id="slide-org8a40323">
+<h3 id="org8a40323">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -524,8 +609,8 @@ up signal handling)</li>
 <img src="./media/entrypoint.svg"/>
 </p>
 </section>
-<section id="slide-orgd27be15">
-<h3 id="orgd27be15">Networking</h3>
+<section id="slide-org1ea00f7">
+<h3 id="org1ea00f7">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -558,8 +643,8 @@ More information: <a href="https://web.archive.org/web/20240215124249/https://la
 <img src="./media/networking.svg"/>
 </p>
 </section>
-<section id="slide-org3972de0">
-<h3 id="org3972de0">Best Practices</h3>
+<section id="slide-orgf6bc1fe">
+<h3 id="orgf6bc1fe">Best Practices</h3>
 <aside class="notes">
 <ul>
 <li>ensure that layers don't leave stuff you don't need around</li>
@@ -584,7 +669,7 @@ the type of app</li>
 </div>
 
 </section>
-<section id="slide-org3972de0-split">
+<section id="slide-orgf6bc1fe-split">
 
 <div class="org-src-container">
 
@@ -607,7 +692,7 @@ or:
 </div>
 
 </section>
-<section id="slide-org3972de0-split">
+<section id="slide-orgf6bc1fe-split">
 
 <p>
 Volumes are your friend:
@@ -628,8 +713,8 @@ use the exec-form:
 </code></pre>
 </div>
 </section>
-<section id="slide-org78df34e">
-<h3 id="org78df34e">Podman</h3>
+<section id="slide-org97efc5e">
+<h3 id="org97efc5e">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -652,7 +737,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-org78df34e-split">
+<section id="slide-org97efc5e-split">
 
 <p>
 Podman
@@ -662,8 +747,8 @@ Podman
 <img src="./media/podman.svg"/>
 </p>
 </section>
-<section id="slide-orgd8266f4">
-<h3 id="orgd8266f4">Rootless Containers</h3>
+<section id="slide-orge61c484">
+<h3 id="orge61c484">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -686,8 +771,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-orgdda10af">
-<h3 id="orgdda10af">Security</h3>
+<section id="slide-org3408831">
+<h3 id="org3408831">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -707,38 +792,37 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org4db9aeb">
-<h3 id="org4db9aeb">When to use</h3>
+<section id="slide-orgc7317da">
+<h3 id="orgc7317da">When to use Containers</h3>
 <aside class="notes">
 <ul>
-<li>app should have single entrypoint</li>
+<li>PID 1 signal handling model works well</li>
 
 </ul>
 
 </aside>
 
 <ul>
-<li class="fragment appear">Single binary</li>
-<li class="fragment appear">Cloud Native Deployment</li>
-<li class="fragment appear">Testing other Distributions</li>
-<li class="fragment appear">Reproducible Dev/Test/Build Environment</li>
-<li class="fragment appear">Base OS doesn't matter</li>
+<li class="fragment appear">Single-process applications</li>
+<li class="fragment appear">"Works on my machine" problems</li>
+<li class="fragment appear">Cloud/OS independent deployment</li>
+<li class="fragment appear">Reproducible environments</li>
 
 </ul>
 </section>
-<section id="slide-org4897eb9">
-<h3 id="org4897eb9">When not to use</h3>
+<section id="slide-org7e68459">
+<h3 id="org7e68459">When <b>NOT</b> to Use Containers</h3>
 <ul>
-<li class="fragment appear">Complex multi binary legacy code</li>
-<li class="fragment appear">High-Performance Code</li>
-<li class="fragment appear">Base OS matters</li>
+<li class="fragment appear">High-performance I/O applications</li>
+<li class="fragment appear">Legacy multi-process applications</li>
+<li class="fragment appear">Desktop GUI applications</li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-org046eccc">
-<h2 id="org046eccc">Container Orchestration</h2>
+<section id="slide-org67b8d9a">
+<h2 id="org67b8d9a">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -753,8 +837,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 <img src="./media/container-orchestration.svg"/>
 </p>
 </section>
-<section id="slide-org3373413">
-<h3 id="org3373413">docker-compose</h3>
+<section id="slide-org6837765">
+<h3 id="org6837765">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -793,8 +877,8 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-org5b6fc91">
-<h3 id="org5b6fc91">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org86f230a">
+<h3 id="org86f230a">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -833,8 +917,8 @@ WantedBy=multi-user.target default.target
 </code></pre>
 </div>
 </section>
-<section id="slide-org6cc0f68">
-<h3 id="org6cc0f68">Kubernetes</h3>
+<section id="slide-org8d322e6">
+<h3 id="org8d322e6">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originally started as "Borg" at Google</li>
@@ -906,7 +990,7 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-org6cc0f68-split">
+<section id="slide-org8d322e6-split">
 
 <div class="org-src-container">
 
@@ -955,8 +1039,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-org5d3324a">
-<h2 id="org5d3324a">Should I use containers?</h2>
+<section id="slide-org3326591">
+<h2 id="org3326591">Should I use Containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -981,14 +1065,32 @@ con:
 
 </aside>
 
-<p class="fragment (appear)">
+<blockquote  class="fragment (appear)">
+<p>
 It depends
 </p>
+</blockquote>
+
+</section>
+<section id="slide-org3326591-split">
+
+<p class="fragment (appear)">
+Ask yourself:
+</p>
+
+<ol>
+<li class="fragment appear">Do I have environment consistency problems?</li>
+<li class="fragment appear">Is my app a single process that I can isolate?</li>
+<li class="fragment appear">Do I need to share/distribute my app environment?</li>
+<li class="fragment appear">Can I separate data &amp; code in deployment?</li>
+<li class="fragment appear">Am I willing to learn new deployment patterns?</li>
+
+</ol>
 </section>
 </section>
 <section>
-<section id="slide-org8bde5ad">
-<h2 id="org8bde5ad">Questions?</h2>
+<section id="slide-org1a30153">
+<h2 id="org1a30153">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
