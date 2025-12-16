@@ -39,8 +39,8 @@
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
 <section>
-<section id="slide-org88e3ece">
-<h2 id="org88e3ece">Follow Along</h2>
+<section id="slide-org31b26eb">
+<h2 id="org31b26eb">Follow Along</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
@@ -51,8 +51,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 </section>
 <section>
-<section id="slide-org66677e3">
-<h2 id="org66677e3"><code>who -u</code></h2>
+<section id="slide-orgb21b4eb">
+<h2 id="orgb21b4eb"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -75,20 +75,20 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org1faf07f">
-<h2 id="org1faf07f">Agenda</h2>
+<section id="slide-orga3468ed">
+<h2 id="orga3468ed">Agenda</h2>
 <ul>
-<li><a href="#/slide-orga0152ed">Containers from Scratch</a></li>
-<li><a href="#/slide-org9e4c138">Docker &amp; Podman</a></li>
-<li><a href="#/slide-orgb6d8880">Container Orchestration</a></li>
-<li><a href="#/slide-orgf318b34">Should I use containers?</a></li>
+<li><a href="#/slide-orgc9f7cab">Containers from Scratch</a></li>
+<li><a href="#/slide-org09183a2">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org0a08ac2">Container Orchestration</a></li>
+<li><a href="#/slide-org52ef7bd">Should I use containers?</a></li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orga0152ed">
-<h2 id="orga0152ed">Software Delivery: The Real Problem</h2>
+<section id="slide-orgc9f7cab">
+<h2 id="orgc9f7cab">Software Delivery: The Real Problem</h2>
 <aside class="notes">
 <ul>
 <li>devs typically run "bleeding edge", production is a "stable" distribution
@@ -123,8 +123,8 @@ No…
 </p>
 </blockquote>
 </section>
-<section id="slide-org955a12e">
-<h3 id="org955a12e">Attempt #1: Bundle Everything 📦️</h3>
+<section id="slide-orgf4b0556">
+<h3 id="orgf4b0556">Attempt #1: Bundle Everything 📦️</h3>
 <aside class="notes">
 <ul>
 <li>first idea: if the problem is environment differences, bundle the whole environment</li>
@@ -142,16 +142,16 @@ No…
 
 </ol>
 </section>
-<section id="slide-orga2eb6ba">
-<h3 id="orga2eb6ba">And deploy 🚀</h3>
+<section id="slide-org885bd25">
+<h3 id="org885bd25">And deploy 🚀</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzf app.tar.gz -C /opt/</code></li>
 <li class="fragment appear"><code>chroot /opt/dev/ /usr/local/bin/app.bin</code></li>
 
 </ol>
 </section>
-<section id="slide-org38a14a9">
-<h3 id="org38a14a9">🎉 Success?</h3>
+<section id="slide-orge0b210d">
+<h3 id="orge0b210d">🎉 Success?</h3>
 <aside class="notes">
 <ul>
 <li>manual &rarr; bad</li>
@@ -171,8 +171,8 @@ No…
 
 </ul>
 </section>
-<section id="slide-org6501884">
-<h3 id="org6501884">Attempt #2: Add Process Isolation (Linux Namespaces)</h3>
+<section id="slide-org93d9536">
+<h3 id="org93d9536">Attempt #2: Add Process Isolation (Linux Namespaces)</h3>
 <aside class="notes">
 <ul>
 <li>chroot only isolates filesystem, not processes or network:
@@ -217,7 +217,7 @@ Linux Namespaces provide kernel-level resource isolation
 </ul>
 
 </section>
-<section id="slide-org6501884-split">
+<section id="slide-org93d9536-split">
 
 <div class="org-src-container">
 
@@ -233,8 +233,8 @@ root
 </code></pre>
 </div>
 </section>
-<section id="slide-org623dfac">
-<h3 id="org623dfac">Attempt #3: Add Resource Limits (cgroups)</h3>
+<section id="slide-org08c975b">
+<h3 id="org08c975b">Attempt #3: Add Resource Limits (cgroups)</h3>
 <aside class="notes">
 <ul>
 <li>isolation in place, but no protection from resource consumption:
@@ -272,8 +272,8 @@ Killed
 </code></pre>
 </div>
 </section>
-<section id="slide-org2639545">
-<h3 id="org2639545">The Manual Approach Doesn't Scale</h3>
+<section id="slide-org5414f06">
+<h3 id="org5414f06">The Manual Approach Doesn't Scale</h3>
 <p class="fragment (appear)">
 We have:
 </p>
@@ -286,7 +286,7 @@ We have:
 </ul>
 
 </section>
-<section id="slide-org2639545-split">
+<section id="slide-org5414f06-split">
 
 <p class="fragment (appear)">
 We need:
@@ -302,8 +302,8 @@ We need:
 </section>
 </section>
 <section>
-<section id="slide-org9e4c138">
-<h2 id="org9e4c138">Introducing: Docker</h2>
+<section id="slide-org09183a2">
+<h2 id="org09183a2">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>Docker directly addresses each of the pain points</li>
@@ -326,8 +326,8 @@ We need:
 <img src="./media/Docker_(container_engine)_logo.svg"/>
 </p>
 </section>
-<section id="slide-org6c65530">
-<h3 id="org6c65530">Container Image Build</h3>
+<section id="slide-orgff2d94e">
+<h3 id="orgff2d94e">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>usually build is a multi-step process &rArr; how about caching?</li>
@@ -351,8 +351,8 @@ RUN make test
 and we need some CoW
 </p>
 </section>
-<section id="slide-org652d96e">
-<h3 id="org652d96e">UnionFS</h3>
+<section id="slide-orgbb1bd22">
+<h3 id="orgbb1bd22">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -397,8 +397,8 @@ workdir: used for internal purposes (CoW)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-org829697c">
-<h3 id="org829697c">Container Image Build</h3>
+<section id="slide-orgadbd6cd">
+<h3 id="orgadbd6cd">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -439,8 +439,8 @@ CMD ["/usr/bin/python", "-m", "my-app"]
 </code></pre>
 </div>
 </section>
-<section id="slide-org402ad4e">
-<h3 id="org402ad4e">Dockerfile</h3>
+<section id="slide-orge3e66f1">
+<h3 id="orge3e66f1">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -508,8 +508,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
 </section>
-<section id="slide-orgbc7461d">
-<h3 id="orgbc7461d">Docker Registry</h3>
+<section id="slide-org83870f2">
+<h3 id="org83870f2">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -545,8 +545,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 </aside>
 </section>
-<section id="slide-org3eca695">
-<h3 id="org3eca695">Volumes</h3>
+<section id="slide-orge0c857c">
+<h3 id="orge0c857c">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -574,8 +574,8 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 </code></pre>
 </div>
 </section>
-<section id="slide-org7f26bef">
-<h3 id="org7f26bef">Entrypoint</h3>
+<section id="slide-org6ff0358">
+<h3 id="org6ff0358">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -609,8 +609,8 @@ up signal handling)</li>
 <img src="./media/entrypoint.svg"/>
 </p>
 </section>
-<section id="slide-orgd80fb8c">
-<h3 id="orgd80fb8c">Networking</h3>
+<section id="slide-orgaee6a0d">
+<h3 id="orgaee6a0d">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -643,8 +643,8 @@ More information: <a href="https://web.archive.org/web/20240215124249/https://la
 <img src="./media/networking.svg"/>
 </p>
 </section>
-<section id="slide-org64cd1af">
-<h3 id="org64cd1af">Best Practices</h3>
+<section id="slide-org687e2a4">
+<h3 id="org687e2a4">Best Practices</h3>
 <aside class="notes">
 <ul>
 <li>ensure that layers don't leave stuff you don't need around</li>
@@ -669,7 +669,7 @@ the type of app</li>
 </div>
 
 </section>
-<section id="slide-org64cd1af-split">
+<section id="slide-org687e2a4-split">
 
 <div class="org-src-container">
 
@@ -692,7 +692,7 @@ or:
 </div>
 
 </section>
-<section id="slide-org64cd1af-split">
+<section id="slide-org687e2a4-split">
 
 <p>
 Volumes are your friend:
@@ -713,8 +713,8 @@ use the exec-form:
 </code></pre>
 </div>
 </section>
-<section id="slide-orgfa17072">
-<h3 id="orgfa17072">Podman</h3>
+<section id="slide-orga1feb87">
+<h3 id="orga1feb87">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -737,7 +737,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-orgfa17072-split">
+<section id="slide-orga1feb87-split">
 
 <p>
 Podman
@@ -747,8 +747,8 @@ Podman
 <img src="./media/podman.svg"/>
 </p>
 </section>
-<section id="slide-org361064b">
-<h3 id="org361064b">Rootless Containers</h3>
+<section id="slide-org822c89e">
+<h3 id="org822c89e">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -771,8 +771,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-orge95e781">
-<h3 id="orge95e781">Security</h3>
+<section id="slide-orga6c1794">
+<h3 id="orga6c1794">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -792,8 +792,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-orgd3319bc">
-<h3 id="orgd3319bc">When to use Containers</h3>
+<section id="slide-org311275e">
+<h3 id="org311275e">When to use Containers</h3>
 <aside class="notes">
 <ul>
 <li>PID 1 signal handling model works well</li>
@@ -810,8 +810,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org806c966">
-<h3 id="org806c966">When <b>NOT</b> to Use Containers</h3>
+<section id="slide-orge8240b7">
+<h3 id="orge8240b7">When <b>NOT</b> to Use Containers</h3>
 <ul>
 <li class="fragment appear">High-performance I/O applications</li>
 <li class="fragment appear">Legacy multi-process applications</li>
@@ -821,8 +821,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </section>
 </section>
 <section>
-<section id="slide-orgb6d8880">
-<h2 id="orgb6d8880">Container Orchestration</h2>
+<section id="slide-org0a08ac2">
+<h2 id="org0a08ac2">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -837,8 +837,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 <img src="./media/container-orchestration.svg"/>
 </p>
 </section>
-<section id="slide-orgce6581b">
-<h3 id="orgce6581b">docker-compose</h3>
+<section id="slide-orgb821f06">
+<h3 id="orgb821f06">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -877,8 +877,8 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-org28822a5">
-<h3 id="org28822a5">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-orgebba38c">
+<h3 id="orgebba38c">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -917,8 +917,8 @@ WantedBy=multi-user.target default.target
 </code></pre>
 </div>
 </section>
-<section id="slide-orgead7354">
-<h3 id="orgead7354">Kubernetes</h3>
+<section id="slide-org09af703">
+<h3 id="org09af703">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originally started as "Borg" at Google</li>
@@ -990,7 +990,7 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-orgead7354-split">
+<section id="slide-org09af703-split">
 
 <div class="org-src-container">
 
@@ -1039,8 +1039,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-orgf318b34">
-<h2 id="orgf318b34">Should I use Containers?</h2>
+<section id="slide-org52ef7bd">
+<h2 id="org52ef7bd">Should I use Containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -1072,7 +1072,7 @@ It depends
 </blockquote>
 
 </section>
-<section id="slide-orgf318b34-split">
+<section id="slide-org52ef7bd-split">
 
 <p class="fragment (appear)">
 Ask yourself:
@@ -1089,8 +1089,8 @@ Ask yourself:
 </section>
 </section>
 <section>
-<section id="slide-orge96bd7b">
-<h2 id="orge96bd7b">Questions?</h2>
+<section id="slide-org1cdeda8">
+<h2 id="org1cdeda8">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
