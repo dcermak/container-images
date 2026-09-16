@@ -1,6 +1,6 @@
 # -*- org-confirm-babel-evaluate: nil; -*-
 #+AUTHOR: Dan Čermák
-#+DATE: August 28, 2025
+#+DATE: October 3, 2026
 #+EMAIL: dcermak@suse.com
 #+TITLE: Demystifying Containers and Container Images
 
@@ -19,7 +19,7 @@
 #+REVEAL_TITLE_SLIDE: <h2 class="title">%t</h2>
 #+REVEAL_TITLE_SLIDE: <p class="subtitle" style="color: Gray;">%s</p>
 #+REVEAL_TITLE_SLIDE: <p class="author">%a</p>
-#+REVEAL_TITLE_SLIDE: <div style="float:left"><a href="https://events.linuxfoundation.org/open-source-summit-europe/" target="_blank"><img src="./media/OSS-EU-logo-bg.svg" height="100px"/></a></div>
+#+REVEAL_TITLE_SLIDE: <div style="float:left"><a href="https://www.linuxdays.cz/2026/" target="_blank"><img src="./media/LinuxDays.svg" height="100px"/></a></div>
 #+REVEAL_TITLE_SLIDE: <div style="float:right;font-size:35px;"><p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
 #+REVEAL_TITLE_SLIDE: CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 
@@ -36,7 +36,7 @@ Dan Čermák
 
 @@html: <div style="float:center">@@
 @@html: <table class="who-table">@@
-@@html: <tr><td><i class="fab fa-suse"></i></td><td> Software Developer @SUSE</td></tr>@@
+@@html: <tr><td><i class="fab fa-suse"></i></td><td> Open Source Advocate @SUSE</td></tr>@@
 @@html: <tr><td><i class="fab fa-fedora"></i></td><td> i3 SIG, Package maintainer</td></tr>@@
 @@html: <tr><td><i class="far fa-heart"></i></td><td> Developer Tools, Testing and Documentation, Home Automation</td></tr>@@
 @@html: <tr></tr>@@
@@ -63,29 +63,18 @@ Dan Čermák
 - devs typically run "bleeding edge", production is a "stable" distribution
   \Rightarrow version conflicts are guaranteed, especially subtle ones
 - debugging prod is "fun", so can't we ship "dev"?
+- often subtle bugs due to some obscure library or what not
+- so a VM? \rightarrow has the issue of a hypervisor and developing there sucks too
+- just a tarball? \rightarrow simple, but awful UX
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
 - Dev environment != Production environment
-- Deploy \Rightarrow 2 days of debugging 😡
+- Deploy \Rightarrow 3h downtime
+- VM?
+- Tarball?
 
-#+ATTR_REVEAL: :frag (appear)
-#+begin_quote
-Why can't we just ship the exact environment that works?
-#+end_quote
-
-#+ATTR_REVEAL: :frag (appear)
-#+begin_quote
-So you want a VM?
-#+end_quote
-
-#+ATTR_REVEAL: :frag (appear)
-#+begin_quote
-No…
-#+end_quote
-
-
-** Attempt #1: Bundle Everything 📦️
+** Part 1: Bundle Everything
 
 #+begin_notes
 - first idea: if the problem is environment differences, bundle the whole environment
@@ -93,50 +82,59 @@ No…
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-1. Create dev: ~rsync -avz --exclude=/dev/ / /dev/~
-2. Install app: ~chroot /dev make install~
-3. Clean up: ~chroot /dev/ make clean~
-4. Package: ~tar -czf app.tar.gz /dev~
-
-
-** And deploy 🚀
+#+begin_src bash
+rsync -avz --exclude=/app/ / /app/
+tar -czf app.tar.gz /app
+#+end_src
 
 #+ATTR_REVEAL: :frag (appear)
-1. ~tar -xzf app.tar.gz -C /opt/~
-2. ~chroot /opt/dev/ /usr/local/bin/app.bin~
+and deploy:
 
 #+ATTR_REVEAL: :frag (appear)
+#+begin_src bash
+tar -xzf app.tar.gz -C /opt/
+chroot /opt/app/ /usr/local/bin/.bin
+#+end_src
 
-
-** 🎉 Success?
+** Success?
 
 #+begin_notes
 - manual \rightarrow bad
-- huge archives are unwieldy
+- huge archives are unwieldy (app + OS)
 - build process inefficient
-
+- no isolation of processes
+- no resource restrictions
+- network uncontrolled/unrestricted
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- Manual process
-- Huge tar files (entire OS + app) are unwieldy
-- No process isolation
-- No resource limits
-- No network isolation
+@@html:<img src="./media/conflicting-apps.svg"/>@@
 
-
-** Attempt #2: Add Process Isolation (Linux Namespaces)
+** Part 2: Process Isolation
 
 #+begin_notes
-- chroot only isolates filesystem, not processes or network:
-  deployed app has full PID & network access
-- Namespaces provide deeper isolation - exactly what containers need
+- kernel can create "barriers" between processes & restrict their access to resources
+- every major OS has this one way or another
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- Isolate access to system resources
+- Limit system resource usage
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/process-isolation.svg"/>@@
+
+*** Linux Namespaces
+
+#+begin_notes
+- Namespaces provide process isolation \rightarrow what containers need
+- form a tree and inherit parents restrictions
 - introduced in 2002 (kernel 2.4), more added in 2006
 - container support finished in 2013: user namespace with kernel 3.8
 - user: separate user ids of namespace & host, map uids between host & namespace
   \Rightarrow uid 0 in namespace is user who created namespace
   (\rightarrow see also =/etc/subuid=)
-- mnt: mount namespace, isolated mounts
+- mnt: isolated mounts
 - pid: Process ID isolation, process that "created" the namespace gets PID 1 and
   all other processes become its children (also of sub-namespaces)
 - net: each net inerface in one namespace
@@ -147,11 +145,10 @@ No…
 - time (added in 5.6): set different system time
 
 - useful tool: lsns
-- namespaces can be nested & inherit
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-Linux Namespaces provide kernel-level resource isolation
+provide kernel-level resource isolation
 
 #+ATTR_REVEAL: :frag (appear)
 - user
@@ -159,7 +156,7 @@ Linux Namespaces provide kernel-level resource isolation
 - pid
 - net
 - ipc
-- uts
+- uts (unix time sharing)
 - cgroup
 - time
 
@@ -179,7 +176,7 @@ root
 #+end_src
 
 
-** Attempt #3: Add Resource Limits (cgroups)
+** Part 3: Add Resource Limits
 
 #+begin_notes
 - isolation in place, but no protection from resource consumption:
