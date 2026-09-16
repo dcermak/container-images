@@ -13,7 +13,7 @@ You can create the html slides yourself from within Emacs by opening the
 [[./container-images.org]] file, launching =org-mode= and executing ~(require
 'org-re-reveal)~ (you might have to install =org-re-reveal= beforehand). Then
 export the org file to reveal.js (this is by default bound to the keychord =C-c
-C-e R R=).
+C-e v v=).
 
 If you are not a Emacs user, then just install Emacs and execute:
 #+begin_src bash
