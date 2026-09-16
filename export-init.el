@@ -12,5 +12,5 @@
 (package-refresh-contents)
 
 (package-install 'org)
-(package-install 'ox-reveal)
-(require 'ox-reveal)
+(package-install 'org-re-reveal)
+(require 'org-re-reveal)

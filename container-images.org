@@ -6,14 +6,15 @@
 
 #+REVEAL_ROOT: ./node_modules/reveal.js/
 #+REVEAL_THEME: simple
-#+REVEAL_PLUGINS: (highlight notes history)
+#+REVEAL_PLUGINS: (highlight notes)
 #+OPTIONS: toc:nil
 #+REVEAL_DEFAULT_FRAG_STYLE: appear
-#+REVEAL_INIT_OPTIONS: transition: 'none', hash: true
+#+REVEAL_EXTRA_OPTIONS: hash: true
+#+REVEAL_TRANS: none
 #+OPTIONS: num:nil toc:nil center:nil reveal_title_slide:nil
+#+OPTIONS: reveal_slide_number:nil reveal_fragmentinurl:t
 #+REVEAL_EXTRA_CSS: ./node_modules/@fortawesome/fontawesome-free/css/all.min.css
 #+REVEAL_EXTRA_CSS: ./custom-style.css
-#+REVEAL_HIGHLIGHT_CSS: ./node_modules/reveal.js/plugin/highlight/zenburn.css
 
 #+REVEAL_TITLE_SLIDE: <h2 class="title">%t</h2>
 #+REVEAL_TITLE_SLIDE: <p class="subtitle" style="color: Gray;">%s</p>

@@ -19,7 +19,7 @@ jobs:
         run: |
           dnf -y install --refresh emacs yarnpkg git
           yarn install
-          emacs container-images.org -Q --batch -l export-init.el -f org-reveal-export-to-html --kill
+          emacs container-images.org -Q --batch -l export-init.el -f org-re-reveal-export-to-html --kill
 
       - name: copy the webpage to build
         run: |
