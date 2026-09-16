@@ -17,8 +17,8 @@ jobs:
 
       - name: build the webpage
         run: |
-          dnf -y install --refresh emacs yarnpkg git
-          yarn install
+          dnf -y install --refresh emacs npm git
+          npm install
           emacs container-images.org -Q --batch -l export-init.el -f org-re-reveal-export-to-html --kill
 
       - name: copy the webpage to build
