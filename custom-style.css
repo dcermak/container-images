@@ -16,3 +16,13 @@
 li {
   font-size: 35px;
 }
+
+/* restore reveal.js 5 simple-theme headings (reveal.js 6 made them
+   uppercase, semibold and smaller) */
+:root {
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: normal;
+  --r-heading1-size: 3.77em;
+  --r-heading2-size: 2.11em;
+  --r-heading3-size: 1.55em;
+}

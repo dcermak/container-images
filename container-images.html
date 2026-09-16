@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Generated on 2026-09-16 Wed 12:29 -->
 <meta charset="utf-8"/>
 <title>Demystifying Containers and Container Images</title>
 <meta name="author" content="Dan Čermák"/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
@@ -16,22 +15,13 @@
 <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
 
 <link rel="stylesheet" href="./custom-style.css"/>
-<link rel="stylesheet" href="./node_modules/reveal.js/plugin/highlight/zenburn.css"/>
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = './node_modules/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
+<link rel="stylesheet" href="./node_modules/reveal.js/dist/plugin/highlight/zenburn.css"/>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h2 class="title">Demystifying Containers and Container Images</h2>
+<section id="sec-title-slide">
+<h2 class="title">Demystifying Containers and Container Images</h2>
 <p class="subtitle" style="color: Gray;"></p>
 <p class="author">Dan Čermák</p>
 <div style="float:left"><a href="https://events.linuxfoundation.org/open-source-summit-europe/" target="_blank"><img src="./media/OSS-EU-logo-bg.svg" height="100px"/></a></div>
@@ -39,8 +29,8 @@
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
 <section>
-<section id="slide-orgba77c92">
-<h2 id="orgba77c92">Follow Along</h2>
+<section id="slide-orgf4a7eed">
+<h2 id="orgf4a7eed">Follow Along</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
@@ -51,8 +41,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 </section>
 <section>
-<section id="slide-org93dbb4b">
-<h2 id="org93dbb4b"><code>who -u</code></h2>
+<section id="slide-org314c7a9">
+<h2 id="org314c7a9"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -75,20 +65,20 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-orgebf886a">
-<h2 id="orgebf886a">Agenda</h2>
+<section id="slide-orgf7b7df8">
+<h2 id="orgf7b7df8">Agenda</h2>
 <ul>
-<li><a href="#/slide-org887f0e7">Containers from Scratch</a></li>
-<li><a href="#/slide-org0f22478">Docker &amp; Podman</a></li>
-<li><a href="#/slide-org989fa5e">Container Orchestration</a></li>
-<li><a href="#/slide-org746fc7d">Should I use containers?</a></li>
+<li><a href="#/slide-org2942332" class="forwardlink">Containers from Scratch</a></li>
+<li><a href="#/slide-org76eb950" class="forwardlink">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org49f18e7" class="forwardlink">Container Orchestration</a></li>
+<li><a href="#/slide-orgc38047f" class="forwardlink">Should I use containers?</a></li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-org887f0e7">
-<h2 id="org887f0e7">Software Delivery: The Real Problem</h2>
+<section id="slide-org2942332">
+<h2 id="org2942332">Software Delivery: The Real Problem</h2>
 <aside class="notes">
 <ul>
 <li>devs typically run "bleeding edge", production is a "stable" distribution
@@ -105,26 +95,26 @@ Dan Čermák
 
 </ul>
 
-<blockquote  class="fragment (appear)">
+<blockquote class="fragment (appear)">
 <p>
 Why can't we just ship the exact environment that works?
 </p>
 </blockquote>
 
-<blockquote  class="fragment (appear)">
+<blockquote class="fragment (appear)">
 <p>
 So you want a VM?
 </p>
 </blockquote>
 
-<blockquote  class="fragment (appear)">
+<blockquote class="fragment (appear)">
 <p>
 No…
 </p>
 </blockquote>
 </section>
-<section id="slide-org5e7c294">
-<h3 id="org5e7c294">Attempt #1: Bundle Everything 📦️</h3>
+<section id="slide-orga7b6268">
+<h3 id="orga7b6268">Attempt #1: Bundle Everything 📦️</h3>
 <aside class="notes">
 <ul>
 <li>first idea: if the problem is environment differences, bundle the whole environment</li>
@@ -142,16 +132,16 @@ No…
 
 </ol>
 </section>
-<section id="slide-org5d0db03">
-<h3 id="org5d0db03">And deploy 🚀</h3>
+<section id="slide-org2df2f41">
+<h3 id="org2df2f41">And deploy 🚀</h3>
 <ol>
 <li class="fragment appear"><code>tar -xzf app.tar.gz -C /opt/</code></li>
 <li class="fragment appear"><code>chroot /opt/dev/ /usr/local/bin/app.bin</code></li>
 
 </ol>
 </section>
-<section id="slide-org1641903">
-<h3 id="org1641903">🎉 Success?</h3>
+<section id="slide-org88d0c0d">
+<h3 id="org88d0c0d">🎉 Success?</h3>
 <aside class="notes">
 <ul>
 <li>manual &rarr; bad</li>
@@ -171,8 +161,8 @@ No…
 
 </ul>
 </section>
-<section id="slide-orgc06b41e">
-<h3 id="orgc06b41e">Attempt #2: Add Process Isolation (Linux Namespaces)</h3>
+<section id="slide-orge1bf7d7">
+<h3 id="orge1bf7d7">Attempt #2: Add Process Isolation (Linux Namespaces)</h3>
 <aside class="notes">
 <ul>
 <li>chroot only isolates filesystem, not processes or network:
@@ -217,11 +207,11 @@ Linux Namespaces provide kernel-level resource isolation
 </ul>
 
 </section>
-<section id="slide-orgc06b41e-split">
+<section>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="shell" data-line-numbers='1-3|4-5|6-9'>$ unshare --user --map-root-user \
+<pre class="fragment (appear)"><code class="shell" data-line-numbers='1-3|4-5|6-9'>$ unshare --user --map-root-user \
       --pid --fork --mount-proc \
       /bin/bash
 # whoami
@@ -233,8 +223,8 @@ root
 </code></pre>
 </div>
 </section>
-<section id="slide-org37d5f33">
-<h3 id="org37d5f33">Attempt #3: Add Resource Limits (cgroups)</h3>
+<section id="slide-org6358dd3">
+<h3 id="org6358dd3">Attempt #3: Add Resource Limits (cgroups)</h3>
 <aside class="notes">
 <ul>
 <li>isolation in place, but no protection from resource consumption:
@@ -265,15 +255,15 @@ cgroups (Control Groups) provide resource management:
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="shell" data-line-numbers='1|2|3-4'># cgcreate -g memory:memlimit
+<pre class="fragment (appear)"><code class="shell" data-line-numbers='1|2|3-4'># cgcreate -g memory:memlimit
 # cgset -r memory.max=1K memlimit
 # cgexec -g memory:memlimit ls -al
 Killed
 </code></pre>
 </div>
 </section>
-<section id="slide-orga180e38">
-<h3 id="orga180e38">The Manual Approach Doesn't Scale</h3>
+<section id="slide-org53520e3">
+<h3 id="org53520e3">The Manual Approach Doesn't Scale</h3>
 <p class="fragment (appear)">
 We have:
 </p>
@@ -286,7 +276,7 @@ We have:
 </ul>
 
 </section>
-<section id="slide-orga180e38-split">
+<section>
 
 <p class="fragment (appear)">
 We need:
@@ -302,8 +292,8 @@ We need:
 </section>
 </section>
 <section>
-<section id="slide-org0f22478">
-<h2 id="org0f22478">Introducing: Docker</h2>
+<section id="slide-org76eb950">
+<h2 id="org76eb950">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>Docker directly addresses each of the pain points</li>
@@ -326,8 +316,8 @@ We need:
 <img src="./media/Docker_(container_engine)_logo.svg"/>
 </p>
 </section>
-<section id="slide-org2b8ea07">
-<h3 id="org2b8ea07">Container Image Build</h3>
+<section id="slide-org54a34cc">
+<h3 id="org54a34cc">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>usually build is a multi-step process &rArr; how about caching?</li>
@@ -339,7 +329,7 @@ We need:
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='2|3|4|5|'>FROM registry.opensuse.org/opensuse/tumbleweed
+<pre class="fragment (appear)"><code class="Dockerfile" data-line-numbers='2|3|4|5|'>FROM registry.opensuse.org/opensuse/tumbleweed
 RUN zypper -n in python3
 COPY . /src/
 RUN pip install .
@@ -351,8 +341,8 @@ RUN make test
 and we need some CoW
 </p>
 </section>
-<section id="slide-org400a1a3">
-<h3 id="org400a1a3">UnionFS</h3>
+<section id="slide-org63b768e">
+<h3 id="org63b768e">UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -390,15 +380,15 @@ workdir: used for internal purposes (CoW)</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >mount -t overlay overlay \
+<pre class="fragment (appear)"><code class="bash" >mount -t overlay overlay \
       -o lowerdir=lower_3:lower_2:lower_1,\
          upperdir=upper,workdir=/work/ \
            merged
 </code></pre>
 </div>
 </section>
-<section id="slide-orge32a944">
-<h3 id="orge32a944">Container Image Build</h3>
+<section id="slide-orgab5ee31">
+<h3 id="orgab5ee31">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -418,13 +408,13 @@ heavily on caching</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >docker build .
+<pre class="fragment (appear)"><code class="bash" >docker build .
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|3|4|6-9|11|12|'>FROM registry.opensuse.org/opensuse/tumbleweed
+<pre class="fragment (appear)"><code class="Dockerfile" data-line-numbers='|1|3|4|6-9|11|12|'>FROM registry.opensuse.org/opensuse/tumbleweed
 
 COPY . /src/
 WORKDIR /src/
@@ -439,8 +429,8 @@ CMD ["/usr/bin/python", "-m", "my-app"]
 </code></pre>
 </div>
 </section>
-<section id="slide-org8a4af91">
-<h3 id="org8a4af91">Dockerfile</h3>
+<section id="slide-org7a76e11">
+<h3 id="org7a76e11">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -491,7 +481,7 @@ non-standard:
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" data-line-numbers='|1|2|3|4-7|8|9|10|11|12|13-14|'>FROM registry.opensuse.org/opensuse/tumbleweed
+<pre class="fragment (appear)"><code class="Dockerfile" data-line-numbers='|1|2|3|4-7|8|9|10|11|12|13-14|'>FROM registry.opensuse.org/opensuse/tumbleweed
 COPY ./project/ /src/
 ENV USER="geeko"
 RUN zypper -n in openssh-clients; \
@@ -508,15 +498,15 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
 </section>
-<section id="slide-org08e697f">
-<h3 id="org08e697f">Docker Registry</h3>
+<section id="slide-org0e37736">
+<h3 id="org0e37736">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" data-line-numbers='1|2|3'>docker pull registry.opensuse.org/opensuse/leap
+<pre class="fragment (appear)"><code class="bash" data-line-numbers='1|2|3'>docker pull registry.opensuse.org/opensuse/leap
 docker pull registry.opensuse.org/opensuse/leap:15.6
 docker pull registry.opensuse.org/opensuse/leap:15.5@sha256:a5ecb8286a6a1b695acb17e63f2702be29f2a72615ec10cfb4e427e2ebc9e8ad
 </code></pre>
@@ -545,8 +535,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 </aside>
 </section>
-<section id="slide-org1f46959">
-<h3 id="org1f46959">Volumes</h3>
+<section id="slide-org8e9a6e4">
+<h3 id="org8e9a6e4">Volumes</h3>
 <aside class="notes">
 <ul>
 <li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
@@ -570,12 +560,12 @@ see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-co
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >docker run -v /vol/:/var/db/ -v logs:/var/log $img
+<pre class="fragment (appear)"><code class="bash" >docker run -v /vol/:/var/db/ -v logs:/var/log $img
 </code></pre>
 </div>
 </section>
-<section id="slide-org23871a2">
-<h3 id="org23871a2">Entrypoint</h3>
+<section id="slide-orgd276dc9">
+<h3 id="orgd276dc9">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -609,8 +599,8 @@ up signal handling)</li>
 <img src="./media/entrypoint.svg"/>
 </p>
 </section>
-<section id="slide-org145f940">
-<h3 id="org145f940">Networking</h3>
+<section id="slide-orgb3d91d7">
+<h3 id="orgb3d91d7">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -643,8 +633,8 @@ More information: <a href="https://web.archive.org/web/20240215124249/https://la
 <img src="./media/networking.svg"/>
 </p>
 </section>
-<section id="slide-orgdf9afc7">
-<h3 id="orgdf9afc7">Best Practices</h3>
+<section id="slide-org7482c0b">
+<h3 id="org7482c0b">Best Practices</h3>
 <aside class="notes">
 <ul>
 <li>ensure that layers don't leave stuff you don't need around</li>
@@ -661,7 +651,7 @@ the type of app</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" >RUN zypper -n in python3-pip; \
+<pre class="fragment (appear)"><code class="Dockerfile" >RUN zypper -n in python3-pip; \
     pip install . ; \
     zypper -n rm --clean-deps gcc; zypper -n clean; \
     rm -rf {/target,}/var/log/{alternatives.log,lastlog,tallylog,zypper.log,zypp/history,YaST2}
@@ -669,11 +659,11 @@ the type of app</li>
 </div>
 
 </section>
-<section id="slide-orgdf9afc7-split">
+<section>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="shell" >$ podman run -e POSTGRES_PORT=1234 \
+<pre class="fragment (appear)"><code class="shell" >$ podman run -e POSTGRES_PORT=1234 \
              -e POSTGRES_USER=pg \
                  my-app
 $ podman run my-app bash
@@ -686,20 +676,20 @@ or:
 </p>
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="shell" >$ podman run my-app
+<pre class="fragment (appear)"><code class="shell" >$ podman run my-app
 #
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orgdf9afc7-split">
+<section>
 
 <p>
 Volumes are your friend:
 </p>
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" >VOLUME ["/var/db/"]
+<pre class="fragment (appear)"><code class="Dockerfile" >VOLUME ["/var/db/"]
 # /var/db/ is now erased after each step!
 </code></pre>
 </div>
@@ -709,12 +699,12 @@ use the exec-form:
 </p>
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="Dockerfile" >ENTRYPOINT ["/usr/bin/my-app", "-param", "value"]
+<pre class="fragment (appear)"><code class="Dockerfile" >ENTRYPOINT ["/usr/bin/my-app", "-param", "value"]
 </code></pre>
 </div>
 </section>
-<section id="slide-orgf60330b">
-<h3 id="orgf60330b">Podman</h3>
+<section id="slide-org3c0f213">
+<h3 id="org3c0f213">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -737,7 +727,7 @@ Actually Docker
 </p>
 
 </section>
-<section id="slide-orgf60330b-split">
+<section>
 
 <p>
 Podman
@@ -747,8 +737,8 @@ Podman
 <img src="./media/podman.svg"/>
 </p>
 </section>
-<section id="slide-org661c532">
-<h3 id="org661c532">Rootless Containers</h3>
+<section id="slide-orgf9b85c2">
+<h3 id="orgf9b85c2">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -771,8 +761,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org7385e72">
-<h3 id="org7385e72">Security</h3>
+<section id="slide-org9aec430">
+<h3 id="org9aec430">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -792,8 +782,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-orge9fd2ee">
-<h3 id="orge9fd2ee">When to use Containers</h3>
+<section id="slide-orgb73fd61">
+<h3 id="orgb73fd61">When to use Containers</h3>
 <aside class="notes">
 <ul>
 <li>PID 1 signal handling model works well</li>
@@ -810,8 +800,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org206ec62">
-<h3 id="org206ec62">When <b>NOT</b> to Use Containers</h3>
+<section id="slide-org668d595">
+<h3 id="org668d595">When <b>NOT</b> to Use Containers</h3>
 <ul>
 <li class="fragment appear">High-performance I/O applications</li>
 <li class="fragment appear">Legacy multi-process applications</li>
@@ -821,8 +811,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </section>
 </section>
 <section>
-<section id="slide-org989fa5e">
-<h2 id="org989fa5e">Container Orchestration</h2>
+<section id="slide-org49f18e7">
+<h2 id="org49f18e7">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -837,8 +827,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 <img src="./media/container-orchestration.svg"/>
 </p>
 </section>
-<section id="slide-orgb667d0b">
-<h3 id="orgb667d0b">docker-compose</h3>
+<section id="slide-org9c69af9">
+<h3 id="org9c69af9">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -854,7 +844,7 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="yaml" >services:
+<pre class="fragment (appear)"><code class="yaml" >services:
   app:
     build: .
     ports:
@@ -873,12 +863,12 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="bash" >docker compose up
+<pre class="fragment (appear)"><code class="bash" >docker compose up
 </code></pre>
 </div>
 </section>
-<section id="slide-org7808ad3">
-<h3 id="org7808ad3">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org834a639">
+<h3 id="org834a639">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -895,7 +885,7 @@ uses systemd generator to create systemd units</li>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="ini" >[Unit]
+<pre class="fragment (appear)"><code class="ini" >[Unit]
 Description=TW container
 
 [Container]
@@ -917,8 +907,8 @@ WantedBy=multi-user.target default.target
 </code></pre>
 </div>
 </section>
-<section id="slide-org1532ec3">
-<h3 id="org1532ec3">Kubernetes</h3>
+<section id="slide-org6a4b120">
+<h3 id="org6a4b120">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originally started as "Borg" at Google</li>
@@ -990,11 +980,11 @@ Common Patterns:
 </p>
 
 </section>
-<section id="slide-org1532ec3-split">
+<section>
 
 <div class="org-src-container">
 
-<pre  class="fragment (appear)"  ><code class="yaml" >apiVersion: apps/v1
+<pre class="fragment (appear)"><code class="yaml" >apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-application
@@ -1039,8 +1029,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-org746fc7d">
-<h2 id="org746fc7d">Should I use Containers?</h2>
+<section id="slide-orgc38047f">
+<h2 id="orgc38047f">Should I use Containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -1065,14 +1055,14 @@ con:
 
 </aside>
 
-<blockquote  class="fragment (appear)">
+<blockquote class="fragment (appear)">
 <p>
 It depends
 </p>
 </blockquote>
 
 </section>
-<section id="slide-org746fc7d-split">
+<section>
 
 <p class="fragment (appear)">
 Ask yourself:
@@ -1089,8 +1079,8 @@ Ask yourself:
 </section>
 </section>
 <section>
-<section id="slide-orgeec01fd">
-<h2 id="orgeec01fd">Questions?</h2>
+<section id="slide-org0521274">
+<h2 id="org0521274">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
@@ -1103,18 +1093,38 @@ Ask yourself:
 </div>
 </div>
 <script src="./node_modules/reveal.js/dist/reveal.js"></script>
-<script src="./node_modules/reveal.js/plugin/highlight/highlight.js"></script>
-<script src="./node_modules/reveal.js/plugin/notes/notes.js"></script>
-
-
+<script src="./node_modules/reveal.js/dist/plugin/highlight.js"></script>
+<script src="./node_modules/reveal.js/dist/plugin/notes.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
 Reveal.initialize({
-plugins: [RevealHighlight, RevealNotes, history],
-transition: 'none', hash: true
-});
 
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: false,
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'none',
+transitionSpeed: 'default',
+hash: true,
+
+// Plugins with reveal.js 4.x and later
+plugins: [ RevealHighlight, RevealNotes ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
 </script>
 </body>
 </html>
