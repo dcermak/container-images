@@ -176,7 +176,7 @@ root
 #+end_src
 
 
-** Part 3: Add Resource Limits
+** Part 3: Resource Limits - cgroups
 
 #+begin_notes
 - isolation in place, but no protection from resource consumption:
@@ -186,26 +186,25 @@ root
 - redesigned to v2 in 2016 (4.5)
 
 - resource limits like I/O, FS caches, CPU quota, open files
-- process prioritization
-- measure whole group resource usage & freeze/restart it
+- resource prioritization between groups
+- measure whole group resource usage
+- freeze, restart, kill groups
 
 - nowadays used by userspace memory killers
 - modern DEs put each process into a cgroup \rightarrow for oom-killers
+
+\rightarrow see cgroup-demo.sh
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-cgroups (Control Groups) provide resource management:
-- Apply resource limits to processes
-- Measure resource usage
+@@html:<img src="./media/cgroups.svg"/>@@
 
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3-4'
-#+begin_src shell
-# cgcreate -g memory:memlimit
-# cgset -r memory.max=1K memlimit
-# cgexec -g memory:memlimit ls -al
-Killed
-#+end_src
 
+** Syscall filtering
+
+** Capabilities
+
+** Creating our container
 
 ** The Manual Approach Doesn't Scale
 
