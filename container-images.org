@@ -124,7 +124,7 @@ chroot /opt/app/ /usr/local/bin/.bin
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/process-isolation.svg"/>@@
 
-*** Linux Namespaces
+** Linux Namespaces
 
 #+begin_notes
 - Namespaces provide process isolation \rightarrow what containers need
