@@ -200,9 +200,22 @@ root
 @@html:<img src="./media/cgroups.svg"/>@@
 
 
-** Syscall filtering
+** Part 4: Syscall filtering
 
-** Capabilities
+#+begin_notes
+- there's a ton of syscalls, some of them can be used in a dangerous fashion, like =kexec_load=
+- applications generally don't need access to all the syscalls available
+- on Linux, syscall filtering can be done via =seccomp=
+- seccomp rules survive =execve=
+- optional demo, see seccomp-demo.sh
+- docker's seccomp rules: https://docs.docker.com/engine/security/seccomp
+#+end_notes
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/seccomp.svg"/>@@
+
+** Part 5: Capabilities
+
+
 
 ** Creating our container
 
