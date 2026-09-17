@@ -215,9 +215,45 @@ root
 
 ** Part 5: Capabilities
 
+** A scratch workspace - UnionFS
+
+#+begin_notes
+- final image constructed from individual layers
+- file precedence: "highest directory" over "lowest"
+- file removal: via whiteout files,
+  in overlayFS: character special file (device 0, 0), create via =mknod $path c 0 0=
+  oci tar archives prepend =.wh.=, empty file
+- directory removal: whiteout file
+  oci tar archives: =dir/.wh..wh..opq= empty file
+  in overlayFS: character special file in upper dir (again created via =mknod=)
+
+catches:
+- you can never truly delete files
+- editing a file creates a full copy (unionFS works on a file level)
+- certain operations not atomic
+- directory renames are very ugly (delete + full copy)
+
+- try it locally with OverlayFS on Linux,
+  lowerdir: read only layers
+  upperdir: rw top dir (= container dir)
+  workdir: used for internal purposes (CoW)
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/overlays.svg"/>@@
+
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src bash
+mount -t overlay overlay \
+      -o lowerdir=lower_3:lower_2:lower_1,\
+         upperdir=upper,workdir=/work/ \
+           merged
+#+end_src
 
 
 ** Creating our container
+
+
 
 ** The Manual Approach Doesn't Scale
 
@@ -276,41 +312,6 @@ RUN make test
 
 #+ATTR_REVEAL: :frag (appear)
 and we need some CoW
-
-** UnionFS
-
-#+begin_notes
-- final image constructed from individual layers
-- file precedence: "highest directory" over "lowest"
-- file removal: via whiteout files,
-  in overlayFS: character special file (device 0, 0), create via =mknod $path c 0 0=
-  oci tar archives prepend =.wh.=, empty file
-- directory removal: whiteout file
-  oci tar archives: =dir/.wh..wh..opq= empty file
-  in overlayFS: character special file in upper dir (again created via =mknod=)
-
-catches:
-- you can never truly delete files
-- editing a file creates a full copy (unionFS works on a file level)
-- certain operations not atomic
-- directory renames are very ugly (delete + full copy)
-
-- try it locally with OverlayFS on Linux,
-  lowerdir: read only layers
-  upperdir: rw top dir (= container dir)
-  workdir: used for internal purposes (CoW)
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/overlays.svg"/>@@
-
-#+ATTR_REVEAL: :frag (appear)
-#+begin_src bash
-mount -t overlay overlay \
-      -o lowerdir=lower_3:lower_2:lower_1,\
-         upperdir=upper,workdir=/work/ \
-           merged
-#+end_src
 
 ** Container Image Build
 
