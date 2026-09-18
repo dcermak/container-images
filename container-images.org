@@ -215,6 +215,52 @@ root
 
 ** Part 5: Capabilities
 
+#+begin_notes
+- more granular setting of what each process can do, versus the original Unix
+  style where root does everything
+- certain overlap to seccomp, but seccomp is purely syscall level, this is on a
+  workflow level (i.e. can I call =execve= vs can I bind to ports)
+
+- view current capabilities: =capsh --print= or =grep ^Cap /proc/self/status= (the
+  later is just a bitset)
+
+- some capabilities:
+  =CAP_NET_BIND_SERVICE=: bind ports below 1024
+  =CAP_NET_ADMIN=: configure networking
+  =CAP_CHOWN=: change file ownership
+  =CAP_SYS_CHROOT=: call ~chroot()~
+  =CAP_KILL=: signal processes you normally couldn't
+  =CAP_BPF=: Employ privileged BPF operations
+  =CAP_SYS_ADMIN=: a very broad collection of admin operations
+
+- different types:
+  * permitted: capabilities the process is allowed to use
+  * effective: capabilities currently active for permission checks
+  * bounding: ceiling on capabilities the process can acquire
+  * ambient: capabilities that can survive =execve()=
+
+- fun fact: files have capabilities too: =getcap /path/to/file=, when invoked, the
+  new process will have the added capability
+  Capabilities can only be added by a process with =CAP_SETFCAP=
+
+- =setcap=/=getcap= report capabilities as ~$CAP{+,-,=}eip~, where e = Effective
+  (auto enabled), i = Inheritable (survives =execve=, but not granted!), p =
+  Permitted (can be acquired, but not enabled by default)
+  There's also =+= and =-= for capabilities, besides ~=~ (~=~ assigns, the others add or take away)
+
+- important: ~int prctl(PR_SET_NO_NEW_PRIVS, 1L, 0L, 0L, 0L);~
+  no new privileges can be acquired \Rightarrow important for containers to prevent setuid exploit
+
+see also =man 7 capabilities=
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- gate privileged operations
+- =CAP_NET_BIND_SERVICE=
+- =CAP_SYS_ADMIN=
+- ~int prctl(PR_SET_NO_NEW_PRIVS, 1L, 0L, 0L, 0L);~
+
+
 ** A scratch workspace - UnionFS
 
 #+begin_notes
