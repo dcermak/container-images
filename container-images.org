@@ -255,10 +255,7 @@ see also =man 7 capabilities=
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- gate privileged operations
-- =CAP_NET_BIND_SERVICE=
-- =CAP_SYS_ADMIN=
-- ~int prctl(PR_SET_NO_NEW_PRIVS, 1L, 0L, 0L, 0L);~
+@@html:<img src="./media/capabilities.svg"/>@@
 
 
 ** A scratch workspace - UnionFS
