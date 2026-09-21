@@ -288,7 +288,7 @@ catches:
 #+ATTR_REVEAL: :frag (appear)
 #+begin_src bash
 mount -t overlay overlay \
-      -o lowerdir=lower_3:lower_2:lower_1,\
+      -o lowerdir=lower,\
          upperdir=upper,workdir=/work/ \
            merged
 #+end_src
