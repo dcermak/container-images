@@ -55,7 +55,6 @@ Dan Čermák
 - [[Software Delivery: The Real Problem][Containers from Scratch]]
 - [[Introducing: Docker][Docker & Podman]]
 - [[Container Orchestration][Container Orchestration]]
-- [[Should I use containers?][Should I use containers?]]
 
 
 * Software Delivery: The Real Problem
@@ -851,39 +850,6 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
 #+end_src
-
-* Should I use Containers?
-
-#+begin_notes
-pro:
-- infrastructure as code
-- data & app separated
-- easier to test & deploy
-
-con:
-- added complexity
-- added overhead + space requirements
-- not suitable for all workloads
-- can be problematic in certain setups (rootless + ldap)
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-#+begin_quote
-It depends
-#+end_quote
-
-#+REVEAL: split
-
-#+ATTR_REVEAL: :frag (appear)
-Ask yourself:
-
-#+ATTR_REVEAL: :frag (appear)
-1. Do I have environment consistency problems?
-2. Is my app a single process that I can isolate?
-3. Do I need to share/distribute my app environment?
-4. Can I separate data & code in deployment?
-5. Am I willing to learn new deployment patterns?
-
 
 * Questions?
 
