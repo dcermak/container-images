@@ -519,29 +519,6 @@ This is why containers are not mini-VMs!
 @@html:<img src="./media/entrypoint.svg"/>@@
 
 
-** Networking
-
-#+begin_notes
-- containers use bridge network by default:
-  can reach outside, but not other way around
-  ports need to be explicitly exposed (in bridge networking)
-- docker uses libnetwork to configure networking
-- CNI is container networking interface for rootfull networking, asigns IPs,
-  setup network interfaces & routin, uses plugins
-  CNI is only used by docker in k8s mode with containerd
-- major networking modes:
-  * bridge: NAT bridge to host net
-  * host: use same network as host
-  * none
-  * overlay: connects multiple docker networks
-  * macvlan: container gets its own network interface with unique MAC
-  * ipvlan: container gets its own IP
-
-More information: https://web.archive.org/web/20240215124249/https://labs.iximiuz.com/tutorials/container-networking-from-scratch
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/networking.svg"/>@@
 
 
 ** Best Practices
@@ -641,6 +618,30 @@ Podman
 #+ATTR_REVEAL: :frag (appear)
 - container runs as non-root or a sub-uid of your user
 - rootless networking runs in userspace
+** Networking
+
+#+begin_notes
+- containers use bridge network by default:
+  can reach outside, but not other way around
+  ports need to be explicitly exposed (in bridge networking)
+- docker uses libnetwork to configure networking
+- CNI is container networking interface for rootfull networking, asigns IPs,
+  setup network interfaces & routing, uses plugins
+  CNI is only used by docker in k8s mode with containerd
+- major networking modes:
+  * bridge: NAT bridge to host net
+  * host: use same network as host
+  * none
+  * overlay: connects multiple docker networks
+  * macvlan: container gets its own network interface with unique MAC
+  * ipvlan: container gets its own IP
+
+More information: https://web.archive.org/web/20240215124249/https://labs.iximiuz.com/tutorials/container-networking-from-scratch
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/networking.svg"/>@@
+
 
 ** Security
 
