@@ -362,6 +362,11 @@ RUN make test
 #+ATTR_REVEAL: :frag (appear)
 and we need some CoW
 
+#+REVEAL: split
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/dockerfile-layers.svg"/>@@
+
+
 ** Container Image Build
 
 #+begin_notes
