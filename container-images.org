@@ -190,7 +190,7 @@ Available Namespaces:
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/cgroups.svg"/>@@
+@@html:<img src="./media/cgroups.svg" height="500px"/>@@
 
 
 ** Part 4: Syscall filtering
