@@ -155,6 +155,19 @@ chroot /opt/app/ /usr/local/bin/.bin
 #+ATTR_REVEAL: :frag (appear)
 provide kernel-level resource isolation
 
+#+REVEAL: split
+
+Available Namespaces:
+#+ATTR_REVEAL: :frag (appear)
+- user
+- mnt
+- pid
+- net
+- ipc
+- uts (unix time sharing)
+- cgroup
+- time
+
 
 ** Part 3: Resource Limits - cgroups
 
