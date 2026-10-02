@@ -215,6 +215,9 @@ Available Namespaces:
 
 - view current capabilities: =capsh --print= or =grep ^Cap /proc/self/status= (the
   later is just a bitset)
+  or also using ~getpcaps $$~ (or ~getpcaps $fish_pid~)
+  But best is:
+  capsh --decode=$(awk '/^CapEff/ { print $2 }' /proc/self/status)
 
 - some capabilities:
   =CAP_NET_BIND_SERVICE=: bind ports below 1024
