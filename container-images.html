@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Generated on 2026-10-02 Fri 10:38 -->
+<!-- Generated on 2026-10-02 Fri 15:44 -->
 <meta charset="utf-8"/>
 <title>Demystifying Containers and Container Images</title>
 <meta name="author" content="Dan Čermák"/>
@@ -31,8 +31,8 @@
 CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i></a></p></div>
 </section>
 <section>
-<section id="slide-org50a35c3">
-<h2 id="org50a35c3">Follow Along</h2>
+<section id="slide-orgf375a54">
+<h2 id="orgf375a54">Follow Along</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
@@ -43,8 +43,8 @@ CC BY 4.0 <i class="fab fa-creative-commons"></i> <i class="fab fa-creative-comm
 </section>
 </section>
 <section>
-<section id="slide-orgab9608b">
-<h2 id="orgab9608b"><code>who -u</code></h2>
+<section id="slide-org700a30f">
+<h2 id="org700a30f"><code>who -u</code></h2>
 <p>
 Dan Čermák
 </p>
@@ -67,20 +67,20 @@ Dan Čermák
 </section>
 </section>
 <section>
-<section id="slide-org3692cb5">
-<h2 id="org3692cb5">Agenda</h2>
+<section id="slide-org900bc66">
+<h2 id="org900bc66">Agenda</h2>
 <ul>
-<li><a href="#/slide-orgf0d832f" class="forwardlink">Containers from Scratch</a></li>
-<li><a href="#/slide-orgfea31d5" class="forwardlink">Docker &amp; Podman</a></li>
-<li><a href="#/slide-org3bcb24a" class="forwardlink">Container Orchestration</a></li>
-<li><a href="#/slide-org4121fd2" class="forwardlink">Should I use containers?</a></li>
+<li><a href="#/slide-org382e1ca" class="forwardlink">Containers from Scratch</a></li>
+<li><a href="#/slide-org875ca6f" class="forwardlink">Docker &amp; Podman</a></li>
+<li><a href="#/slide-org4773095" class="forwardlink">Container Orchestration</a></li>
+<li><a href="#/slide-org50b2666" class="forwardlink">Should I use containers?</a></li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orgf0d832f">
-<h2 id="orgf0d832f">Software Delivery: The Real Problem</h2>
+<section id="slide-org382e1ca">
+<h2 id="org382e1ca">Software Delivery: The Real Problem</h2>
 <aside class="notes">
 <ul>
 <li>devs typically run "bleeding edge", production is a "stable" distribution
@@ -102,8 +102,8 @@ Dan Čermák
 
 </ul>
 </section>
-<section id="slide-orgd8554e6">
-<h3 id="orgd8554e6">Part 1: Bundle Everything</h3>
+<section id="slide-org29f87ab">
+<h3 id="org29f87ab">Part 1: Bundle Everything</h3>
 <aside class="notes">
 <ul>
 <li>first idea: if the problem is environment differences, bundle the whole environment</li>
@@ -131,8 +131,8 @@ chroot /opt/app/ /usr/local/bin/.bin
 </code></pre>
 </div>
 </section>
-<section id="slide-org19edfbc">
-<h3 id="org19edfbc">Success?</h3>
+<section id="slide-org28e0d5e">
+<h3 id="org28e0d5e">Success?</h3>
 <aside class="notes">
 <ul>
 <li>manual &rarr; bad</li>
@@ -150,8 +150,8 @@ chroot /opt/app/ /usr/local/bin/.bin
 <img src="./media/conflicting-apps.svg"/>
 </p>
 </section>
-<section id="slide-org86ebbbc">
-<h3 id="org86ebbbc">Part 2: Process Isolation</h3>
+<section id="slide-orgc65646c">
+<h3 id="orgc65646c">Part 2: Process Isolation</h3>
 <aside class="notes">
 <ul>
 <li>kernel can create "barriers" between processes &amp; restrict their access to resources</li>
@@ -171,8 +171,8 @@ chroot /opt/app/ /usr/local/bin/.bin
 <img src="./media/process-isolation.svg"/>
 </p>
 </section>
-<section id="slide-orge51339d">
-<h3 id="orge51339d">Linux Namespaces</h3>
+<section id="slide-org748c0f6">
+<h3 id="org748c0f6">Linux Namespaces</h3>
 <aside class="notes">
 <ul>
 <li>Namespaces provide process isolation &rarr; what containers need</li>
@@ -227,8 +227,8 @@ Available Namespaces:
 
 </ul>
 </section>
-<section id="slide-org3dbf852">
-<h3 id="org3dbf852">Part 3: Resource Limits - cgroups</h3>
+<section id="slide-org7706d89">
+<h3 id="org7706d89">Part 3: Resource Limits - cgroups</h3>
 <aside class="notes">
 <ul>
 <li>isolation in place, but no protection from resource consumption:
@@ -257,8 +257,8 @@ could eat all the RAM, consume too much CPU, no monitoring, no disk I/O limits, 
 <img src="./media/cgroups.svg" height="500px"/>
 </p>
 </section>
-<section id="slide-orge56b509">
-<h3 id="orge56b509">Part 4: Syscall filtering</h3>
+<section id="slide-org05b5695">
+<h3 id="org05b5695">Part 4: Syscall filtering</h3>
 <aside class="notes">
 <ul>
 <li>there's a ton of syscalls, some of them can be used in a dangerous fashion, like <code>kexec_load</code></li>
@@ -275,8 +275,8 @@ could eat all the RAM, consume too much CPU, no monitoring, no disk I/O limits, 
 <img src="./media/seccomp.svg"/>
 </p>
 </section>
-<section id="slide-org24f4b0e">
-<h3 id="org24f4b0e">Part 5: Capabilities</h3>
+<section id="slide-org9efc656">
+<h3 id="org9efc656">Part 5: Capabilities</h3>
 <aside class="notes">
 <ul>
 <li>more granular setting of what each process can do, versus the original Unix
@@ -329,8 +329,8 @@ see also <code>man 7 capabilities</code>
 <img src="./media/capabilities.svg"/>
 </p>
 </section>
-<section id="slide-orga624ef5">
-<h3 id="orga624ef5">A scratch workspace - UnionFS</h3>
+<section id="slide-org29723aa">
+<h3 id="org29723aa">A scratch workspace - UnionFS</h3>
 <aside class="notes">
 <ul>
 <li>final image constructed from individual layers</li>
@@ -382,14 +382,14 @@ workdir: used for internal purposes (CoW)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-org6bed8ad">
-<h3 id="org6bed8ad">Create a Container</h3>
+<section id="slide-org47f180d">
+<h3 id="org47f180d">Create a Container</h3>
 <p class="fragment (appear)">
 <img src="./media/container-startup-simple.svg"/>
 </p>
 </section>
-<section id="slide-org20f15ae">
-<h3 id="org20f15ae">The Manual Approach Doesn't Scale</h3>
+<section id="slide-orgda5bb72">
+<h3 id="orgda5bb72">The Manual Approach Doesn't Scale</h3>
 <table class="icon-table">
   <tr>
     <th>Have</th>
@@ -415,8 +415,8 @@ workdir: used for internal purposes (CoW)</li>
 </section>
 </section>
 <section>
-<section id="slide-orgfea31d5">
-<h2 id="orgfea31d5">Introducing: Docker</h2>
+<section id="slide-org875ca6f">
+<h2 id="org875ca6f">Introducing: Docker</h2>
 <aside class="notes">
 <ul>
 <li>Docker directly addresses each of the pain points</li>
@@ -438,8 +438,8 @@ workdir: used for internal purposes (CoW)</li>
 
 </ul>
 </section>
-<section id="slide-org01501ed">
-<h3 id="org01501ed">Container Image Build</h3>
+<section id="slide-orga7bac0c">
+<h3 id="orga7bac0c">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>usually build is a multi-step process &rArr; how about caching?</li>
@@ -469,8 +469,8 @@ and we need some CoW
 <img src="./media/dockerfile-layers.svg"/>
 </p>
 </section>
-<section id="slide-orgcd26c5f">
-<h3 id="orgcd26c5f">Container Image Build</h3>
+<section id="slide-org0c351ce">
+<h3 id="org0c351ce">Container Image Build</h3>
 <aside class="notes">
 <ul>
 <li>fix the inconvenient build process</li>
@@ -511,8 +511,8 @@ CMD ["/usr/bin/python", "-m", "my-app"]
 </code></pre>
 </div>
 </section>
-<section id="slide-orgf50d39c">
-<h3 id="orgf50d39c">Dockerfile</h3>
+<section id="slide-org565247b">
+<h3 id="org565247b">Dockerfile</h3>
 <aside class="notes">
 <ul>
 <li><code>FROM</code> - specifies the base image for the current build stage</li>
@@ -580,8 +580,8 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 </code></pre>
 </div>
 </section>
-<section id="slide-org711b340">
-<h3 id="org711b340">Docker Registry</h3>
+<section id="slide-orgd5f90f5">
+<h3 id="orgd5f90f5">Docker Registry</h3>
 <p class="fragment (appear)">
 <img src="./media/registry.svg"/>
 </p>
@@ -617,37 +617,8 @@ of an image is the sha256sum/sha512sum of the <code>distribution.manifest</code>
 
 </aside>
 </section>
-<section id="slide-org6d6d671">
-<h3 id="org6d6d671">Volumes</h3>
-<aside class="notes">
-<ul>
-<li>data of a container exist in the (somewhat) temporary <code>upper</code> dir
-&rArr; app data not persisted, must be mounted from external</li>
-<li>bind mount</li>
-<li>container volume (mount data provided by container engine, implementation
-defined, but usually folder)</li>
-
-<li>beware of SELinux! &rArr; (podman) launches container process with <code>container_t</code>
-label, can only access files with <code>container_file_t</code> label (not present <b>anywhere</b>
-by default) &rArr; <code>:Z</code> &amp; <code>:z</code> flags relabel volumes and add this flag,
-see: <a href="https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-containers">https://www.redhat.com/en/blog/user-namespaces-selinux-rootless-containers</a></li>
-
-</ul>
-
-</aside>
-
-<p class="fragment (appear)">
-<img src="./media/volumes.svg"/>
-</p>
-
-<div class="org-src-container">
-
-<pre class="fragment (appear)"><code class="bash" >docker run -v /vol/:/var/db/ -v logs:/var/log $img
-</code></pre>
-</div>
-</section>
-<section id="slide-orga345619">
-<h3 id="orga345619">Entrypoint</h3>
+<section id="slide-org12075d3">
+<h3 id="org12075d3">Entrypoint</h3>
 <aside class="notes">
 <ul>
 <li>entrypoint is launched as PID 1 in pid namespace by OCI runtime
@@ -681,8 +652,8 @@ up signal handling)</li>
 <img src="./media/entrypoint.svg"/>
 </p>
 </section>
-<section id="slide-org84b13eb">
-<h3 id="org84b13eb">Networking</h3>
+<section id="slide-org6bd6ea7">
+<h3 id="org6bd6ea7">Networking</h3>
 <aside class="notes">
 <ul>
 <li>containers use bridge network by default:
@@ -715,8 +686,8 @@ More information: <a href="https://web.archive.org/web/20240215124249/https://la
 <img src="./media/networking.svg"/>
 </p>
 </section>
-<section id="slide-orge0321c0">
-<h3 id="orge0321c0">Best Practices</h3>
+<section id="slide-org105957a">
+<h3 id="org105957a">Best Practices</h3>
 <aside class="notes">
 <ul>
 <li>ensure that layers don't leave stuff you don't need around</li>
@@ -785,8 +756,8 @@ use the exec-form:
 </code></pre>
 </div>
 </section>
-<section id="slide-orga3842b3">
-<h3 id="orga3842b3">Podman</h3>
+<section id="slide-orgef720e8">
+<h3 id="orgef720e8">Podman</h3>
 <aside class="notes">
 <ul>
 <li>docker uses split architecture: CLI run as user, daemon performs actual heavy
@@ -819,8 +790,8 @@ Podman
 <img src="./media/podman.svg"/>
 </p>
 </section>
-<section id="slide-org1b3ab5c">
-<h3 id="org1b3ab5c">Rootless Containers</h3>
+<section id="slide-org88768a2">
+<h3 id="org88768a2">Rootless Containers</h3>
 <aside class="notes">
 <ul>
 <li>container runtime executes as non-root, container process launched as non-root</li>
@@ -843,8 +814,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org3338514">
-<h3 id="org3338514">Security</h3>
+<section id="slide-org7164d9e">
+<h3 id="org7164d9e">Security</h3>
 <aside class="notes">
 <ul>
 <li>container can potentially do anything your user can
@@ -864,8 +835,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org4dffc3d">
-<h3 id="org4dffc3d">When to use Containers</h3>
+<section id="slide-org0f5c8e4">
+<h3 id="org0f5c8e4">When to use Containers</h3>
 <aside class="notes">
 <ul>
 <li>PID 1 signal handling model works well</li>
@@ -882,8 +853,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 
 </ul>
 </section>
-<section id="slide-org4ca2861">
-<h3 id="org4ca2861">When <b>NOT</b> to Use Containers</h3>
+<section id="slide-org3acc189">
+<h3 id="org3acc189">When <b>NOT</b> to Use Containers</h3>
 <ul>
 <li class="fragment appear">High-performance I/O applications</li>
 <li class="fragment appear">Legacy multi-process applications</li>
@@ -893,8 +864,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 </section>
 </section>
 <section>
-<section id="slide-org3bcb24a">
-<h2 id="org3bcb24a">Container Orchestration</h2>
+<section id="slide-org4773095">
+<h2 id="org4773095">Container Orchestration</h2>
 <aside class="notes">
 <ul>
 <li>each container = one binary &rArr; multiple containers for full app</li>
@@ -909,8 +880,8 @@ due to kernel requiring root privileges to create network namespaces</li>
 <img src="./media/container-orchestration.svg"/>
 </p>
 </section>
-<section id="slide-org97dd0c4">
-<h3 id="org97dd0c4">docker-compose</h3>
+<section id="slide-org28f6c0f">
+<h3 id="org28f6c0f">docker-compose</h3>
 <aside class="notes">
 <ul>
 <li>tool to launch multiple containers, defined via YAML file</li>
@@ -949,8 +920,8 @@ v2 Sep 2021 (rewrite in Go, changed format)</li>
 </code></pre>
 </div>
 </section>
-<section id="slide-org53a9076">
-<h3 id="org53a9076">Quadlet / <code>podman generate systemd</code></h3>
+<section id="slide-org495b579">
+<h3 id="org495b579">Quadlet / <code>podman generate systemd</code></h3>
 <aside class="notes">
 <ul>
 <li>original podman would generate systemd units</li>
@@ -989,8 +960,8 @@ WantedBy=multi-user.target default.target
 </code></pre>
 </div>
 </section>
-<section id="slide-org40eb376">
-<h3 id="org40eb376">Kubernetes</h3>
+<section id="slide-org4420b1b">
+<h3 id="org4420b1b">Kubernetes</h3>
 <aside class="notes">
 <ul>
 <li>originally started as "Borg" at Google</li>
@@ -1111,8 +1082,8 @@ spec:
 </section>
 </section>
 <section>
-<section id="slide-org4121fd2">
-<h2 id="org4121fd2">Should I use Containers?</h2>
+<section id="slide-org50b2666">
+<h2 id="org50b2666">Should I use Containers?</h2>
 <aside class="notes">
 <p>
 pro:
@@ -1161,8 +1132,8 @@ Ask yourself:
 </section>
 </section>
 <section>
-<section id="slide-orgf776942">
-<h2 id="orgf776942">Questions?</h2>
+<section id="slide-org9154eaf">
+<h2 id="org9154eaf">Questions?</h2>
 <p>
 <img src="./media/qr.svg" height="300px"/>
 </p>
