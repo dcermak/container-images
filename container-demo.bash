@@ -1,13 +1,6 @@
-#!/usr/bin/bash
-
-# Teaching demo: run as root on Linux with Podman and util-linux installed.
+#!/bin/bash
 # Security hardening and network isolation are deliberately omitted.
 set -euo pipefail
-
-if (( EUID != 0 )); then
-    echo "Run with: sudo bash $0" >&2
-    exit 1
-fi
 
 image=registry.opensuse.org/opensuse/tumbleweed
 demo=$(mktemp -d /var/tmp/container-demo.XXXXXX)
@@ -19,7 +12,10 @@ mkdir lower upper work merged
 podman pull "$image"
 cid=$(podman create "$image" /bin/sh)
 trap 'podman rm "$cid" >/dev/null' EXIT
-podman export "$cid" | tar --numeric-owner -xpf - -C lower
+# Flatten ownership to our UID/GID: all files appear root-owned in the namespace.
+# Skip /dev contents so extraction never needs to create device nodes.
+podman export "$cid" | tar --no-same-owner -xpf - -C lower \
+    --exclude='dev/*' --exclude='./dev/*'
 podman rm "$cid" >/dev/null
 trap - EXIT
 
@@ -28,7 +24,8 @@ mkdir -p lower/demo lower/proc
 echo 'Hello from the image' > lower/demo/message
 echo 'This file belongs to the image' > lower/demo/delete-me
 
-# try this:
+# id
+# cat /proc/self/uid_map
 # echo $$
 # ps -ef
 # cat /demo/message
@@ -38,12 +35,12 @@ echo 'This file belongs to the image' > lower/demo/delete-me
 # ls -l /demo
 # exit
 
-# All mounts below live in a private mount namespace.
 status=0
-unshare --mount --propagation private --pid --fork bash -ceu '
+unshare --user --map-root-user \
+    --mount --propagation private --pid --fork bash -ceu '
     cd "$1"
     mount -t overlay overlay \
-        -o "lowerdir=$PWD/lower,upperdir=$PWD/upper,workdir=$PWD/work" \
+        -o "userxattr,lowerdir=$PWD/lower,upperdir=$PWD/upper,workdir=$PWD/work" \
         merged
     mount -t proc proc merged/proc
     export HOME=/root PATH=/usr/sbin:/usr/bin:/sbin:/bin
@@ -51,4 +48,5 @@ unshare --mount --propagation private --pid --fork bash -ceu '
     exec chroot merged /bin/sh -i
 ' bash "$demo" || status=$?
 
+popd
 exit "$status"
