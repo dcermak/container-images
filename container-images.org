@@ -14,6 +14,7 @@
 #+OPTIONS: num:nil toc:nil center:nil reveal_title_slide:nil
 #+OPTIONS: reveal_slide_number:nil reveal_fragmentinurl:t
 #+REVEAL_EXTRA_CSS: ./node_modules/@fortawesome/fontawesome-free/css/all.min.css
+#+REVEAL_EXTRA_CSS: ./node_modules/material-symbols/outlined.css
 #+REVEAL_EXTRA_CSS: ./custom-style.css
 
 #+REVEAL_TITLE_SLIDE: <h2 class="title">%t</h2>
@@ -281,24 +282,30 @@ mount -t overlay overlay \
 
 ** The Manual Approach Doesn't Scale
 
-#+ATTR_REVEAL: :frag (appear)
-We have:
-
-#+ATTR_REVEAL: :frag (appear)
-- ✔️ Filesystem isolation (chroot)
-- ✔️ Process isolation (namespaces)
-- ✔️ Resource limits (cgroups)
-
-#+REVEAL: split
-
-#+ATTR_REVEAL: :frag (appear)
-We need:
-
-#+ATTR_REVEAL: :frag (appear)
-- ❌ Standardized container build process
-- ❌ Easy sharing and distribution
-- ❌ Automated namespace/cgroup/FS setup
-- ❌ Simple command-line interface
+#+begin_export html
+<table class="icon-table">
+  <tr>
+    <th>Have</th>
+    <th>Missing</th>
+  </tr>
+  <tr>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">folder_supervised</span> filesystem isolation</td>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">build_circle</span> standardized container build process</td>
+  </tr>
+  <tr>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">safety_divider</span> process isolation</td>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">share</span> simple sharing &amp; distribution</td>
+  </tr>
+  <tr>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">memory</span> resource limits</td>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">terminal</span> convenient launch &amp; setup tool</td>
+  </tr>
+  <tr>
+    <td class="fragment icon-bullet"><span class="material-symbols-outlined">security</span> security hardening</td>
+    <td></td>
+  </tr>
+</table>
+#+end_export
 
 
 * Introducing: Docker

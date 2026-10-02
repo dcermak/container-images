@@ -1,7 +1,27 @@
-.who-table .reveal table th, .reveal table td {
+.reveal table th,
+.reveal table td {
   text-align: left;
   border: 0px solid;
   padding: 0em 0em 0.25em 0.5em;
+}
+
+/* icon acts as a bullet: hangs in the left gutter of the cell,
+   all text lines align uniformly at padding-left */
+.reveal table td.icon-bullet {
+  position: relative;
+  padding-left: 1.3em;
+}
+
+.reveal table td.icon-bullet .material-symbols-outlined {
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+}
+
+/* extra gap between the Have and Missing columns */
+.reveal table.icon-table th:not(:last-child),
+.reveal table.icon-table td:not(:last-child) {
+  padding-right: 0.5em;
 }
 
 .reveal h2 {
@@ -15,6 +35,11 @@
 
 li {
   font-size: 35px;
+}
+
+.material-symbols-outlined {
+  font-size: inherit;
+  vertical-align: middle;
 }
 
 /* restore reveal.js 5 simple-theme headings (reveal.js 6 made them

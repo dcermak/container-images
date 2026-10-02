@@ -6,6 +6,7 @@
   "license": "CC-BY-SA-4.0",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
+    "material-symbols": "^0.47",
     "reveal.js": "^6.0.0"
   }
 }
