@@ -145,35 +145,14 @@ chroot /opt/app/ /usr/local/bin/.bin
 - time (added in 5.6): set different system time
 
 - useful tool: lsns
+\rightarrow see namespace-demo.sh
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-provide kernel-level resource isolation
+@@html:<img src="./media/namespaces.svg"/>@@
 
 #+ATTR_REVEAL: :frag (appear)
-- user
-- mnt
-- pid
-- net
-- ipc
-- uts (unix time sharing)
-- cgroup
-- time
-
-#+REVEAL: split
-
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1-3|4-5|6-9'
-#+begin_src shell
-$ unshare --user --map-root-user \
-      --pid --fork --mount-proc \
-      /bin/bash
-# whoami
-root
-# ps -a
-    PID TTY          TIME CMD
-      1 pts/8    00:00:00 bash
-    104 pts/8    00:00:00 ps
-#+end_src
+provide kernel-level resource isolation
 
 
 ** Part 3: Resource Limits - cgroups
