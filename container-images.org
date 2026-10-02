@@ -134,6 +134,7 @@ chroot /opt/app/ /usr/local/bin/.bin
 - user: separate user ids of namespace & host, map uids between host & namespace
   \Rightarrow uid 0 in namespace is user who created namespace
   (\rightarrow see also =/etc/subuid=)
+
 - mnt: isolated mounts
 - pid: Process ID isolation, process that "created" the namespace gets PID 1 and
   all other processes become its children (also of sub-namespaces)
@@ -284,6 +285,10 @@ catches:
 
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/overlays.svg"/>@@
+
+
+#+ATTR_REVEAL: :frag (appear)
+Create one yourself!
 
 #+ATTR_REVEAL: :frag (appear)
 #+begin_src bash
