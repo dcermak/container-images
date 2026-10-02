@@ -449,7 +449,7 @@ ENTRYPOINT ["/bin/bash", "-ce"]
 #+begin_src bash
 docker pull registry.opensuse.org/opensuse/leap
 docker pull registry.opensuse.org/opensuse/leap:16.0
-docker pull registry.opensuse.org/opensuse/leap:16.0sha256:cd9aac11608afabc96a10074619cf2a65ccf60ff4b72d09d4e4e125af409035d
+docker pull registry.opensuse.org/opensuse/leap:16.0@sha256:cd9aac11608afabc96a10074619cf2a65ccf60ff4b72d09d4e4e125af409035d
 #+end_src
 
 #+begin_notes
