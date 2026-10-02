@@ -21,10 +21,10 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.1703876"
-     inkscape:cx="775.38413"
-     inkscape:cy="386.62404"
-     inkscape:window-width="2549"
-     inkscape:window-height="1362"
+     inkscape:cx="595.102"
+     inkscape:cy="325.53318"
+     inkscape:window-width="1910"
+     inkscape:window-height="1123"
      inkscape:window-x="26"
      inkscape:window-y="23"
      inkscape:window-maximized="0"
@@ -231,51 +231,51 @@
      class="rootlabel"
      fill="#ffffff"
      id="text2"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan19">root</tspan></text>
   <!-- Main connector trunk -->
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 V 60.44793 c 0,-13.676844 8.8388,-22.449205 22.48482,-22.449205 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 V 60.44793 c 0,-13.676844 8.8388,-22.449205 22.48482,-22.449205 h 123.46613"
      id="path2"
      sodipodi:nodetypes="cssccc"
-     style="stroke-linecap:butt;marker-end:url(#DartArrow)" />
+     style="stroke-width:4.5;stroke-linecap:butt;stroke-dasharray:none;marker-end:url(#DartArrow)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 V 158.44793 c 0,-13.67684 8.8388,-22.44921 22.48482,-22.44921 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 V 158.44793 c 0,-13.67684 8.8388,-22.44921 22.48482,-22.44921 h 123.46613"
      id="path2-9"
      sodipodi:nodetypes="cssccc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 v -84.55207 c 0,-13.67684 8.8388,-22.44921 22.48482,-22.44921 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,-6.66667 20,-20 v -84.55207 c 0,-13.67684 8.8388,-22.44921 22.48482,-22.44921 h 123.46613"
      id="path2-9-5"
      sodipodi:nodetypes="cssccc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0-5)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0-5)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 116.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 116.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 123.46613"
      id="path2-9-5-4"
      sodipodi:nodetypes="cssccc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0-5-47)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0-5-47)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 212.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 212.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 123.46613"
      id="path2-9-5-4-9"
      sodipodi:nodetypes="cssccc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0-5-47-1)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0-5-47-1)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 18.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 109.46613"
+     d="m 432,357 h 80 c 13.33333,0 20,6.66667 20,20 v 18.55207 c 0,13.67684 8.8388,22.44921 22.48482,22.44921 h 123.46613"
      id="path2-9-5-4-9-2"
      sodipodi:nodetypes="cssccc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0-5-47-1-6)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0-5-47-1-6)" />
   <path
      class="connector"
-     d="m 432,357 h 80 c 28.44626,0 15.33791,-33.00128 42.48482,-33.00128 h 109.46613"
+     d="m 432,357 h 80 c 28.44626,0 15.33791,-33.00128 42.48482,-33.00128 h 123.46613"
      id="path2-9-5-2"
      sodipodi:nodetypes="cscc"
-     style="fill:none;stroke:#26313d;stroke-width:7;stroke-linecap:butt;stroke-linejoin:round;marker-end:url(#DartArrow-0-5-4)" />
+     style="fill:none;stroke:#26313d;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#DartArrow-0-5-4)" />
   <!-- Capability connectors -->
   <!-- Capability boxes: Paul Tol bright palette -->
   <rect
@@ -353,7 +353,7 @@
      class="label"
      fill="#ffffff"
      id="text11"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan20">CAP_CHOWN</tspan></text>
   <text
      x="947"
@@ -361,7 +361,7 @@
      class="label"
      fill="#111111"
      id="text12"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan21">CAP_NET_BIND_SERVICE</tspan></text>
   <text
      x="946.18994"
@@ -369,7 +369,7 @@
      class="label"
      fill="#ffffff"
      id="text13"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan22">CAP_NET_RAW</tspan></text>
   <text
      x="946.57996"
@@ -377,7 +377,7 @@
      class="label"
      fill="#111111"
      id="text14"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan23">CAP_SYS_CHROOT</tspan></text>
   <text
      x="946.59497"
@@ -385,7 +385,7 @@
      class="label"
      fill="#ffffff"
      id="text15"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan24">CAP_SETUID</tspan></text>
   <text
      x="946.21997"
@@ -393,7 +393,7 @@
      class="label"
      fill="#111111"
      id="text17"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan26">CAP_MKNOD</tspan></text>
   <text
      x="946.96997"
@@ -401,7 +401,7 @@
      class="label"
      fill="#ffffff"
      id="text18"><tspan
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Bold'"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Medium'"
        id="tspan27">CAP_SYS_ADMIN</tspan></text>
   <!-- Caption -->
 </svg>
