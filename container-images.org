@@ -335,13 +335,12 @@ mount -t overlay overlay \
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
-- *Standardized build process* → ~Dockerfile~
-- *Easy sharing/distribution* → Docker Registry
-- *Automated setup* → ~docker run~
-- *Simple interface* → ~docker~ CLI
+@@html:<img src="./media/Docker_(container_engine)_logo.svg"/>@@
 
 #+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/Docker_(container_engine)_logo.svg"/>@@
+- *Standardized build process* → ~Dockerfile~
+- *Easy sharing/distribution* → Docker Registry
+- *Simple interface* → ~docker~ CLI
 
 ** Container Image Build
 
@@ -350,7 +349,7 @@ mount -t overlay overlay \
 - also, launching five containers *must* not result in five full copies
 #+end_notes
 
-#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='2|3|4|5|'
+#+ATTR_REVEAL: :frag (appear) :code_attribs data-line-numbers='1|2|3|4|5|'
 #+begin_src Dockerfile
 FROM registry.opensuse.org/opensuse/tumbleweed
 RUN zypper -n in python3
