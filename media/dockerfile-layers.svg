@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="204.68956mm"
+   height="132.31519mm"
+   viewBox="0 0 204.68956 132.31519"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="dockerfile-layers.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0137784"
+     inkscape:cx="1077.6517"
+     inkscape:cy="197.28177"
+     inkscape:window-width="3430"
+     inkscape:window-height="1363"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="DartArrow-6"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-2" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow-6-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-2-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow-6-5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6-2-7" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-12.277098,-3.9493074)">
+    <rect
+       style="opacity:0.98;fill:none;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       id="rect1-3"
+       width="107.27879"
+       height="18.265373"
+       x="106.17567"
+       y="17.380997"
+       ry="5.3232012" />
+    <rect
+       style="opacity:0.98;fill:none;stroke:#009988;stroke-width:0.529;stroke-opacity:1"
+       id="rect1-89"
+       width="106.83736"
+       height="18.265373"
+       x="106.3526"
+       y="41.785595"
+       ry="5.3232012" />
+    <rect
+       style="opacity:0.98;fill:none;stroke:#000000;stroke-width:0.529;stroke-opacity:1"
+       id="rect1-0"
+       width="105.88479"
+       height="18.265366"
+       x="106.51166"
+       y="113.79617"
+       ry="5.3232012" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.7611px;line-height:3.1;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;opacity:0.98;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+       x="11.679496"
+       y="29.318548"
+       id="text1-3-7"><tspan
+         sodipodi:role="line"
+         id="tspan1-0-4"
+         style="line-height:3.1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="11.679496"
+         y="29.318548">FROM tumbleweed</tspan><tspan
+         sodipodi:role="line"
+         style="line-height:3.1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="11.679496"
+         y="53.377956"
+         id="tspan1">RUN zypper in vim</tspan><tspan
+         sodipodi:role="line"
+         style="line-height:3.1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="11.679496"
+         y="77.437363"
+         id="tspan3">COPY . /src/</tspan><tspan
+         sodipodi:role="line"
+         style="line-height:3.1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="11.679496"
+         y="101.49677"
+         id="tspan4">RUN make clean</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       id="rect2"
+       width="32.026958"
+       height="13.261157"
+       x="109.36615"
+       y="20.024857"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="125.2494"
+       y="28.965378"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="125.2494"
+         y="28.965378">file1</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#ee7733;stroke-width:0.529;stroke-opacity:1"
+       id="rect2-4-4"
+       width="32.026958"
+       height="13.261157"
+       x="146.43219"
+       y="67.120735"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="162.3822"
+       y="76.0373"
+       id="text2-0-7"><tspan
+         sodipodi:role="line"
+         id="tspan2-5-2"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="162.3822"
+         y="76.0373">/src/</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#009988;stroke-width:0.529;stroke-opacity:1"
+       id="rect2-9-5-8"
+       width="27.249329"
+       height="13.261158"
+       x="182.10231"
+       y="44.317928"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="195.71095"
+       y="53.258488"
+       id="text2-2-9-1"><tspan
+         sodipodi:role="line"
+         id="tspan2-2-3-9"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="195.71095"
+         y="53.258488">vim</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#ee7733;stroke-width:0.529;stroke-opacity:1"
+       id="rect2-4-4-7"
+       width="32.026958"
+       height="13.261157"
+       x="146.43219"
+       y="116.05999"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="162.3822"
+       y="124.97656"
+       id="text2-0-7-5"><tspan
+         sodipodi:role="line"
+         id="tspan2-5-2-9"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="162.3822"
+         y="124.97656">/src/</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#009988;stroke-width:0.529;stroke-opacity:1"
+       id="rect2-9-5-8-6"
+       width="27.249329"
+       height="13.261158"
+       x="182.10231"
+       y="116.39539"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="195.71095"
+       y="125.33596"
+       id="text2-2-9-1-2"><tspan
+         sodipodi:role="line"
+         id="tspan2-2-3-9-1"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="195.71095"
+         y="125.33596">vim</tspan></text>
+    <rect
+       style="opacity:0.98;fill:none;stroke:#ee7733;stroke-width:0.529;stroke-opacity:1"
+       id="rect1-89-4"
+       width="106.57285"
+       height="18.265373"
+       x="106.3526"
+       y="64.746567"
+       ry="5.3232012" />
+    <rect
+       style="opacity:0.98;fill:none;stroke:#cc3311;stroke-width:0.529;stroke-opacity:1"
+       id="rect1-89-4-3"
+       width="106.30835"
+       height="18.265373"
+       x="106.3526"
+       y="89.617424"
+       ry="5.3232012" />
+    <rect
+       style="opacity:0.98;fill:none;fill-opacity:1;stroke:#cc3311;stroke-width:0.529;stroke-opacity:1"
+       id="rect2-9-5"
+       width="37.334724"
+       height="13.261158"
+       x="109.30487"
+       y="92.149788"
+       ry="3.3215194" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.35px;line-height:1.4;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;opacity:0.98;fill:none;fill-opacity:1;stroke:#0077bb;stroke-width:0.529;stroke-opacity:1"
+       x="127.30478"
+       y="101.09032"
+       id="text2-2-9"><tspan
+         sodipodi:role="line"
+         id="tspan2-2-3"
+         style="font-size:6.35px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.529"
+         x="127.30478"
+         y="101.09032">.wh.file1</tspan></text>
+    <path
+       style="opacity:0.98;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.529;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#DartArrow-6)"
+       d="M 196.42042,57.352321 V 112.32134"
+       id="path2-8"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:0.98;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.529;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#DartArrow-6-5)"
+       d="M 162.44567,80.381889 V 112.59673"
+       id="path2-8-8"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:0.98;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.529;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#DartArrow-6-0)"
+       d="M 125.37963,33.286015 V 87.725868"
+       id="path2-8-4"
+       sodipodi:nodetypes="cc" />
+    <g
+       style="fill:#1f1f1f"
+       id="g3"
+       transform="matrix(0.00661458,0,0,0.00661458,122.23146,94.736283)">
+      <path
+         d="m 256,-200 -56,-56 224,-224 -224,-224 56,-56 224,224 224,-224 56,56 -224,224 224,224 -56,56 -224,-224 z"
+         id="path1-25" />
+    </g>
+    <rect
+       style="fill:none;stroke:#ee3377;stroke-width:0.794;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="114.28107"
+       height="121.8998"
+       x="102.2886"
+       y="13.967685"
+       ry="8.2549906" />
+    <text
+       xml:space="preserve"
+       style="font-weight:600;font-size:9.87777px;line-height:1.35;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Semi-Bold';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#ee3377;stroke-width:0.793999;stroke-dasharray:none;stroke-opacity:1"
+       x="160.84"
+       y="10.863754"
+       id="text5"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';fill:#000000;stroke:none;stroke-width:0.794"
+         x="160.84"
+         y="10.863754">Image</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:600;font-size:9.87777px;line-height:1.35;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730 Semi-Bold';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:none;stroke:#ee3377;stroke-width:0.793999;stroke-dasharray:none;stroke-opacity:1"
+       x="52.642193"
+       y="125.437"
+       id="text5-8"><tspan
+         sodipodi:role="line"
+         id="tspan5-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'SUSE Mono 20250730';-inkscape-font-specification:'SUSE Mono 20250730';fill:#000000;stroke:none;stroke-width:0.794"
+         x="52.642193"
+         y="125.437">&quot;merged&quot;</tspan></text>
+  </g>
+</svg>
