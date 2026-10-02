@@ -294,8 +294,10 @@ mount -t overlay overlay \
 #+end_src
 
 
-** Creating our container
+** Create a Container
 
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/container-startup-simple.svg"/>@@
 
 
 ** The Manual Approach Doesn't Scale
