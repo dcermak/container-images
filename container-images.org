@@ -263,6 +263,11 @@ catches:
 #+end_notes
 
 #+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/scratch-workspace.svg"/>@@
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/overlays.svg"/>@@
 
 #+ATTR_REVEAL: :frag (appear)
