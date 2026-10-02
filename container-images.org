@@ -293,6 +293,10 @@ mount -t overlay overlay \
 
 ** Create a Container
 
+#+begin_notes
+if there is time, run & show =container-demo.bash=
+#+end_notes
+
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/container-startup-simple.svg"/>@@
 
@@ -517,8 +521,106 @@ This is why containers are not mini-VMs!
 #+ATTR_REVEAL: :frag (appear)
 @@html:<img src="./media/entrypoint.svg"/>@@
 
+** Networking
+
+#+begin_notes
+- net NS: only lo available: need to connect to the outside. "Simplest" way:
+  veth pairs (or macvlan where you steal network card)
+- containers use bridge network by default:
+  can reach outside, but not other way around
+  ports need to be explicitly exposed (in bridge networking)
+- docker uses libnetwork to configure networking
+- CNI is container networking interface for rootfull networking, asigns IPs,
+  setup network interfaces & routing, uses plugins
+  CNI is only used by docker in k8s mode with containerd
+- major networking modes:
+  * bridge: NAT bridge to host net
+  * host: use same network as host
+  * none
+  * overlay: connects multiple docker networks
+  * macvlan: container gets its own network interface with unique MAC
+  * ipvlan: container gets its own IP
+
+More information: https://web.archive.org/web/20240215124249/https://labs.iximiuz.com/tutorials/container-networking-from-scratch
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/networking.svg"/>@@
 
 
+** Security
+
+#+begin_notes
+- container can potentially do anything your user can
+  \Rightarrow docker socket is effectively root access!
+  *but* added complexity & setuid binaries!
+- possible to break out of containers!
+- SELinux often can prevent access to host
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+- container potentially as privileged as the user running it
+- container breakout attacks exist
+- SELinux/Apparmor are your friends
+
+
+** Podman
+
+#+begin_notes
+- docker uses split architecture: CLI run as user, daemon performs actual heavy
+  lifting
+- daemon runs as *root* by default! \Rightarrow everyone with access to the daemon is
+  effectively root!!
+- disagreements between RH & Docker caused fork/new project: podman & buildah
+- podman inner workings: https://www.redhat.com/en/blog/behind-scenes-podman
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+Actually Docker
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/docker-daemon.svg"/>@@
+
+#+REVEAL: split
+
+Podman
+
+#+ATTR_REVEAL: :frag (appear)
+@@html:<img src="./media/podman.svg"/>@@
+
+** Rootless Containers
+
+#+begin_notes
+- container runtime executes as non-root, container process launched as non-root
+- main "trick": =CLONE_NEWUSER= flag to =clone=, =unshare= & friends gives child
+  process *full* capabilities in child namespace, but *not in* parent namespace! \Rightarrow
+  we can create all other namespaces for which we otherwise would lack
+  capabilities
+
+- requires "relatively recent" kernel for user namespaces & =newuidmap= /
+  =newgidmap= to be setuid root
+  \Rightarrow users in container are mapped to uids/gids from =/etc/subuid= & =/etc/subgid=
+  \Rightarrow visible in =/proc/self/uid_map=
+- container has only your privileges, not more!
+- cannot expose ports <= 1024
+- firewall needs to be manually punched through
+- rootless networking runs in userspace, e.g. libslirp/slirp4netns or pasta
+  due to kernel requiring root privileges to create network namespaces
+- overlayfs has workaround via =userxattr=
+- cgroups need cgroup v2 to have a delegate unprivileged cgroup
+#+end_notes
+
+#+ATTR_REVEAL: :frag (appear)
+=man 7 user_namespaces=
+#+ATTR_REVEAL: :frag (appear)
+#+begin_src
+The child process created by clone(2) with the CLONE_NEWUSER flag
+starts out with a complete set of capabilities in the new user
+namespace.
+#+end_src
+#+ATTR_REVEAL: :frag (appear)
+- users remapped
+- rootless networking runs in userspace
 
 ** Best Practices
 
@@ -574,88 +676,6 @@ use the exec-form:
 #+begin_src Dockerfile
 ENTRYPOINT ["/usr/bin/my-app", "-param", "value"]
 #+end_src
-
-
-** Podman
-
-#+begin_notes
-- docker uses split architecture: CLI run as user, daemon performs actual heavy
-  lifting
-- daemon runs as *root* by default! \Rightarrow everyone with access to the daemon is
-  effectively root!!
-- disagreements between RH & Docker caused fork/new project: podman & buildah
-- podman inner workings: https://www.redhat.com/en/blog/behind-scenes-podman
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-Actually Docker
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/docker-daemon.svg"/>@@
-
-#+REVEAL: split
-
-Podman
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/podman.svg"/>@@
-
-** Rootless Containers
-
-#+begin_notes
-- container runtime executes as non-root, container process launched as non-root
-- requires "relatively recent" kernel for user namespaces & =newuidmap= /
-  =newgidmap= to be setuid root
-  \Rightarrow users in container are mapped to uids/gids from =/etc/subuid= & =/etc/subgid=
-- container has only your privileges, not more!
-- cannot expose ports <= 1024
-- firewall needs to be manually punched through
-- rootless networking runs in userspace, e.g. libslirp/slirp4netns or pasta
-  due to kernel requiring root privileges to create network namespaces
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-- container runs as non-root or a sub-uid of your user
-- rootless networking runs in userspace
-** Networking
-
-#+begin_notes
-- containers use bridge network by default:
-  can reach outside, but not other way around
-  ports need to be explicitly exposed (in bridge networking)
-- docker uses libnetwork to configure networking
-- CNI is container networking interface for rootfull networking, asigns IPs,
-  setup network interfaces & routing, uses plugins
-  CNI is only used by docker in k8s mode with containerd
-- major networking modes:
-  * bridge: NAT bridge to host net
-  * host: use same network as host
-  * none
-  * overlay: connects multiple docker networks
-  * macvlan: container gets its own network interface with unique MAC
-  * ipvlan: container gets its own IP
-
-More information: https://web.archive.org/web/20240215124249/https://labs.iximiuz.com/tutorials/container-networking-from-scratch
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-@@html:<img src="./media/networking.svg"/>@@
-
-
-** Security
-
-#+begin_notes
-- container can potentially do anything your user can
-  \Rightarrow docker socket is effectively root access!
-  *but* added complexity & setuid binaries!
-- possible to break out of containers!
-- SELinux often can prevent access to host
-#+end_notes
-
-#+ATTR_REVEAL: :frag (appear)
-- container potentially as privileged as the user running it
-- container breakout attacks exist
-- SELinux is your friend
 
 ** When to use Containers
 
